@@ -1,10 +1,10 @@
 # astronautica
-dois soldados espaciais têm que derrotar tropas alienígenas inimigas, evadindo ataques à nave e destruindo obstáculos.p
+Dois soldados espaciais têm que derrotar tropas alienígenas inimigas, evadindo ataques à nave e destruindo obstáculos.
 
-Dois núcleos de gameplay, sendo um como piloto evasor e atirador defensivo.
+Dois núcleos de gameplay, sendo um como piloto evasor e outro como atirador defensivo.
 
-O jogo, consiste em uma equipe de viajantes resgatando/fugindo de uma tropa inimiga/hostil o máximo possível.
+O jogo consiste em uma equipe de viajantes resgatando/fugindo de uma tropa inimiga/hostil.
 
-o núcleo do piloto consiste, em um movimento bi-dimensional da nave, tentando evitar colidir com obstaculos.
+O núcleo do piloto consiste, em um movimento bi-dimensional da nave, tentando evitar colidir com obstáculos.
 
-o núcleo atirador, consiste em eliminar perseguidores enquanto sua visão é alterada pelos movimento do piloto e sendo dependente dele.
+O núcleo atirador consiste em eliminar perseguidores enquanto, sua visão é alterada pelos movimento do piloto e sendo dependente dele.
