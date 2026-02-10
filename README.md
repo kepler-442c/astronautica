@@ -3,7 +3,7 @@ dois soldados espaciais têm que derrotar tropas alienígenas inimigas, evadindo
 
 Dois núcleos de gameplay, sendo um como piloto evasor e atirador defensivo.
 
-O jogo, consiste em uma equipe de viajantes resgatando/fugindo de uma tropa inimiga/ostiu o máximo possível.
+O jogo, consiste em uma equipe de viajantes resgatando/fugindo de uma tropa inimiga/hostil o máximo possível.
 
 o núcleo do piloto consiste, em um movimento bi-dimensional da nave, tentando evitar colidir com obstaculos.
 
