@@ -3,7 +3,7 @@
 Em meio a guerra entre a Via Láctea e sua galáxia vizinha, Andrômeda, uma nave humana é surpreendida por tropas alienígenas. Sozinhos e sem reforços, o piloto da nave e seu auxiliar de artilharia se veem obrigados a fugir através de um campo de asteroides com naves inimigas em sua cola. Para conseguir fugir, eles devem unir suas habilidades e confiar em sua agilidade em meio a uma perseguição frenética espaço adentro.
 
 # Universo
-Referências: Duck Hunt, Doom, God of war 2, asteroide, subnautica,  
+* Referências: Duck Hunt, Doom, God of war 2, asteroide, subnautica,  
 
 * Objetivos: Despistar perseguidores aliens em meio a um campo de asteroides.
 
@@ -19,7 +19,7 @@ Piloto: protagonista 1, sem aparência definida, motivo pelo desejo de sobreviv�
 Atirador:  protagonista 2, sem aparência definida, motivado pelo desejo de proteger seu companheiro.
 Perseguidores: seres de outra espécie, sem intenções pacíficas. 
 
-Artefatos: 
+* Artefatos: Nenhum plaejado. 
 
 * Fontes de receita:
 Venda de skins da nave e dlcs explorando novos cenários e temáticas.
