@@ -19,7 +19,7 @@ Piloto: protagonista 1, sem aparência definida, motivo pelo desejo de sobreviv�
 Atirador:  protagonista 2, sem aparência definida, motivado pelo desejo de proteger seu companheiro.
 Perseguidores: seres de outra espécie, sem intenções pacíficas. 
 
-* Artefatos: Nenhum plaejado. 
+* Artefatos: Nenhum planejado. 
 
 * Fontes de receita:
 Venda de skins da nave e dlcs explorando novos cenários e temáticas.
