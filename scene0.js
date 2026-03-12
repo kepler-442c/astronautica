@@ -13,11 +13,11 @@ class scene0 extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("sky", "assets/sky.png");
+    this.load.image("sky", "assets/mapf1.png");
     this.load.image("ground", "assets/platform.png");
-    this.load.image("star", "assets/star.png");
-    this.load.image("bomb", "assets/bomb.png");
-    this.load.spritesheet("dude", "assets/dude.png", {
+    this.load.image("star", "assets/4.png");
+    this.load.image("bomb", "assets/Asteroid01-Base.png");
+    this.load.spritesheet("dude", "assets/perseguidor1.png", {
       frameWidth: 32,
       frameHeight: 48,
     });
@@ -27,7 +27,7 @@ class scene0 extends Phaser.Scene {
     this.add.image(400, 300, "sky");
     this.platforms = this.physics.add.staticGroup();
     this.platforms.create(400, 568, "ground").setScale(2).refreshBody();
-    this.platforms.create(600, 40, "ground");
+    this.platforms.create(600, 400, "ground");
     this.platforms.create(50, 250, "ground");
     this.platforms.create(750, 220, "ground");
     this.player = this.physics.add.sprite(100, 450, "dude");
@@ -111,7 +111,7 @@ class scene0 extends Phaser.Scene {
       this.player.anims.play("turn");
     }
 
-    if (this.cursors.up.isDown) {
+    if (this.cursors.up.isDown && this.player.body.touching.down) {
       this.player.setVelocityY(-330);
     }
   }
@@ -149,3 +149,4 @@ class scene0 extends Phaser.Scene {
 }
 
 export default scene0;
+
