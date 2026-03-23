@@ -10,16 +10,16 @@ class scene0 extends Phaser.Scene {
 
 
   preload() { 
-    this.preload.setPath("assets/spacestationada/");
+    this.load.setPath("assets/spacestationada/");
 
-    this.load.tile, aptiledJSON("map", "map.json");
+    this.load.tilemapTiledJSON("map", "map.json");
     
-    this.load.spritesheet("android", "SpaceStaion_Android.Sheet.png", {
+    this.load.spritesheet("android", "SpaceStation_Android_Sheet.png", {
       frameWidth: 32,
       frameHeight: 32
     });
     
-    this.load.spritesheet("character", "SpaceStation_Character.Sheet.png", {
+    this.load.spritesheet("character", "SpaceStation_Character_Sheet.png", {
       frameWidth: 32,
       frameHeight: 32
     });
@@ -31,9 +31,9 @@ class scene0 extends Phaser.Scene {
       frameHeight: 16
     });
 
-    this.load.image("tilesets", "SpaceStation_Tilesets.png");
+    this.load.image("tileset", "SpaceStation_Tileset.png");
 
-    this.load.spritesheet("turret", "SpaceStation_Turret.Sheet.png", {
+    this.load.spritesheet("turret", "SpaceStation_Turret_Sheet.png", {
       frameWidth: 32,
       frameHeight: 32
     });
@@ -42,10 +42,11 @@ class scene0 extends Phaser.Scene {
     this.load.audio("lazer", "lazer.mp3");  
 
     this.load.plugin(
-    "rexvirtualjoystickplugin",
-    "../rexvirtualjoystickplugin.min.js",
-    true,
-  );
+       "rexvirtualjoystickplugin",
+       "../rexvirtualjoystickplugin.min.js",
+       true,
+    );
+
 
   }
 
@@ -167,8 +168,8 @@ class scene0 extends Phaser.Scene {
     });
 
 
-    this.music = this.sound.add("music", { loop: true }).play();
-    this.laser = this.sound.add("laser");
+    this.music = this.sound.add("menusong", { loop: true }).play();
+    this.laser = this.sound.add("lazer");
 
     this.joystick = this.plugins.get("rexvirtualjoystickplugin").add(this, {
       x: 100,
