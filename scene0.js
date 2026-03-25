@@ -18,32 +18,42 @@ class scene0 extends Phaser.Scene {
 
     this.load.image("mapf1", "mapf1.png");
 
+    this.load.image("star", "star.png");
+
     this.load.image("asteroideum", "asteroideum.png");
 
+    this.load.audio("menusong", "menusong.mp3");
+
+    this.load.spritesheet("uispritesheet", "uispritesheet.png", {
+      frameWidth: 800,
+      frameHeight: 450,
+    });
   }
 
   create() {
     //this.add.image(400, 225, "mapf1");
-    
-    this.player = this.asteroideum = this.physics.add.image(800, 450, "asteroideum", 0); //SURGE NO MEIO DO MAPA   
-    this.player.setCollideWorldBounds(true);
-  
-    //this.player = this.physics.add.image(400, 225, "asteroideum", 0);
-    //this.asteroideum = this.physics.add.image(400, 225, "asteroideum", 0);
-    //this.cameras.main.setBounds(0, 0, 400, 225);
-    
-  this.cameras.main.startFollow(this.player);
 
-  this.cameras.main.setBounds(0, 0, 800 * 2, 450 * 2); 
-  this.physics.world.setBounds(400, 225, 800, 450);
+    this.player = this.star = this.physics.add.image(800, 450, "star", 0); //SURGE NO MEIO DO MAPA
+    this.star.setScale(3);
+    this.player.setCollideWorldBounds(true);
+
+    this.music = this.sound.add("menusong");
+    this.music.play();
+
+    //this.player = this.physics.add.image(400, 225, "star", 0);
+    //this.star = this.physics.add.image(400, 225, "star", 0);
+    //this.cameras.main.setBounds(0, 0, 400, 225);
+
+    this.cameras.main.startFollow(this.player);
+
+    this.cameras.main.setBounds(0, 0, 800 * 2, 450 * 2);
+    this.physics.world.setBounds(400, 225, 800, 450);
 
     this.add.image(0, 0, "mapf1").setOrigin(0);
     this.add.image(800, 0, "mapf1").setOrigin(0).setFlipX(true);
     this.add.image(0, 450, "mapf1").setOrigin(0).setFlipY(true);
     this.add.image(800, 450, "mapf1").setOrigin(0).setFlipX(true).setFlipY(true);
 
-
-      
     this.joystick = this.plugins.get("rexvirtualjoystickplugin").add(this, {
       x: 100,
       y: 350,
@@ -53,6 +63,7 @@ class scene0 extends Phaser.Scene {
     });
 
     this.joystick.on("update", () => {
+      //JOYSTICK ESTÁ POR BAIXO DOS ASTEROIDES PARA CARREGAR A TEMPO
       const angle = Phaser.Math.DegToRad(this.joystick.angle);
       const force = this.joystick.force;
 
@@ -64,32 +75,61 @@ class scene0 extends Phaser.Scene {
       }
 
       if (this.joystick.force > 0) {
-        this.asteroideum.setVelocity(
+        this.star.setVelocity(
           this.direction.x * this.speed,
           this.direction.y * this.speed,
         );
-
-        
       } else {
-        this.asteroideum.setVelocity(0, 0);
-        
+        this.star.setVelocity(0, 0);
       }
     });
+
+    this.uispritesheet = this.physics.add.sprite(800, 450, "uispritesheet", 1);
+
+    // Asteroides
+    this.asteroids = this.physics.add.group();
+    const astPos = [
+      { x: 600, y: 600 },
+      { x: 1100, y: 300 },
+      { x: 1000, y: 600 },
+    ];
+
+    astPos.forEach((pos) => {
+      const a = this.asteroids.create(pos.x, pos.y, "asteroideum");
+      a.setScale(1.5);
+      a.setCollideWorldBounds(true);
+      a.setBounce(1, 1);
+      a.setVelocity(
+        Phaser.Math.Between(-120, 120),
+        Phaser.Math.Between(-120, 120),
+      );
+    });
+
+    // Colisão
+    this.physics.add.collider(
+      this.player,
+      this.asteroids,
+      this.hitAsteroid,
+      null,
+      this,
+    );
+  }
+  
+  hitAsteroid(player, asteroid) {
+    player.disableBody(true, true);
+    //player.setTint(0xff0000); NÃO PRECISA JÁ QUE O PLAYER É INVISÍVEL
+    
+    
+  };
+
+    
   
 
-    
-    
-    
-  }
+
+ 
+
 
   update() { }
-
-
-
-
-
-
-
 
 }
 export default scene0;
