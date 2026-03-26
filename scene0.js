@@ -80,12 +80,12 @@ class scene0 extends Phaser.Scene {
     this.startf1 = this.add.image(800, 450, "startf1");
     this.uispritesheet = this.physics.add.sprite(800, 450, "uispritesheet", 1);
     
-    this.textFuel = this.add.text(16, 16, `Fuel: ${this.fuel}`, {
+    this.textFuel = this.add.text(50, 50, `Fuel: ${this.fuel}`, {
       fontSize: "32px",
       fill: "#ffffff",
-      //deixar fixo na tela
     });
-      
+    
+    this.textFuel.setScrollFactor(0);
     
     
     // Asteroides
@@ -146,12 +146,15 @@ class scene0 extends Phaser.Scene {
           this.combustivel,
           this.hitCombustivel,
           null,
-          this,
-          this.fuel += 20,
+          this, 
+          this.textFuel.setText(`Fuel: ${this.fuel}`),
         );
+    
+    
         
         this.button = this.add
-        .sprite(1000, 600, "button", 0)
+          .sprite(600, 300, "button", 0)
+        .setScrollFactor(0)
         .setScale(2)
         .setInteractive()
         .on("pointerdown", () => {
