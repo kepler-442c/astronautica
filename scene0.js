@@ -7,6 +7,7 @@ class scene0 extends Phaser.Scene {
     this.direction = undefined;
     this.fuel = 20;
     this.life = 3;
+    this.combcoll = 3 //quanto combustivel falta coletar para spawnar mais
   }
   //telanave, musica 2f, hitbox, som de coleta de combustivel, timer passar de fase, colisao asteroide, spawn de combsutivel
   preload() {
@@ -99,7 +100,7 @@ class scene0 extends Phaser.Scene {
     });
     */
     // Colisão
-
+    
     this.combustivel = this.physics.add.group();
     const comPos = [
       { x: 500, y: 600 },
@@ -262,8 +263,25 @@ class scene0 extends Phaser.Scene {
     (combustivel.destroy(true, true),
       (this.fuel += 5),
       this.textFuel.setText(`Fuel: ${this.fuel}`));
-  }
+    (this.combcoll -= 1);
 
+    if (this.combcoll <= 0) {
+      //ADICIOANR DELAY
+      this.combustivel = this.physics.add.group();
+      const comPos = [
+        { x: 500, y: 600 },
+        { x: 1100, y: 600 },
+        { x: 800, y: 200 },
+      ];
+      comPos.forEach((pos) => {
+        const c = this.combustivel.create(pos.x, pos.y, "combustivel");
+        c.setScale(1);
+        c.setCollideWorldBounds(true);
+        c.play("combustivel_anim")
+      });
+
+    }
+  }
   update() {
     //this.mapf1.tilePositionY -= 0.5;
   }
