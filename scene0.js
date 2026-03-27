@@ -99,14 +99,6 @@ class scene0 extends Phaser.Scene {
     */
     // Colisão
 
-    this.physics.add.collider(
-      this.player,
-      this.asteroidGroup,
-      this.hitAsteroid,
-      null,
-      this,
-    );
-
     this.combustivel = this.physics.add.group();
     const comPos = [
       { x: 500, y: 600 },
@@ -213,11 +205,14 @@ class scene0 extends Phaser.Scene {
       loop: true,
     });
 
-    this.asteroidGroup = this.physics.add
-      .group
-      // maxSize: 7,
-      //runChildUpdte: true
-      ();
+    this.asteroidGroup = this.physics.add.group();
+    this.physics.add.collider(
+      this.player,
+      this.asteroidGroup,
+      this.hitAsteroid,
+      null,
+      this,
+    );
   } //chave do create
 
   hitAsteroid(player, asteroidGroup) {
