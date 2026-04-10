@@ -11,7 +11,7 @@ class scene0 extends Phaser.Scene {
     this.tempo = 60; //tempo para passar de fase
     // this.combcoll = 3 //quanto combustivel falta coletar para spawnar mais
   }
-  //telanave, musica 2f, som de coleta de combustivel, camada texto, nitro
+  //frames fuellevel, musica 2f, camada texto, CAMADAS, mexer no joystick e no nitro ao mesmo tempo
   preload() {
     this.load.plugin(
       "rexvirtualjoystickplugin",
@@ -25,6 +25,13 @@ class scene0 extends Phaser.Scene {
 
     this.load.image("star", "star.png");
 
+    this.load.image("telanave", "telanave.png");
+
+    this.load.spritesheet("fuellevel", "fuellevel.png", {
+      frameWidth: 800,
+      frameHeight: 450,
+    });
+
     this.load.spritesheet("asteroideum", "asteroideum.png", {
       frameWidth: 48,
       frameHeight: 48,
@@ -34,15 +41,20 @@ class scene0 extends Phaser.Scene {
 
     this.load.audio("songf1", "songf1.mp3");
 
+    this.load.audio("explosion", "explosion.mp3");
+
+    this.load.audio("collect", "collect.mp3");
+
     this.load.spritesheet("combustivel", "combustivel.png", {
       frameWidth: 64,
       frameHeight: 64,
     });
 
-    this.load.spritesheet("uispritesheet", "uispritesheet.png", {
+    /*this.load.spritesheet("uispritesheet", "uispritesheet.png", {
       frameWidth: 800,
       frameHeight: 450,
-    });
+    });*/
+
 
     this.load.spritesheet("button", "button.png", {
       frameWidth: 32,
@@ -56,6 +68,7 @@ class scene0 extends Phaser.Scene {
   }
 
   create() {
+    
     this.physics.pause(); // Pausa a física para congelar a cena
 
     this.input.once("pointerdown", () => {
@@ -67,9 +80,9 @@ class scene0 extends Phaser.Scene {
     this.star.setScale(3);
     this.player.setCollideWorldBounds(true);
 
-    this.music = this.sound.add("songf1");
-    this.music.play();
-
+    //this.music = this.sound.add("songf1");
+    this.music = this.sound.add("songf1", { loop: true }).play();
+    
     this.cameras.main.startFollow(this.player);
 
     this.cameras.main.setBounds(0, 0, 800 * 2, 450 * 2);
@@ -85,7 +98,9 @@ class scene0 extends Phaser.Scene {
       .setFlipY(true);
 
     this.startf1 = this.add.image(800, 450, "startf1");
-    this.uispritesheet = this.physics.add.sprite(800, 450, "uispritesheet", 1);
+    //this.uispritesheet = this.physics.add.sprite(800, 450, "uispritesheet", 1);
+
+  this.add.image(400, 225, "telanave").setScrollFactor(0);
 
     // Example of calling the spawn function on a timer
     // ... group setup
@@ -149,6 +164,20 @@ class scene0 extends Phaser.Scene {
       frameRate: 5,
       repeat: -1,
     });
+
+    /*this.anims.create({
+      key: "fuellevel_anim",
+      frames: this.anims.generateFrameNumbers("fuellevel", {
+        start: 1,
+        end: 1,
+      }),
+      frameRate: 5,
+      repeat: -1,
+    });*/
+
+    this.fuellevel = this.add.sprite(400, 225, "fuellevel").setScrollFactor(0);
+
+   //0-15 vermelho, 16-25 amarelo, 26+ verde
 
     /*comPos.forEach((pos) => {
       const c = this.combustivel.create(pos.x, pos.y, "combustivel");
@@ -216,7 +245,9 @@ class scene0 extends Phaser.Scene {
           this.direction.x * this.speed * 2,
           this.direction.y * this.speed * 2,
         );
-        this.nitro = true;
+        //this.nitro = true;
+        this.fuel -= 5;
+        this.textFuel.setText(`Fuel: ${this.fuel}`);
       })
       .on("pointerup", () => {
         this.button.setFrame(0);
@@ -224,6 +255,9 @@ class scene0 extends Phaser.Scene {
           (this.direction.x * this.speed) / 2,
           (this.direction.y * this.speed) / 2,
         );
+        this.fuel -= 1;
+        this.textFuel.setText(`Fuel: ${this.fuel}`);
+        
       });
 
     this.joystick = this.plugins.get("rexvirtualjoystickplugin").add(this, {
@@ -287,19 +321,8 @@ class scene0 extends Phaser.Scene {
       this,
     );
 
-    /* this.addEvent({
-        delay: 10000,
-        callback: () => {
-          comPos.forEach((pos) => {
-            const c = this.combustivel.create(pos.x, pos.y, "combustivel");
-            c.setScale(1);
-            c.setCollideWorldBounds(true);
-            c.play("combustivel_anim");
-          });
-        },
-        loop: true,
-      });*/ //NAO ESTA FUNCIONANDO
-  } //chave do create
+    
+  } //CHAVE DO CREATE
 
   /* hitAsteroid(player, asteroidGroup) {
     //player.disableBody(true, true);
@@ -344,10 +367,10 @@ class scene0 extends Phaser.Scene {
     );
     this.exp.play("asteroideumex_anim");
 
-    // Remove o asteroide imediatamente
+    // Remove o asteroide 
     asteroidGroup.destroy();
 
-    // Adiciona um evento para destruir a explosão após a animação terminar
+    
     this.exp.on("animationcomplete", () => {
       this.exp.destroy();
     });
@@ -356,28 +379,16 @@ class scene0 extends Phaser.Scene {
       this.scene.stop();
       this.scene.start("game-over");
     }
+
+    this.sound.play("explosion");
   }
 
   hitCombustivel(player, combustivelGroup) {
+    this.sound.play("collect");
     (combustivelGroup.destroy(true, true),
       (this.fuel += 5),
       this.textFuel.setText(`Fuel: ${this.fuel}`));
-    // this.combcoll -= 1;
-
-    /* if (this.combcoll <= 0) {
-      //ADICIOANR DELAY
-      this.combustivel = this.physics.add.group();
-      const comPos = [
-        { x: 500, y: 600 },
-        { x: 1100, y: 600 },
-        { x: 800, y: 200 },
-      ];
-      comPos.forEach((pos) => {
-        const c = this.combustivel.create(pos.x, pos.y, "combustivel");
-        c.setScale(1);
-        c.setCollideWorldBounds(true);
-        c.play("combustivel_anim")
-      });*/
+    
   }
 
   update() {
@@ -385,7 +396,7 @@ class scene0 extends Phaser.Scene {
   }
 
   spawnAsteroid() {
-    const maxAsteroids = 17; // Limite de asteroides (maior quando for lancar o jogo)
+    const maxAsteroids = 3; // Limite de asteroides (maior quando for lancar o jogo)
 
     if (this.asteroidGroup.getLength() < maxAsteroids) {
       const x = Phaser.Math.Between(400, 1200);
@@ -404,10 +415,10 @@ class scene0 extends Phaser.Scene {
 
   spawnCombustivel() {
     //REFINAR!!!!! NAO SPAWNAR UM EM CIMA DO OUTRO E NEM ONDE ESTA O PLAYER
-    const maxCombustivel = 3; // Limite de asteroides (maior quando for lancar o jogo)
+    const maxCombustivel = 3; 
 
     if (this.combustivelGroup.getLength() < maxCombustivel) {
-      const x = Phaser.Math.Between(400, 1200); //POR ALGUM MOTIVO SPAWNAM EM UM CANTO DA TELA
+      const x = Phaser.Math.Between(400, 1200); 
       const y = Phaser.Math.Between(225, 675);
 
       const combustivel = this.combustivelGroup.create(x, y, "combustivel");
