@@ -89,7 +89,7 @@ class scene0 extends Phaser.Scene {
       .setFlipX(true)
       .setFlipY(true);
 
-    this.player = this.star = this.physics.add.image(800, 450, "star", 0); //SURGE NO MEIO DO MAPA
+    this.player = this.star = this.physics.add.image(800, 450, "star", 0).setSize(32, 22); //SURGE NO MEIO DO MAPA
     //this.star.setScale(2);
     this.player.setCollideWorldBounds(true);
 
@@ -115,7 +115,7 @@ class scene0 extends Phaser.Scene {
       repeat: -1,
     });
 
-    this.add.image(400, 225, "telanave").setScrollFactor(0);
+   // this.add.image(400, 225, "telanave").setScrollFactor(0);
 
     
 
@@ -290,6 +290,23 @@ class scene0 extends Phaser.Scene {
       this,
     );
 
+    
+    this.uiLayer = this.add.layer();
+    const telaNave = this.add.image(400, 225, "telanave").setScrollFactor(0);
+    this.uiLayer.add(telaNave);
+    this.uiLayer.setDepth(1000);
+    
+    
+    this.uiTopLayer = this.add.layer();
+    this.uiTopLayer.add(this.textFuel);
+    this.uiTopLayer.add(this.textLife);
+    this.uiTopLayer.add(this.button);
+    this.uiTopLayer.add(this.joystick.base);
+    this.uiTopLayer.add(this.joystick.thumb);
+    this.uiTopLayer.setDepth(2000);
+    
+   
+  
     
   } //CHAVE DO CREATE
 
