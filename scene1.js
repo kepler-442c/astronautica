@@ -26,7 +26,7 @@ export default class scene1 extends Phaser.Scene {
 
     this.load.image("telanave", "telanave.png");
 
-    this.load.spritesheet("button", "button.png", {
+    this.load.spritesheet("butão", "button.png", {
       frameWidth: 32,
       frameHeight: 32,
     });
@@ -39,6 +39,18 @@ export default class scene1 extends Phaser.Scene {
     this.load.spritesheet("arma", "torreta.png", {
       frameWidth: 428,
       frameHeight: 200, //grande para ver animação,
+    });
+
+    this.load.audio("laser", "lazer.mp3");
+
+    this.load.spritesheet("acerto", "projeto_acerto.png", {
+      frameWidth: 142,
+      frameHeight: 112, //grande para ver animação,
+    });
+
+    this.load.spritesheet("erro", "projetil_erro.png", {
+      frameWidth: 47,
+      frameHeight: 47, //grande para ver animação,
     });
 
     this.load.spritesheet("estrelas", "estrelas_sprite_shit.png", {
@@ -63,19 +75,28 @@ export default class scene1 extends Phaser.Scene {
       frameRate: 40,
       repeat: -1,
     });
-    
+
     this.anims.create({
       key: "alvo",
       frames: this.anims.generateFrameNumbers("Alvo1", {
-        start: 0,
-        end: 14,
+        frames: [2, 3, 7, 8, 9, 10, 11],
+      }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: "alvo_destroy",
+      frames: this.anims.generateFrameNumbers("Alvo1", {
+        frames: [4, 5, 6],
       }),
       frameRate: 10,
-      repeat: -1,
+      repeat: 0,
     });
 
     this.player = this.mira = this.physics.add.image(400, 225, "mira", 0); //SURGE NO MEIO DO MAPA
     this.mira.setScale(0.5);
+    this.mira.setSize(36, 36); // Reduz hitbox para metade (32x32 -> 16x16)
     this.player.setCollideWorldBounds(true);
 
     this.time.addEvent({
@@ -120,11 +141,62 @@ export default class scene1 extends Phaser.Scene {
       repeat: -1,
     });
 
+    this.anims.create({
+      key: "disparo",
+      frames: this.anims.generateFrameNumbers("arma", {
+        start: 9,
+        end: 15,
+      }),
+      frameRate: 5,
+      repeat: 0,
+    });
+
+    this.anims.create({
+      key: "acerto_anim",
+      frames: this.anims.generateFrameNumbers("acerto", {
+        start: 0,
+        end: 3,
+      }),
+      frameRate: 10,
+      repeat: 0,
+    });
+
+    this.anims.create({
+      key: "erro_anim",
+      frames: this.anims.generateFrameNumbers("erro", {
+        start: 0,
+        end: 3,
+      }),
+      frameRate: 10,
+      repeat: 0,
+    });
+
     this.estrelas = this.add
       .sprite(0, 0, "estrelas", 0)
       .setOrigin(0)
       .setAlpha(0.5);
     this.estrelas.play("estrelas_anim");
+
+    this.hitFeedback = this.add
+      .sprite(400, 225, "acerto", 0)
+      .setOrigin(0.5)
+      .setScale(2)
+      .setDepth(1000)
+      .setVisible(false);
+
+    this.errorFeedback = this.add
+      .sprite(400, 225, "erro", 0)
+      .setOrigin(0.5)
+      .setScale(0.5)
+      .setDepth(1000)
+      .setVisible(false);
+
+    this.hitFeedback.on("animationcomplete-acerto_anim", () => {
+      this.hitFeedback.setVisible(false);
+    });
+    this.errorFeedback.on("animationcomplete-erro_anim", () => {
+      this.errorFeedback.setVisible(false);
+    });
 
     this.arma = this.add
       .sprite(400, 450, "arma", 13)
@@ -133,6 +205,71 @@ export default class scene1 extends Phaser.Scene {
     this.arma.play("arma_intro");
     this.arma.on("animationcomplete-arma_intro", () => {
       this.arma.play("arma_loop");
+    });
+    this.arma.on("animationcomplete-disparo", () => {
+      this.arma.play("arma_loop");
+    });
+
+    this.laserSound = this.sound.add("laser");
+
+    this.fireButton = this.add
+      .sprite(780, 430, "butão", 0)
+      .setOrigin(1, 1)
+      .setScale(1.2)
+      .setInteractive()
+      .setScrollFactor(0);
+
+    this.fireButton.on("pointerdown", () => {
+      this.fireButton.setFrame(1);
+      this.laserSound.play();
+
+      const miraBounds = new Phaser.Geom.Rectangle(
+        this.mira.x - 8,
+        this.mira.y - 8,
+        16,
+        16,
+      );
+
+      const hitAlvo = this.alvoGroup.getChildren().find((alvo) => {
+        const scale = alvo.scale;
+        const halfWidth = (48 * scale) / 2;
+        const alvoBounds = new Phaser.Geom.Rectangle(
+          alvo.x - halfWidth,
+          alvo.y - halfWidth,
+          48 * scale,
+          48 * scale,
+        );
+        return Phaser.Geom.Intersects.RectangleToRectangle(
+          alvoBounds,
+          miraBounds,
+        );
+      });
+
+      if (hitAlvo) {
+        this.hitFeedback
+          .setPosition(this.mira.x, this.mira.y)
+          .setVisible(true)
+          .play("acerto_anim");
+        hitAlvo.play("alvo_destroy");
+        hitAlvo.on("animationcomplete-alvo_destroy", () => {
+          hitAlvo.destroy();
+        });
+      } else {
+        this.errorFeedback
+          .setPosition(this.mira.x, this.mira.y)
+          .setVisible(true)
+          .play("erro_anim");
+      }
+
+      this.arma.play("disparo");
+    });
+
+    this.fireButton.on("pointerup", () => {
+      this.fireButton.setFrame(0);
+    });
+
+    this.fireButton.on("pointerout", () => {
+      this.fireButton.setFrame(0);
     });
 
     this.joystick = this.plugins.get("rexvirtualjoystickplugin").add(this, {
@@ -164,7 +301,7 @@ export default class scene1 extends Phaser.Scene {
       }
     });
   }
-  spawnAlvo(){
+  spawnAlvo() {
     const maxAlvo = 5; // Limite de asteroides (maior quando for lancar o jogo)
 
     if (this.alvoGroup.getLength() < maxAlvo) {
@@ -175,11 +312,17 @@ export default class scene1 extends Phaser.Scene {
       alvo.setBounce(1);
       alvo.setSize(48, 48);
       alvo.setCollideWorldBounds(true);
+      alvo.play("alvo");
       alvo.setVelocity(
         Phaser.Math.Between(-200, 200),
         Phaser.Math.Between(-200, 200),
       );
+      this.tweens.add({
+        targets: alvo,
+        scale: 2,
+        duration: 2000,
+        ease: 'Linear'
+      });
     }
   }
-
 }
