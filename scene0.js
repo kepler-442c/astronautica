@@ -11,7 +11,7 @@ class scene0 extends Phaser.Scene {
     this.tempo = 60; //tempo para passar de fase
     // this.combcoll = 3 //quanto combustivel falta coletar para spawnar mais
   }
-  //frames fuellevel, musica 2f, camada texto, CAMADAS, spawn em cima do player, outof bounds 225 pixels
+  //frames fuellevel, musica 2f, spawn em cima do player,
   preload() {
     this.load.plugin(
       "rexvirtualjoystickplugin",
@@ -42,7 +42,7 @@ class scene0 extends Phaser.Scene {
       frameHeight: 48,
     });
 
-    this.load.image("startf1", "startf1.png");
+    //this.load.image("startf1", "startf1.png");
 
     this.load.audio("songf1", "songf1.mp3");
 
@@ -74,12 +74,12 @@ class scene0 extends Phaser.Scene {
 
   create() {
     
-    this.physics.pause(); // Pausa a física para congelar a cena
+    //this.physics.pause(); // Pausa a física para congelar a cena
 
-    this.input.once("pointerdown", () => {
-      this.physics.resume();
-      this.startf1.destroy(); // Remove a imagem de início
-    });
+    //this.input.once("pointerdown", () => {
+     // this.physics.resume();
+     // this.startf1.destroy(); // Remove a imagem de início
+   // });
     this.add.image(0, 0, "mapf1").setOrigin(0);
     this.add.image(800, 0, "mapf1").setOrigin(0).setFlipX(true);
     this.add.image(0, 450, "mapf1").setOrigin(0).setFlipY(true);
@@ -102,7 +102,7 @@ class scene0 extends Phaser.Scene {
     this.physics.world.setBounds(400, 225, 800, 450);
 
 
-    this.startf1 = this.add.image(800, 450, "startf1");
+    //this.startf1 = this.add.image(800, 450, "startf1");
     //this.uispritesheet = this.physics.add.sprite(800, 450, "uispritesheet", 1);
 
     this.anims.create({
@@ -115,6 +115,9 @@ class scene0 extends Phaser.Scene {
       repeat: -1,
     });
 
+    this.add.sprite(800, 450, "bounds").play("bounds_anim")
+      .setAlpha(0.5);
+
    // this.add.image(400, 225, "telanave").setScrollFactor(0);
 
     
@@ -125,7 +128,7 @@ class scene0 extends Phaser.Scene {
         start: 0,
         end: 3,
       }),
-      frameRate: 5,
+      frameRate: 3,
       repeat: -1,
     });
 
@@ -159,7 +162,15 @@ class scene0 extends Phaser.Scene {
       repeat: -1,
     });*/
 
-    this.fuellevel = this.add.sprite(400, 225, "fuellevel").setScrollFactor(0);
+    //this.fuellevel = this.add.sprite(400, 225, "fuellevel").setScrollFactor(0);
+
+   /*if (this.fuel <= 10) {
+      this.fuellevel.setFrame(0);
+    } else if (this.fuel <= 25) {
+      this.fuellevel.setFrame(1);
+    } else {
+      this.fuellevel.setFrame(2);
+    }*/
 
    //0-15 vermelho, 16-25 amarelo, 26+ verde
 
@@ -186,9 +197,8 @@ class scene0 extends Phaser.Scene {
       //else (this.nitro === true);{
       //this.fuel -= 3;
       //}
-
       this.textFuel.setText(`Fuel: ${this.fuel}`);
-
+      
       if (this.fuel <= 0) {
         this.scene.stop();
         this.scene.start("game-over");
@@ -199,7 +209,7 @@ class scene0 extends Phaser.Scene {
       this.tempo -= 1;
       if (this.tempo <= 0) {
         this.scene.stop();
-        this.scene.start("scene1");
+        this.scene.start("scene2");
       }
     }, 1000);
 
@@ -291,10 +301,13 @@ class scene0 extends Phaser.Scene {
     );
 
     
+    
     this.uiLayer = this.add.layer();
     const telaNave = this.add.image(400, 225, "telanave").setScrollFactor(0);
     this.uiLayer.add(telaNave);
     this.uiLayer.setDepth(1000);
+
+    //this.fuellevel.setDepth(2000);
     
     
     this.uiTopLayer = this.add.layer();
@@ -305,7 +318,7 @@ class scene0 extends Phaser.Scene {
     this.uiTopLayer.add(this.joystick.thumb);
     this.uiTopLayer.setDepth(2000);
     
-   
+    
   
     
   } //CHAVE DO CREATE
@@ -316,26 +329,16 @@ class scene0 extends Phaser.Scene {
     this.life -= 1;
     this.textLife.setText(`Life: ${this.life}`);
 
-    // Desabilita temporariamente o player para evitar colisões múltiplas
-    this.player.enableBody(false, false);
-    this.time.addEvent({
-      delay: 500, // Tempo de invencibilidade temporária
-      callback: () => {
-        this.player.enableBody(true, player.x, player.y, true, true);
-      },
-    });
-
-    // Cria e toca a animação de explosão
+    //animação de explosão
     this.exp = this.physics.add.sprite(
       asteroidGroup.x,
       asteroidGroup.y,
       "asteroideumex",
     );
+
+    this.sound.play("explosion");
     this.exp.play("asteroideumex_anim");
-
-    // Remove o asteroide 
     asteroidGroup.destroy();
-
     
     this.exp.on("animationcomplete", () => {
       this.exp.destroy();
@@ -346,7 +349,6 @@ class scene0 extends Phaser.Scene {
       this.scene.start("game-over");
     }
 
-    this.sound.play("explosion");
   }
 
   hitCombustivel(player, combustivelGroup) {
@@ -370,7 +372,7 @@ class scene0 extends Phaser.Scene {
 
       const asteroid = this.asteroidGroup.create(x, y, "asteroideum");
       asteroid.setBounce(1);
-      asteroid.setSize(48, 48);
+      asteroid.setSize(40, 40);
       asteroid.setCollideWorldBounds(true);
       asteroid.setVelocity(
         Phaser.Math.Between(-200, 200),
@@ -390,11 +392,11 @@ class scene0 extends Phaser.Scene {
       const combustivel = this.combustivelGroup.create(x, y, "combustivel");
       combustivel.setCollideWorldBounds(true);
       this.anims.play("combustivel_anim", combustivel);
-      //combustivel.setVelocity(
-      //  Phaser.Math.Between(-200, 200),
-      // Phaser.Math.Between(-200, 200),
-      // );
-    }
+      combustivel.setSize(50, 50);
+      combustivel.setScale(0.8);
+      }
   }
-}
+
+
+} //CHAVE DA CENA
 export default scene0;
