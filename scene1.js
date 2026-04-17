@@ -3,7 +3,7 @@ export default class scene1 extends Phaser.Scene {
     super("scene1");
 
     this.threshold = 0.1;
-    this.speed = 100;
+    this.speed = 300;
     this.direction = undefined;
     this.fuel = 20;
     this.life = 3;
@@ -86,13 +86,13 @@ export default class scene1 extends Phaser.Scene {
     });
 
     this.alvoGroup = this.physics.add.group();
-    this.physics.add.collider(
-      this.player,
-      this.alvoGroup,
-      this.hitAlvo,
-      null,
-      this,
-    );
+    // this.physics.add.collider(
+    //   this.player,
+    //   this.alvoGroup,
+    //   this.hitAlvo,
+    //   null,
+    //   this,
+    // );
 
     this.anims.create({
       key: "arma_intro",
@@ -106,7 +106,7 @@ export default class scene1 extends Phaser.Scene {
         { key: "arma", frame: 5 },
         { key: "arma", frame: 6 },
       ],
-      frameRate: 5,
+      frameRate: 1,
       repeat: 0,
     });
 
@@ -165,7 +165,7 @@ export default class scene1 extends Phaser.Scene {
     });
   }
   spawnAlvo(){
-    const maxAlvo = 10; // Limite de asteroides (maior quando for lancar o jogo)
+    const maxAlvo = 5; // Limite de asteroides (maior quando for lancar o jogo)
 
     if (this.alvoGroup.getLength() < maxAlvo) {
       const x = Phaser.Math.Between(0, 800);
