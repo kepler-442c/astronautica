@@ -184,7 +184,7 @@ class scene0 extends Phaser.Scene {
       })
       .setScrollFactor(0);
 
-    setInterval(() => {
+    this.intervalFuel = setInterval(() => {
       this.fuel -= 1;
       //if(this.nitro) {
       //  this.nitro === false;
@@ -200,7 +200,7 @@ class scene0 extends Phaser.Scene {
       }
     }, 1000);
 
-    setInterval(() => {
+    this.intervalNitro = setInterval(() => {
       if (this.nitro === true) {
         this.fuel -= 3;
       }
@@ -211,10 +211,13 @@ class scene0 extends Phaser.Scene {
       }
     }, 500);
 
-    setInterval(() => {
+    this.intervalTime = setInterval(() => {
       this.tempo -= 1;
       if (this.tempo <= 0) {
         this.scene.stop();
+        clearInterval(this.intervalFuel);
+        clearInterval(this.intervalNitro);
+        clearInterval(this.intervalTime);
         this.scene.start("scene2");
       }
     }, 1000);
@@ -357,6 +360,15 @@ class scene0 extends Phaser.Scene {
       const x = Phaser.Math.Between(400, 1200);
       const y = Phaser.Math.Between(225, 675);
 
+      while (
+        Math.abs(x - this.player.x) < 100 ||
+        Math.abs(y - this.player.y) < 100
+      ) {
+        // Garante que o asteroide não será criado muito próximo do player
+        x = Phaser.Math.Between(400, 1200);
+        y = Phaser.Math.Between(225, 675);
+      }
+
       const asteroid = this.asteroidGroup.create(x, y, "asteroideum");
       asteroid.setBounce(1);
       asteroid.setSize(40, 40);
@@ -381,6 +393,15 @@ class scene0 extends Phaser.Scene {
     if (this.combustivelGroup.getLength() < maxCombustivel) {
       const x = Phaser.Math.Between(400, 1200);
       const y = Phaser.Math.Between(225, 675);
+
+      while (
+        Math.abs(x - this.player.x) < 100 ||
+        Math.abs(y - this.player.y) < 100
+      ) {
+        // Garante que o combustível não será criado muito próximo do player
+        x = Phaser.Math.Between(400, 1200);
+        y = Phaser.Math.Between(225, 675);
+      }
 
       const combustivel = this.combustivelGroup.create(x, y, "combustivel");
       combustivel.setCollideWorldBounds(true);
