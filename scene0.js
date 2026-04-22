@@ -9,9 +9,9 @@ class scene0 extends Phaser.Scene {
     this.life = 3;
     this.nitro = false;
     this.tempo = 60; //tempo para passar de fase
-    // this.combcoll = 3 //quanto combustivel falta coletar para spawnar mais
+    
   }
-  //frames fuellevel, musica 2f, spawn em cima do player,
+  //frames fuellevel, musica 2f, spawn em cima do player, PARAR COM AS EXPLOSOES NO SEGUNDO 25
   preload() {
     this.load.plugin(
       "rexvirtualjoystickplugin",
@@ -206,6 +206,18 @@ class scene0 extends Phaser.Scene {
     }, 1000);
 
     setInterval(() => {
+      if (this.nitro === true) {
+        this.fuel -= 3;
+      }
+      this.textFuel.setText(`Fuel: ${this.fuel}`);
+      if (this.fuel <= 0) {
+        this.scene.stop();
+        this.scene.start("game-over");
+      }
+      
+    }, 500); 
+
+    setInterval(() => {
       this.tempo -= 1;
       if (this.tempo <= 0) {
         this.scene.stop();
@@ -224,8 +236,7 @@ class scene0 extends Phaser.Scene {
           this.direction.x * this.speed * 2,
           this.direction.y * this.speed * 2,
         );
-        //this.nitro = true;
-        this.fuel -= 5;
+        this.nitro = true;
         this.textFuel.setText(`Fuel: ${this.fuel}`);
       })
       .on("pointerup", () => {
@@ -234,7 +245,7 @@ class scene0 extends Phaser.Scene {
           (this.direction.x * this.speed) / 2,
           (this.direction.y * this.speed) / 2,
         );
-        this.fuel -= 1;
+        this.nitro = false;
         this.textFuel.setText(`Fuel: ${this.fuel}`);
         
       });
