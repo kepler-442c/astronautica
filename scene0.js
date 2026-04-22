@@ -9,7 +9,6 @@ class scene0 extends Phaser.Scene {
     this.life = 3;
     this.nitro = false;
     this.tempo = 60; //tempo para passar de fase
-    
   }
   // ***arrumar problema de fim de scene0 fram source null,*** frames fuellevel, musica 2f, spawn em cima do player, PARAR COM AS EXPLOSOES NO SEGUNDO 25
   preload() {
@@ -60,7 +59,6 @@ class scene0 extends Phaser.Scene {
       frameHeight: 450,
     });*/
 
-
     this.load.spritesheet("button", "button.png", {
       frameWidth: 32,
       frameHeight: 32,
@@ -73,13 +71,12 @@ class scene0 extends Phaser.Scene {
   }
 
   create() {
-    
     //this.physics.pause(); // Pausa a física para congelar a cena
 
     //this.input.once("pointerdown", () => {
-     // this.physics.resume();
-     // this.startf1.destroy(); // Remove a imagem de início
-   // });
+    // this.physics.resume();
+    // this.startf1.destroy(); // Remove a imagem de início
+    // });
     this.add.image(0, 0, "mapf1").setOrigin(0);
     this.add.image(800, 0, "mapf1").setOrigin(0).setFlipX(true);
     this.add.image(0, 450, "mapf1").setOrigin(0).setFlipY(true);
@@ -89,18 +86,19 @@ class scene0 extends Phaser.Scene {
       .setFlipX(true)
       .setFlipY(true);
 
-    this.player = this.star = this.physics.add.image(800, 450, "star", 0).setSize(32, 22); //SURGE NO MEIO DO MAPA
+    this.player = this.star = this.physics.add
+      .image(800, 450, "star", 0)
+      .setSize(32, 22); //SURGE NO MEIO DO MAPA
     //this.star.setScale(2);
     this.player.setCollideWorldBounds(true);
 
     //this.music = this.sound.add("songf1");
     this.music = this.sound.add("songf1", { loop: true }).play();
-    
+
     this.cameras.main.startFollow(this.player);
 
     this.cameras.main.setBounds(0, 0, 800 * 2, 450 * 2);
     this.physics.world.setBounds(400, 225, 800, 450);
-
 
     //this.startf1 = this.add.image(800, 450, "startf1");
     //this.uispritesheet = this.physics.add.sprite(800, 450, "uispritesheet", 1);
@@ -115,12 +113,9 @@ class scene0 extends Phaser.Scene {
       repeat: -1,
     });
 
-    this.add.sprite(800, 450, "bounds").play("bounds_anim")
-      .setAlpha(0.5);
+    this.add.sprite(800, 450, "bounds").play("bounds_anim").setAlpha(0.5);
 
-   // this.add.image(400, 225, "telanave").setScrollFactor(0);
-
-    
+    // this.add.image(400, 225, "telanave").setScrollFactor(0);
 
     this.anims.create({
       key: "combustivel_anim",
@@ -134,7 +129,8 @@ class scene0 extends Phaser.Scene {
 
     this.anims.create({
       key: "asteroideumex_anim",
-      frames: this.anims.generateFrameNumbers("asteroideumex", { //explosao do asteroideum
+      frames: this.anims.generateFrameNumbers("asteroideumex", {
+        //explosao do asteroideum
         start: 0,
         end: 6,
       }),
@@ -164,7 +160,7 @@ class scene0 extends Phaser.Scene {
 
     //this.fuellevel = this.add.sprite(400, 225, "fuellevel").setScrollFactor(0);
 
-   /*if (this.fuel <= 10) {
+    /*if (this.fuel <= 10) {
       this.fuellevel.setFrame(0);
     } else if (this.fuel <= 25) {
       this.fuellevel.setFrame(1);
@@ -172,8 +168,7 @@ class scene0 extends Phaser.Scene {
       this.fuellevel.setFrame(2);
     }*/
 
-   //0-15 vermelho, 16-25 amarelo, 26+ verde
-
+    //0-15 vermelho, 16-25 amarelo, 26+ verde
 
     this.textLife = this.add
       .text(600, 50, `Life: ${this.life}`, {
@@ -189,7 +184,7 @@ class scene0 extends Phaser.Scene {
       })
       .setScrollFactor(0);
 
-    setInterval(() => {
+    this.intervalFuel = setInterval(() => {
       this.fuel -= 1;
       //if(this.nitro) {
       //  this.nitro === false;
@@ -198,14 +193,14 @@ class scene0 extends Phaser.Scene {
       //this.fuel -= 3;
       //}
       this.textFuel.setText(`Fuel: ${this.fuel}`);
-      
+
       if (this.fuel <= 0) {
         this.scene.stop();
         this.scene.start("gameover");
       }
     }, 1000);
 
-    setInterval(() => {
+    this.intervalNitro = setInterval(() => {
       if (this.nitro === true) {
         this.fuel -= 3;
       }
@@ -214,13 +209,15 @@ class scene0 extends Phaser.Scene {
         this.scene.stop();
         this.scene.start("gameover");
       }
-      
-    }, 500); 
+    }, 500);
 
-    setInterval(() => {
+    this.intervalTime = setInterval(() => {
       this.tempo -= 1;
       if (this.tempo <= 0) {
         this.scene.stop();
+        clearInterval(this.intervalFuel);
+        clearInterval(this.intervalNitro);
+        clearInterval(this.intervalTime);
         this.scene.start("scene2");
       }
     }, 1000);
@@ -247,7 +244,6 @@ class scene0 extends Phaser.Scene {
         );
         this.nitro = false;
         this.textFuel.setText(`Fuel: ${this.fuel}`);
-        
       });
 
     this.joystick = this.plugins.get("rexvirtualjoystickplugin").add(this, {
@@ -311,16 +307,13 @@ class scene0 extends Phaser.Scene {
       this,
     );
 
-    
-    
     this.uiLayer = this.add.layer();
     const telaNave = this.add.image(400, 225, "telanave").setScrollFactor(0);
     this.uiLayer.add(telaNave);
     this.uiLayer.setDepth(1000);
 
     //this.fuellevel.setDepth(2000);
-    
-    
+
     this.uiTopLayer = this.add.layer();
     this.uiTopLayer.add(this.textFuel);
     this.uiTopLayer.add(this.textLife);
@@ -328,29 +321,17 @@ class scene0 extends Phaser.Scene {
     this.uiTopLayer.add(this.joystick.base);
     this.uiTopLayer.add(this.joystick.thumb);
     this.uiTopLayer.setDepth(2000);
-    
-
-    
-
-    
-    
-    
   } //CHAVE DO CREATE
-  
-  
-  
 
   hitAsteroid(player, asteroidGroup) {
     this.life -= 1;
     this.textLife.setText(`Life: ${this.life}`);
 
-    
-
     //animação de explosão
     this.sound.play("explosion");
     this.exp.play("asteroideumex_anim");
     asteroidGroup.destroy();
-    
+
     this.exp.on("animationcomplete", () => {
       this.exp.destroy();
     });
@@ -359,7 +340,6 @@ class scene0 extends Phaser.Scene {
       this.scene.stop();
       this.scene.start("gameover");
     }
-
   }
 
   hitCombustivel(player, combustivelGroup) {
@@ -367,7 +347,6 @@ class scene0 extends Phaser.Scene {
     (combustivelGroup.destroy(true, true),
       (this.fuel += 5),
       this.textFuel.setText(`Fuel: ${this.fuel}`));
-    
   }
 
   update() {
@@ -381,6 +360,15 @@ class scene0 extends Phaser.Scene {
       const x = Phaser.Math.Between(400, 1200);
       const y = Phaser.Math.Between(225, 675);
 
+      while (
+        Math.abs(x - this.player.x) < 100 ||
+        Math.abs(y - this.player.y) < 100
+      ) {
+        // Garante que o asteroide não será criado muito próximo do player
+        x = Phaser.Math.Between(400, 1200);
+        y = Phaser.Math.Between(225, 675);
+      }
+
       const asteroid = this.asteroidGroup.create(x, y, "asteroideum");
       asteroid.setBounce(1);
       asteroid.setSize(40, 40);
@@ -393,27 +381,34 @@ class scene0 extends Phaser.Scene {
         targets: asteroid,
         scale: 1.7,
         duration: 3000,
-        ease: 'Linear'
+        ease: "Linear",
       });
     }
   }
 
   spawnCombustivel() {
     //REFINAR!!!!! NAO SPAWNAR UM EM CIMA DO OUTRO E NEM ONDE ESTA O PLAYER
-    const maxCombustivel = 3; 
+    const maxCombustivel = 3;
 
     if (this.combustivelGroup.getLength() < maxCombustivel) {
-      const x = Phaser.Math.Between(400, 1200); 
+      const x = Phaser.Math.Between(400, 1200);
       const y = Phaser.Math.Between(225, 675);
+
+      while (
+        Math.abs(x - this.player.x) < 100 ||
+        Math.abs(y - this.player.y) < 100
+      ) {
+        // Garante que o combustível não será criado muito próximo do player
+        x = Phaser.Math.Between(400, 1200);
+        y = Phaser.Math.Between(225, 675);
+      }
 
       const combustivel = this.combustivelGroup.create(x, y, "combustivel");
       combustivel.setCollideWorldBounds(true);
       this.anims.play("combustivel_anim", combustivel);
       combustivel.setSize(50, 50);
       combustivel.setScale(0.8);
-      }
+    }
   }
-
-
 } //CHAVE DA CENA
 export default scene0;

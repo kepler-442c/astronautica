@@ -321,7 +321,7 @@ export default class scene1 extends Phaser.Scene {
         targets: alvo,
         scale: 2,
         duration: 2000,
-        ease: 'Linear'
+        ease: "Linear",
       });
     }
   }

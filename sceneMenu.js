@@ -88,7 +88,7 @@ export default class SceneMenu extends Phaser.Scene {
     btnAtirador.on("pointerdown", () => this.scene.start("scene1"));
 
     let btnCutscene = this.add.image(570, 10, "cutscene").setOrigin(0, 0);
-    btnCutscene.setScale(3); 
+    btnCutscene.setScale(3);
     btnCutscene.setInteractive();
 
     //Adicionar o clique do botao
