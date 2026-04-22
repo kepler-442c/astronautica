@@ -196,6 +196,9 @@ class scene0 extends Phaser.Scene {
 
       if (this.fuel <= 0) {
         this.scene.stop();
+        clearInterval(this.intervalFuel);
+        clearInterval(this.intervalNitro);
+        clearInterval(this.intervalTime);
         this.scene.start("gameover");
       }
     }, 1000);
@@ -328,6 +331,7 @@ class scene0 extends Phaser.Scene {
     this.textLife.setText(`Life: ${this.life}`);
 
     //animação de explosão
+    this.exp = this.add.sprite(asteroidGroup.x, asteroidGroup.y, "asteroideumex");
     this.sound.play("explosion");
     this.exp.play("asteroideumex_anim");
     asteroidGroup.destroy();
@@ -338,6 +342,9 @@ class scene0 extends Phaser.Scene {
 
     if (this.life === 0) {
       this.scene.stop();
+      clearInterval(this.intervalFuel);
+      clearInterval(this.intervalNitro);
+      clearInterval(this.intervalTime);
       this.scene.start("gameover");
     }
   }
@@ -357,8 +364,8 @@ class scene0 extends Phaser.Scene {
     const maxAsteroids = 10; // Limite de asteroides (maior quando for lancar o jogo)? ou dez ja ta dificil?
 
     if (this.asteroidGroup.getLength() < maxAsteroids) {
-      const x = Phaser.Math.Between(400, 1200);
-      const y = Phaser.Math.Between(225, 675);
+      var x = Phaser.Math.Between(400, 1200);
+      var y = Phaser.Math.Between(225, 675);
 
       while (
         Math.abs(x - this.player.x) < 100 ||
@@ -391,8 +398,8 @@ class scene0 extends Phaser.Scene {
     const maxCombustivel = 3;
 
     if (this.combustivelGroup.getLength() < maxCombustivel) {
-      const x = Phaser.Math.Between(400, 1200);
-      const y = Phaser.Math.Between(225, 675);
+      var x = Phaser.Math.Between(400, 1200);
+      var y = Phaser.Math.Between(225, 675);
 
       while (
         Math.abs(x - this.player.x) < 100 ||

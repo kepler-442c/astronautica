@@ -102,26 +102,16 @@ class sceneCut extends Phaser.Scene {
       delay: 2000;
       //this.explosion = this.add.sprite(400, 225, "explosion").play("explosion-anim")
       this.andromedanos = [];
-      this.andromedano = this.add
-        .sprite(400, 225, "andromedano")
-        .play("andromedano-idle");
-      this.andromedanos.push(this.andromedano);
-      this.andromedano = this.add
-        .sprite(140, 90, "andromedano")
-        .play("andromedano-idle");
-      this.andromedanos.push(this.andromedano);
-      this.andromedano = this.add
-        .sprite(600, 300, "andromedano")
-        .play("andromedano-idle");
-      this.andromedanos.push(this.andromedano);
-      this.andromedano = this.add
-        .sprite(660, 150, "andromedano")
-        .play("andromedano-idle");
-      this.andromedanos.push(this.andromedano);
-      this.andromedano = this.add
-        .sprite(200, 320, "andromedano")
-        .play("andromedano-idle");
-      this.andromedanos.push(this.andromedano);
+      this.andromedano = this.add.sprite(400, 225, "andromedano").play("andromedano-idle");
+       this.andromedanos.push(this.andromedano);
+      this.andromedano = this.add.sprite(140, 90, "andromedano").play("andromedano-idle");
+       this.andromedanos.push(this.andromedano);
+      this.andromedano = this.add.sprite(600, 300, "andromedano").play("andromedano-idle");
+       this.andromedanos.push(this.andromedano);
+      this.andromedano = this.add.sprite(660, 150, "andromedano").play("andromedano-idle");
+       this.andromedanos.push(this.andromedano);
+      this.andromedano = this.add.sprite(200, 320, "andromedano").play("andromedano-idle");
+       this.andromedanos.push(this.andromedano);
     });
     this.time.delayedCall(19000, () => {
       this.tweens.add({
@@ -134,73 +124,22 @@ class sceneCut extends Phaser.Scene {
     });
     //spawnar diversas explosoes  TROCAR ANIMACAO DE EXPLOSAO
     this.time.delayedCall(23000, () => {
-      this.explosion = this.add
-        .sprite(400, 225, "explode")
-        .play("explode-anim");
-      this.explosion.setScale(7);
-      this.explosion.on("animationcomplete", () => {
-        this.explosion.destroy();
+      this.explosionGroup = this.add.group();
+      this.explosionEvent = this.time.addEvent({
+        delay: 200, // Tempo entre cada explosão (em milissegundos)
+        callback: this.spawnExplosion,
+        callbackScope: this,
+        loop: true,
       });
-      this.explosion = this.add.sprite(140, 90, "explode").play("explode-anim");
-      this.explosion.setScale(7);
-      this.explosion.on("animationcomplete", () => {
-        this.explosion.destroy();
-      });
-      this.explosion = this.add
-        .sprite(600, 300, "explode")
-        .play("explode-anim");
-      this.explosion.setScale(7);
-      this.explosion.on("animationcomplete", () => {
-        this.explosion.destroy();
-      });
-      this.explosion = this.add
-        .sprite(660, 150, "explode")
-        .play("explode-anim");
-      this.explosion.setScale(7);
-      this.explosion.on("animationcomplete", () => {
-        this.explosion.destroy();
-      });
-      this.explosion = this.add
-        .sprite(200, 320, "explode")
-        .play("explode-anim");
-      this.explosion.setScale(7);
-      this.explosion.on("animationcomplete", () => {
-        this.explosion.destroy();
-      });
-
-      /*this.explosions = [];
-      this.explosion = this.add.sprite(200, 50, "explosion").play("explode-anim"); this.explosion.setScale(5);
-      this.explosions.push(this.explosion);
-      delay: 200;
-      this.explosion = this.add.sprite(400, 390, "explosion").play("explode-anim"); this.explosion.setScale(5);
-      this.explosions.push(this.explosion);
-      delay: 200;
-      this.explosion = this.add.sprite(600, 225, "explosion").play("explode-anim"); this.explosion.setScale(5);
-      this.explosions.push(this.explosion);
-      delay: 200;
-      this.explosion = this.add.sprite(800, 100, "explosion").play("explode-anim"); this.explosion.setScale(5);
-      this.explosions.push(this.explosion);
-      delay: 200;
-      this.explosion = this.add.sprite(100, 180, "explosion").play("explode-anim"); this.explosion.setScale(5);
-      this.explosions.push(this.explosion);
-      delay: 200;
-      this.explosion = this.add.sprite(300, 270, "explosion").play("explode-anim"); this.explosion.setScale(5);
-      this.explosions.push(this.explosion);*/
-
-      /*this.explosionGroup = this.add.group();
-      
-        this.time.addEvent({
-          delay: 50, // Tempo entre cada explosão (em milissegundos)
-          callback: this.spawnExplosion,
-          callbackScope: this,
-          duration: 3000,
-        });*/
     });
 
     //depois de alguns segundos destroy tudo e colocar tela preta e resto do texto
 
     this.time.delayedCall(25000, () => {
       this.add.rectangle(400, 225, 800, 450, 0x000000);
+      if (this.explosionEvent) {
+        this.explosionEvent.remove();
+      }
 
       /*this.underLayer = this.add.layer();
         this.underLayer.add(this.explosionGroup);
