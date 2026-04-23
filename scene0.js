@@ -3,7 +3,7 @@ class scene0 extends Phaser.Scene {
     super("scene0");
 
     this.threshold = 0.1;
-    this.speed = 100;
+    this.speed = 130;
     this.direction = undefined;
     this.fuel = 20;
     this.life = 3;
@@ -19,6 +19,8 @@ class scene0 extends Phaser.Scene {
     );
 
     this.load.setPath("assets/");
+
+    this.load.font("bat", "bat.ttf");
 
     this.load.image("mapf1", "mapf1.png");
 
@@ -36,10 +38,11 @@ class scene0 extends Phaser.Scene {
       frameHeight: 450,
     });
 
-    this.load.spritesheet("asteroideum", "asteroideum.png", {
+    /*this.load.spritesheet("asteroideum", "asteroideum.png", {
       frameWidth: 48,
       frameHeight: 48,
-    });
+    });*/
+    this.load.image("asteroideum", "asteroideum.png");
 
     //this.load.image("startf1", "startf1.png");
 
@@ -59,9 +62,9 @@ class scene0 extends Phaser.Scene {
       frameHeight: 450,
     });*/
 
-    this.load.spritesheet("button", "button.png", {
-      frameWidth: 32,
-      frameHeight: 32,
+    this.load.spritesheet("buttonnitro", "buttonnitro.png", {
+      frameWidth: 64,
+      frameHeight: 64,
     });
 
     this.load.spritesheet("asteroideumex", "asteroideumex.png", {
@@ -138,7 +141,7 @@ class scene0 extends Phaser.Scene {
       repeat: 0,
     });
 
-    this.anims.create({
+    /*this.anims.create({
       key: "asteroideum_anim",
       frames: this.anims.generateFrameNumbers("asteroideum", {
         start: 0,
@@ -146,7 +149,7 @@ class scene0 extends Phaser.Scene {
       }),
       frameRate: 5,
       repeat: -1,
-    });
+    });*/
 
     /*this.anims.create({
       key: "fuellevel_anim",
@@ -171,15 +174,17 @@ class scene0 extends Phaser.Scene {
     //0-15 vermelho, 16-25 amarelo, 26+ verde
 
     this.textLife = this.add
-      .text(600, 50, `Life: ${this.life}`, {
-        fontSize: "32px",
+      .text(600, 100, `Life: ${this.life}`, {//600, 50
+        fontFamily: "bat",
+        fontSize: "28px",
         fill: "#ffffff",
       })
       .setScrollFactor(0);
 
     this.textFuel = this.add
-      .text(16, 50, `Fuel: ${this.fuel}`, {
-        fontSize: "32px",
+      .text(16, 100, `Fuel: ${this.fuel}`, {//16, 50
+        fontFamily: "bat",
+        fontSize: "28px",
         fill: "#ffffff",
       })
       .setScrollFactor(0);
@@ -199,6 +204,9 @@ class scene0 extends Phaser.Scene {
         clearInterval(this.intervalFuel);
         clearInterval(this.intervalNitro);
         clearInterval(this.intervalTime);
+        this.fuel = 20;
+        this.life = 3;
+        this.tempo = 60;
         this.scene.start("gameover");
       }
     }, 1000);
@@ -210,6 +218,13 @@ class scene0 extends Phaser.Scene {
       this.textFuel.setText(`Fuel: ${this.fuel}`);
       if (this.fuel <= 0) {
         this.scene.stop();
+        this.nitro = false;
+        clearInterval(this.intervalFuel);
+        clearInterval(this.intervalNitro);
+        clearInterval(this.intervalTime);
+        this.fuel = 20;
+        this.life = 3;
+        this.tempo = 60;
         this.scene.start("gameover");
       }
     }, 500);
@@ -226,9 +241,8 @@ class scene0 extends Phaser.Scene {
     }, 1000);
 
     this.button = this.add
-      .sprite(600, 300, "button", 0)
+      .sprite(600, 250, "buttonnitro", 0)
       .setScrollFactor(0)
-      .setScale(2)
       .setInteractive()
       .on("pointerdown", () => {
         this.button.setFrame(1);
@@ -345,6 +359,9 @@ class scene0 extends Phaser.Scene {
       clearInterval(this.intervalFuel);
       clearInterval(this.intervalNitro);
       clearInterval(this.intervalTime);
+      this.life = 3;
+      this.fuel = 20;
+      this.tempo = 60;
       this.scene.start("gameover");
     }
   }
@@ -378,7 +395,7 @@ class scene0 extends Phaser.Scene {
 
       const asteroid = this.asteroidGroup.create(x, y, "asteroideum");
       asteroid.setBounce(1);
-      asteroid.setSize(40, 40);
+      asteroid.setSize(30, 30);
       asteroid.setCollideWorldBounds(true);
       asteroid.setVelocity(
         Phaser.Math.Between(-200, 200),
@@ -414,7 +431,14 @@ class scene0 extends Phaser.Scene {
       combustivel.setCollideWorldBounds(true);
       this.anims.play("combustivel_anim", combustivel);
       combustivel.setSize(50, 50);
-      combustivel.setScale(0.8);
+      combustivel.setScale(0.3);
+
+      this.tweens.add({
+        targets: combustivel,
+        scale: 0.7,
+        duration: 2000,
+        ease: "Linear",
+      });
     }
   }
 } //CHAVE DA CENA
