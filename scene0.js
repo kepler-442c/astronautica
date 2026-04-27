@@ -8,6 +8,7 @@ class scene0 extends Phaser.Scene {
     this.fuel = 20;
     this.life = 3;
     this.nitro = false;
+    this.invincible = false;
     this.tempo = 60; //tempo para passar de fase
   }
   // ***arrumar problema de fim de scene0 fram source null,*** frames fuellevel, musica 2f, spawn em cima do player, PARAR COM AS EXPLOSOES NO SEGUNDO 25
@@ -19,6 +20,8 @@ class scene0 extends Phaser.Scene {
     );
 
     this.load.setPath("assets/");
+
+    this.load.font("stepalange", "stepalange.otf");
 
     this.load.image("mapf1", "mapf1.png");
 
@@ -200,7 +203,7 @@ class scene0 extends Phaser.Scene {
 
     this.textLife = this.add
       .text(600, 100, `Life: ${this.life}`, {//600, 50
-        //fontFamily: "bat",
+        fontFamily: "stepalange",
         fontSize: "28px",
         fill: "#ffffff",
       })
@@ -208,7 +211,7 @@ class scene0 extends Phaser.Scene {
 
     this.textFuel = this.add
       .text(16, 100, `Fuel: ${this.fuel}`, {//16, 50
-        //fontFamily: "bat",
+        fontFamily: "stepalange",
         fontSize: "28px",
         fill: "#ffffff",
       })
@@ -232,6 +235,7 @@ class scene0 extends Phaser.Scene {
         this.fuel = 20;
         this.life = 3;
         this.tempo = 60;
+        this.invincible = false;
         this.scene.start("gameover");
       }
     }, 1000);
@@ -250,6 +254,7 @@ class scene0 extends Phaser.Scene {
         this.fuel = 20;
         this.life = 3;
         this.tempo = 60;
+        this.invincible = false;
         this.scene.start("gameover");
       }
     }, 500);
@@ -336,7 +341,7 @@ class scene0 extends Phaser.Scene {
       this.player,
       this.asteroidGroup,
       this.hitAsteroid,
-      null,
+      this.processAsteroidCollision,
       this,
     );
 
@@ -369,6 +374,22 @@ class scene0 extends Phaser.Scene {
     this.life -= 1;
     this.textLife.setText(`Life: ${this.life}`);
 
+    //animacao de hit
+    this.add.tween({
+      targets: this.player,
+      alpha: 0,
+      duration: 100,
+      yoyo: true,
+      repeat: 5,
+    });
+
+    this.invincible = true;
+    this.time.delayedCall(1000, () => {
+      this.invincible = false;
+    });
+
+    
+
     //animação de explosão
     this.exp = this.add.sprite(asteroidGroup.x, asteroidGroup.y, "asteroideumex");
     this.sound.play("explosion");
@@ -387,6 +408,7 @@ class scene0 extends Phaser.Scene {
       this.life = 3;
       this.fuel = 20;
       this.tempo = 60;
+      this.invincible = false;
       this.scene.start("gameover");
     }
   }
@@ -396,6 +418,10 @@ class scene0 extends Phaser.Scene {
     (combustivelGroup.destroy(true, true),
       (this.fuel += 5),
       this.textFuel.setText(`Fuel: ${this.fuel}`));
+  }
+
+  processAsteroidCollision(player, asteroid) {
+    return !this.invincible;
   }
 
   update() {
