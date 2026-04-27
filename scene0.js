@@ -20,8 +20,6 @@ class scene0 extends Phaser.Scene {
 
     this.load.setPath("assets/");
 
-    this.load.font("bat", "bat.ttf");
-
     this.load.image("mapf1", "mapf1.png");
 
     this.load.image("star", "star.png");
@@ -29,9 +27,14 @@ class scene0 extends Phaser.Scene {
     this.load.image("telanave", "telanave.png");
 
     this.load.spritesheet("bounds", "bounds.png", {
-      frameWidth: 1025,
-      frameHeight: 625,
+      frameWidth: 1250,
+      frameHeight: 850,
     });
+
+    /*this.load.spritesheet("campoast", "campoast.png", {
+      frameWidth: 1250,
+      frameHeight: 850,
+    });*/
 
     this.load.spritesheet("fuellevel", "fuellevel.png", {
       frameWidth: 800,
@@ -116,7 +119,29 @@ class scene0 extends Phaser.Scene {
       repeat: -1,
     });
 
-    this.add.sprite(800, 450, "bounds").play("bounds_anim").setAlpha(0.5);
+    /*this.anims.create({
+      key: "campoast_anim",
+      frames: this.anims.generateFrameNumbers("campoast", {
+        start: 0,
+        end: 0,
+      }),
+      frameRate: 5,
+      repeat: -1,
+    });*/
+
+
+    const bounds_anim = this.add.sprite(800, 450, "bounds").play("bounds_anim");
+    this.add.tween({
+      targets: bounds_anim,
+      scale: 1.05,
+      duration: 2000,
+      ease: "Linear",
+      yoyo: true,
+      repeat: -1, 
+    });
+
+    
+    //this.add.sprite(1250, 850, "campoast").play("campoast_anim");
 
     // this.add.image(400, 225, "telanave").setScrollFactor(0);
 
@@ -175,7 +200,7 @@ class scene0 extends Phaser.Scene {
 
     this.textLife = this.add
       .text(600, 100, `Life: ${this.life}`, {//600, 50
-        fontFamily: "bat",
+        //fontFamily: "bat",
         fontSize: "28px",
         fill: "#ffffff",
       })
@@ -183,7 +208,7 @@ class scene0 extends Phaser.Scene {
 
     this.textFuel = this.add
       .text(16, 100, `Fuel: ${this.fuel}`, {//16, 50
-        fontFamily: "bat",
+        //fontFamily: "bat",
         fontSize: "28px",
         fill: "#ffffff",
       })
