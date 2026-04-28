@@ -294,7 +294,7 @@ class scene0 extends Phaser.Scene {
       });
 
     this.joystick = this.plugins.get("rexvirtualjoystickplugin").add(this, {
-      x: 100,
+      x: 150,
       y: 290,
       radius: 50,
       base: this.add.circle(0, 0, 50, 0x888888),
