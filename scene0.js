@@ -39,18 +39,16 @@ class scene0 extends Phaser.Scene {
       frameHeight: 850,
     });*/
 
-    this.load.spritesheet("fuellevel", "fuellevel.png", {
+    /*this.load.spritesheet("fuellevel", "fuellevel.png", {
       frameWidth: 800,
       frameHeight: 450,
-    });
+    });*/
 
     /*this.load.spritesheet("asteroideum", "asteroideum.png", {
       frameWidth: 48,
       frameHeight: 48,
     });*/
     this.load.image("asteroideum", "asteroideum.png");
-
-    //this.load.image("startf1", "startf1.png");
 
     this.load.audio("songf1", "songf1.mp3");
 
@@ -61,6 +59,11 @@ class scene0 extends Phaser.Scene {
     this.load.spritesheet("combustivel", "combustivel.png", {
       frameWidth: 64,
       frameHeight: 64,
+    });
+
+    this.load.spritesheet("estrelasvindo", "estrelas_vindo.png", {
+      frameWidth: 800,
+      frameHeight: 450,
     });
 
     /*this.load.spritesheet("uispritesheet", "uispritesheet.png", {
@@ -80,12 +83,7 @@ class scene0 extends Phaser.Scene {
   }
 
   create() {
-    //this.physics.pause(); // Pausa a física para congelar a cena
-
-    //this.input.once("pointerdown", () => {
-    // this.physics.resume();
-    // this.startf1.destroy(); // Remove a imagem de início
-    // });
+    
     this.add.image(0, 0, "mapf1").setOrigin(0);
     this.add.image(800, 0, "mapf1").setOrigin(0).setFlipX(true);
     this.add.image(0, 450, "mapf1").setOrigin(0).setFlipY(true);
@@ -109,8 +107,6 @@ class scene0 extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 800 * 2, 450 * 2);
     this.physics.world.setBounds(400, 225, 800, 450);
 
-    //this.startf1 = this.add.image(800, 450, "startf1");
-    //this.uispritesheet = this.physics.add.sprite(800, 450, "uispritesheet", 1);
 
     this.anims.create({
       key: "bounds_anim",
@@ -169,6 +165,22 @@ class scene0 extends Phaser.Scene {
       repeat: 0,
     });
 
+    this.anims.create({
+      key: "estrelasvindo_anim",
+      frames: this.anims.generateFrameNumbers("estrelasvindo", {
+        start: 0,
+        end: 11,
+      }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+
+    this.estrelasvindo = this.add.sprite(400, 225, "estrelasvindo").play("estrelasvindo_anim")
+      .setAlpha(0.5)
+      .setScale(0.7)
+      .setScrollFactor(0);
+    
     /*this.anims.create({
       key: "asteroideum_anim",
       frames: this.anims.generateFrameNumbers("asteroideum", {
@@ -202,9 +214,9 @@ class scene0 extends Phaser.Scene {
     //0-15 vermelho, 16-25 amarelo, 26+ verde
 
     this.textLife = this.add
-      .text(700, 100, `Life: ${this.life}`, {//600, 50
+      .text(670, 100, `Life: ${this.life}`, {//600, 50
         fontFamily: "stepalange",
-        fontSize: "32px",
+        fontSize: "36px",
         fill: "#ffffff",
       })
       .setScrollFactor(0);
@@ -212,7 +224,7 @@ class scene0 extends Phaser.Scene {
     this.textFuel = this.add
       .text(16, 100, `Fuel: ${this.fuel}`, {//16, 50
         fontFamily: "stepalange",
-        fontSize: "32px",
+        fontSize: "36px",
         fill: "#ffffff",
       })
       .setScrollFactor(0);
@@ -354,10 +366,15 @@ class scene0 extends Phaser.Scene {
       this,
     );
 
+
+    this.estrelaLayer = this.add.layer();
+    this.estrelaLayer.add(this.estrelasvindo);
+    this.estrelaLayer.setDepth(1000);
+
     this.uiLayer = this.add.layer();
     const telaNave = this.add.image(400, 225, "telanave").setScrollFactor(0);
     this.uiLayer.add(telaNave);
-    this.uiLayer.setDepth(1000);
+    this.uiLayer.setDepth(2000);
 
     //this.fuellevel.setDepth(2000);
 
@@ -367,7 +384,7 @@ class scene0 extends Phaser.Scene {
     this.uiTopLayer.add(this.button);
     this.uiTopLayer.add(this.joystick.base);
     this.uiTopLayer.add(this.joystick.thumb);
-    this.uiTopLayer.setDepth(2000);
+    this.uiTopLayer.setDepth(3000);
   } //CHAVE DO CREATE
 
   hitAsteroid(player, asteroidGroup) {

@@ -22,7 +22,6 @@ export default class SceneMenu extends Phaser.Scene {
     this.load.image("mapf1", "mapf1.png");
     this.load.image("star", "star.png");
     this.load.image("asteroideum", "asteroideum.png");
-    this.load.image("startf1", "startf1.png");
     this.load.image("et1", "enemigo1.png");
 
     this.load.spritesheet("estrelas", "estrelas_sprite_shit.png", {

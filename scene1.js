@@ -96,7 +96,8 @@ export default class scene1 extends Phaser.Scene {
 
     this.player = this.mira = this.physics.add.image(400, 225, "mira", 0); //SURGE NO MEIO DO MAPA
     this.mira.setScale(0.5);
-    this.mira.setSize(36, 36); // Reduz hitbox para metade (32x32 -> 16x16)
+    this.mira.setSize(36, 36);
+    this.mira.setDepth(2000);// Reduz hitbox para metade (32x32 -> 16x16)
     this.player.setCollideWorldBounds(true);
 
     this.time.addEvent({
@@ -201,6 +202,7 @@ export default class scene1 extends Phaser.Scene {
     this.arma = this.add
       .sprite(400, 450, "arma", 13)
       .setOrigin(0.5, 1)
+      .setDepth(2000)
       .setScale(1);
     this.arma.play("arma_intro");
     this.arma.on("animationcomplete-arma_intro", () => {
@@ -213,11 +215,12 @@ export default class scene1 extends Phaser.Scene {
     this.laserSound = this.sound.add("laser");
 
     this.fireButton = this.add
-      .sprite(780, 430, "butão", 0)
+      .sprite(640, 340, "butão", 0)
       .setOrigin(1, 1)
       .setScale(1.2)
       .setInteractive()
-      .setScrollFactor(0);
+      .setScrollFactor(0)
+      .setDepth(2000);
 
     this.fireButton.on("pointerdown", () => {
       this.fireButton.setFrame(1);
@@ -273,16 +276,18 @@ export default class scene1 extends Phaser.Scene {
     });
 
     this.joystick = this.plugins.get("rexvirtualjoystickplugin").add(this, {
-      x: 100,
-      y: 350,
+      x: 200,
+      y: 330,
       radius: 50,
-      base: this.add.circle(0, 0, 50, 0x888888),
-      thumb: this.add.circle(0, 0, 25, 0xcccccc),
+      base: this.add.circle(0, 0, 50, 0x888888).setDepth(2000),
+      thumb: this.add.circle(0, 0, 25, 0xcccccc).setDepth(2000),
     });
+    
 
     this.joystick.on("update", () => {
       const angle = Phaser.Math.DegToRad(this.joystick.angle);
       const force = this.joystick.force;
+
 
       if (force > this.threshold) {
         this.direction = new Phaser.Math.Vector2(
@@ -300,7 +305,11 @@ export default class scene1 extends Phaser.Scene {
         this.mira.setVelocity(0, 0);
       }
     });
-  }
+
+  
+  }// CHAVE DO CREATE
+
+
   spawnAlvo() {
     const maxAlvo = 5; // Limite de asteroides (maior quando for lancar o jogo)
 
@@ -313,6 +322,7 @@ export default class scene1 extends Phaser.Scene {
       alvo.setSize(48, 48);
       alvo.setCollideWorldBounds(true);
       alvo.play("alvo");
+      alvo.setDepth(1000)
       alvo.setVelocity(
         Phaser.Math.Between(-200, 200),
         Phaser.Math.Between(-200, 200),

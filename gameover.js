@@ -9,7 +9,7 @@ class gameover extends Phaser.Scene {
     this.load.font("news-gothic-bold", "news-gothic-bold.otf");
     this.load.font("stepalange", "stepalange.otf");
 
-    this.load.image("gameoverimg", "gameoverr.png");
+  
   }
 
   create() {
