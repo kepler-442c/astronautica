@@ -202,9 +202,9 @@ class scene0 extends Phaser.Scene {
     //0-15 vermelho, 16-25 amarelo, 26+ verde
 
     this.textLife = this.add
-      .text(600, 100, `Life: ${this.life}`, {//600, 50
+      .text(700, 100, `Life: ${this.life}`, {//600, 50
         fontFamily: "stepalange",
-        fontSize: "28px",
+        fontSize: "32px",
         fill: "#ffffff",
       })
       .setScrollFactor(0);
@@ -212,7 +212,7 @@ class scene0 extends Phaser.Scene {
     this.textFuel = this.add
       .text(16, 100, `Fuel: ${this.fuel}`, {//16, 50
         fontFamily: "stepalange",
-        fontSize: "28px",
+        fontSize: "32px",
         fill: "#ffffff",
       })
       .setScrollFactor(0);
@@ -295,7 +295,7 @@ class scene0 extends Phaser.Scene {
 
     this.joystick = this.plugins.get("rexvirtualjoystickplugin").add(this, {
       x: 100,
-      y: 350,
+      y: 290,
       radius: 50,
       base: this.add.circle(0, 0, 50, 0x888888),
       thumb: this.add.circle(0, 0, 25, 0xcccccc),
