@@ -33,7 +33,16 @@ class gameover extends Phaser.Scene {
         fontFamily: "stepalange",
         fontSize: "55px",
         fill: "#ae3cca",
-      })
+      });
+    
+    //codigo de rolamento de texto
+    /*this.tweens.add({
+      targets: this.textGame,
+      y: -100,
+      duration: 3000,
+      ease: "Power1",
+      loop: -1,
+    });*/
     
     this.time.delayedCall(1000, () => {
       this.textOver = this.add.text(430, 200, "Over", {
@@ -67,7 +76,7 @@ class gameover extends Phaser.Scene {
     });
   } //CHAVE DO CREATE
 
-  upload() {}
+  upload() { }
 }
 
 export default gameover;

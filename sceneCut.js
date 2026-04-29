@@ -18,6 +18,8 @@ class sceneCut extends Phaser.Scene {
     });
 
     this.load.font("news-gothic-bold", "news-gothic-bold.otf");
+
+    this.load.font("stepalange", "stepalange.otf");
   }
 
   create() {
@@ -103,21 +105,22 @@ class sceneCut extends Phaser.Scene {
       //this.explosion = this.add.sprite(400, 225, "explosion").play("explosion-anim")
       this.andromedanos = [];
       this.andromedano = this.add.sprite(400, 225, "andromedano").play("andromedano-idle");
-       this.andromedanos.push(this.andromedano);
+      this.andromedanos.push(this.andromedano);
       this.andromedano = this.add.sprite(140, 90, "andromedano").play("andromedano-idle");
-       this.andromedanos.push(this.andromedano);
+      this.andromedanos.push(this.andromedano);
       this.andromedano = this.add.sprite(600, 300, "andromedano").play("andromedano-idle");
-       this.andromedanos.push(this.andromedano);
+      this.andromedanos.push(this.andromedano);
       this.andromedano = this.add.sprite(660, 150, "andromedano").play("andromedano-idle");
-       this.andromedanos.push(this.andromedano);
+      this.andromedanos.push(this.andromedano);
       this.andromedano = this.add.sprite(200, 320, "andromedano").play("andromedano-idle");
-       this.andromedanos.push(this.andromedano);
+      this.andromedanos.push(this.andromedano);
     });
     this.time.delayedCall(19000, () => {
       this.tweens.add({
         targets: this.andromedanos,
         scale: 7,
         duration: 4000,
+        ease: "Power2",
         //yoyo: true,
         repeat: 0,
       });
@@ -169,9 +172,52 @@ class sceneCut extends Phaser.Scene {
       });
     });
 
+    //this.time.delayedCall(36000, () => {
+    //  this.scene.start("sceneMenu");
+    //});
+
     this.time.delayedCall(36000, () => {
-      this.scene.start("sceneMenu");
+      this.textCred = this.add
+        .text(600, 370, "Créditos", {
+          fontFamily: "stepalange",
+          fontSize: "36px",
+          fill: "#ffffff",
+        }).setInteractive().on('pointerdown', () => {
+        this.scene.start('sceneCred');
+      });
+        this.tweens.add({
+          targets: this.textCred,
+          y: 350,
+          duration: 1000,
+          yoyo: true,
+          ease: "Sine.easeIn", //ver outros ease depois
+          loop: -1,
+        });
     });
+
+    this.time.delayedCall(36000, () => {
+      this.textMenu = this.add.text(155, 370, "Menu", {
+        fontFamily: "stepalange",
+        fontSize: "36px",
+        fill: "#ffffff",
+      }).setInteractive().on('pointerdown', () => {
+        this.scene.start('sceneMenu');
+      });
+      this.tweens.add({
+        targets: this.textMenu,
+        y: 350,
+        duration: 1000,
+        yoyo: true,
+        ease: "Sine.easeIn", //ver outros ease depois
+        loop: -1,
+      });
+    
+    });
+
+    
+
+
+  
   } //CHAVE CREATE
 
   update() {}
