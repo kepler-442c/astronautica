@@ -10,8 +10,9 @@ class scene0 extends Phaser.Scene {
     this.nitro = false;
     this.invincible = false;
     this.tempo = 60; //tempo para passar de fase
+ 
   }
-  // ***arrumar problema de fim de scene0 fram source null,*** frames fuellevel, musica 2f, spawn em cima do player, PARAR COM AS EXPLOSOES NO SEGUNDO 25
+  // animacao estrela, frames fuellevel, musica 2f, spawn em cima do player,
   preload() {
     this.load.plugin(
       "rexvirtualjoystickplugin",
@@ -83,7 +84,6 @@ class scene0 extends Phaser.Scene {
   }
 
   create() {
-    
     this.add.image(0, 0, "mapf1").setOrigin(0);
     this.add.image(800, 0, "mapf1").setOrigin(0).setFlipX(true);
     this.add.image(0, 450, "mapf1").setOrigin(0).setFlipY(true);
@@ -95,18 +95,23 @@ class scene0 extends Phaser.Scene {
 
     this.player = this.star = this.physics.add
       .image(800, 450, "star", 0)
-      .setSize(32, 22); //SURGE NO MEIO DO MAPA
-    //this.star.setScale(2);
+      .setSize(48, 22); //SURGE NO MEIO DO MAPA
+    this.star.setScale(0.8);
     this.player.setCollideWorldBounds(true);
 
-    //this.music = this.sound.add("songf1");
-    this.music = this.sound.add("songf1", { loop: true }).play();
+    this.music = this.sound.add("songf1", { loop: true });
+    this.music.play();
+
+    this.events.once("shutdown", () => {
+      if (this.music && this.music.isPlaying) {
+        this.music.stop();
+      }
+    });
 
     this.cameras.main.startFollow(this.player);
 
     this.cameras.main.setBounds(0, 0, 800 * 2, 450 * 2);
     this.physics.world.setBounds(400, 225, 800, 450);
-
 
     this.anims.create({
       key: "bounds_anim",
@@ -118,6 +123,8 @@ class scene0 extends Phaser.Scene {
       repeat: -1,
     });
 
+  
+
     /*this.anims.create({
       key: "campoast_anim",
       frames: this.anims.generateFrameNumbers("campoast", {
@@ -128,7 +135,6 @@ class scene0 extends Phaser.Scene {
       repeat: -1,
     });*/
 
-
     const bounds_anim = this.add.sprite(800, 450, "bounds").play("bounds_anim");
     this.add.tween({
       targets: bounds_anim,
@@ -136,10 +142,9 @@ class scene0 extends Phaser.Scene {
       duration: 2000,
       ease: "Linear",
       yoyo: true,
-      repeat: -1, 
+      repeat: -1,
     });
 
-    
     //this.add.sprite(1250, 850, "campoast").play("campoast_anim");
 
     // this.add.image(400, 225, "telanave").setScrollFactor(0);
@@ -165,22 +170,21 @@ class scene0 extends Phaser.Scene {
       repeat: 0,
     });
 
-    this.anims.create({
-      key: "estrelasvindo_anim",
-      frames: this.anims.generateFrameNumbers("estrelasvindo", {
-        start: 0,
-        end: 11,
-      }),
-      frameRate: 10,
-      repeat: -1,
-    });
+   /*this.anims.create({
+     key: "estrelasvindo_anim",
+     frames: this.anims.generateFrameNumbers("estrelasvindo", {
+       start: 0,
+       end: 11,
+     }),
+     frameRate: 10,
+     repeat: -1,
+   });
 
+   this.estrelasvindo = this.add.sprite(400, 225, "estrelasvindo").play("estrelasvindo_anim")
+     .setAlpha(0.5)
+     .setScale(0.7)
+     .setScrollFactor(0);*/
 
-    this.estrelasvindo = this.add.sprite(400, 225, "estrelasvindo").play("estrelasvindo_anim")
-      .setAlpha(0.5)
-      .setScale(0.7)
-      .setScrollFactor(0);
-    
     /*this.anims.create({
       key: "asteroideum_anim",
       frames: this.anims.generateFrameNumbers("asteroideum", {
@@ -214,7 +218,8 @@ class scene0 extends Phaser.Scene {
     //0-15 vermelho, 16-25 amarelo, 26+ verde
 
     this.textLife = this.add
-      .text(670, 100, `Life: ${this.life}`, {//600, 50
+      .text(670, 100, `Life: ${this.life}`, {
+        //600, 50
         fontFamily: "stepalange",
         fontSize: "36px",
         fill: "#ffffff",
@@ -222,7 +227,8 @@ class scene0 extends Phaser.Scene {
       .setScrollFactor(0);
 
     this.textFuel = this.add
-      .text(16, 100, `Fuel: ${this.fuel}`, {//16, 50
+      .text(16, 100, `Fuel: ${this.fuel}`, {
+        //16, 50
         fontFamily: "stepalange",
         fontSize: "36px",
         fill: "#ffffff",
@@ -366,11 +372,7 @@ class scene0 extends Phaser.Scene {
       this,
     );
 
-
-    this.estrelaLayer = this.add.layer();
-    this.estrelaLayer.add(this.estrelasvindo);
-    this.estrelaLayer.setDepth(1000);
-
+    
     this.uiLayer = this.add.layer();
     const telaNave = this.add.image(400, 225, "telanave").setScrollFactor(0);
     this.uiLayer.add(telaNave);
@@ -405,10 +407,12 @@ class scene0 extends Phaser.Scene {
       this.invincible = false;
     });
 
-    
-
     //animação de explosão
-    this.exp = this.add.sprite(asteroidGroup.x, asteroidGroup.y, "asteroideumex");
+    this.exp = this.add.sprite(
+      asteroidGroup.x,
+      asteroidGroup.y,
+      "asteroideumex",
+    );
     this.sound.play("explosion");
     this.exp.play("asteroideumex_anim");
     asteroidGroup.destroy();
