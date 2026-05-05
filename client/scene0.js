@@ -11,7 +11,7 @@ class scene0 extends Phaser.Scene {
     this.invincible = false;
     this.tempo = 60; //tempo para passar de fase
   }
-  // animacao estrela, frames fuellevel, musica 2f, spawn em cima do player,
+  // animacao estrela!!!!!, scene2? coisas basicas
   preload() {
     this.load.plugin(
       "rexvirtualjoystickplugin",
@@ -83,14 +83,35 @@ class scene0 extends Phaser.Scene {
   }
 
   create() {
-    this.add.image(0, 0, "mapf1").setOrigin(0);
-    this.add.image(800, 0, "mapf1").setOrigin(0).setFlipX(true);
-    this.add.image(0, 450, "mapf1").setOrigin(0).setFlipY(true);
     this.add
-      .image(800, 450, "mapf1")
+      .image(0, 0, "mapf1")
+      .setOrigin(0)
+      .setOrigin(0, 0)
+      .setFlipX(true)
+      .setFlipY(true)
+      .setScrollFactor(.8); //parallax
+    this.add
+      .image(800, 0, "mapf1")
       .setOrigin(0)
       .setFlipX(true)
-      .setFlipY(true);
+      .setOrigin(0, 0)
+      .setFlipX(true)
+      .setFlipY(true)
+      .setScrollFactor(.8);
+    this.add
+      .image(0, 450, "mapf1")
+      .setOrigin(0)
+      .setFlipY(true)
+      .setOrigin(0, 0)
+      .setFlipX(true)
+      .setFlipY(true)
+      .setScrollFactor(.8);
+    this.add
+      .image(800, 450, "mapf1")
+      .setOrigin(0, 0)
+      .setFlipX(true)
+      .setFlipY(true)
+      .setScrollFactor(.8);
 
     this.player = this.star = this.physics.add
       .image(800, 450, "star", 0)
@@ -373,6 +394,7 @@ class scene0 extends Phaser.Scene {
       this.processAsteroidCollision,
       this,
     );
+    //this.physics.add.collider(this.asteroidGroup, this.asteroidGroup);
 
     this.combustivelGroup = this.physics.add.group();
     this.physics.add.collider(
@@ -397,6 +419,19 @@ class scene0 extends Phaser.Scene {
     this.uiTopLayer.add(this.joystick.base);
     this.uiTopLayer.add(this.joystick.thumb);
     this.uiTopLayer.setDepth(3000);
+
+    this.game.socket.on("scene0", (state) => {
+      if (state.player) {
+        this.player.x = state.player.x;
+        this.player.y = state.player.y;
+        this.fuel = state.player.fuel;
+        this.life = state.player.life;
+        this.nitro = state.player.nitro;
+        this.tempo = state.player.tempo; //?
+      }
+    });
+
+
   } //CHAVE DO CREATE
 
   despawnCombustivel() {
@@ -430,7 +465,7 @@ class scene0 extends Phaser.Scene {
       asteroidGroup.x,
       asteroidGroup.y,
       "asteroideumex",
-    );
+    ).setScale(asteroidGroup.scaleX, asteroidGroup.scaleY);
     this.sound.play("explosion");
     this.exp.play("asteroideumex_anim");
     asteroidGroup.destroy();
@@ -464,7 +499,27 @@ class scene0 extends Phaser.Scene {
   }
 
   update() {
-    //this.mapf1.tilePositionY -= 0.5;
+     if (
+       this.player.body.velocity.x === 0 &&
+       this.player.body.velocity.y === 0 &&
+       (this.player.body.blocked.down || this.player.body.blocked.up)
+     )
+       this.player.anims.play("standing-still", true);
+
+     try {
+       this.game.socket.emit("scene0", this.game.room, {
+        
+          x: this.player.x,
+          y: this.player.y,
+          fuel: this.fuel,
+          life: this.life,
+          nitro: this.nitro,
+          tempo: this.tempo, //ver se nao precisa mandar mais variaveis
+        });
+
+     } catch (e) {
+       console.error("Error updating player:", e);
+     }
   }
 
   spawnAsteroid() {
