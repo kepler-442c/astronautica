@@ -3,14 +3,13 @@ class scene0 extends Phaser.Scene {
     super("scene0");
 
     this.threshold = 0.1;
-    this.speed = 130;
+    this.speed = 150;
     this.direction = undefined;
     this.fuel = 20;
     this.life = 3;
     this.nitro = false;
     this.invincible = false;
     this.tempo = 60; //tempo para passar de fase
- 
   }
   // animacao estrela, frames fuellevel, musica 2f, spawn em cima do player,
   preload() {
@@ -123,8 +122,6 @@ class scene0 extends Phaser.Scene {
       repeat: -1,
     });
 
-  
-
     /*this.anims.create({
       key: "campoast_anim",
       frames: this.anims.generateFrameNumbers("campoast", {
@@ -170,7 +167,7 @@ class scene0 extends Phaser.Scene {
       repeat: 0,
     });
 
-   /*this.anims.create({
+    /*this.anims.create({
      key: "estrelasvindo_anim",
      frames: this.anims.generateFrameNumbers("estrelasvindo", {
        start: 0,
@@ -341,7 +338,7 @@ class scene0 extends Phaser.Scene {
     });
 
     this.time.addEvent({
-      delay: 3000,
+      delay: 2000,
       callback: this.spawnAsteroid,
       callbackScope: this,
       loop: true,
@@ -350,6 +347,20 @@ class scene0 extends Phaser.Scene {
     this.time.addEvent({
       delay: 1000,
       callback: this.spawnCombustivel,
+      callbackScope: this,
+      loop: true,
+    });
+
+    this.time.addEvent({
+      delay: 6000,
+      callback: this.despawnCombustivel,
+      callbackScope: this,
+      loop: true,
+    }); //DESPAWN BLOCO
+
+    this.time.addEvent({
+      delay: 6000,
+      callback: this.despawnAsteroid,
       callbackScope: this,
       loop: true,
     });
@@ -372,7 +383,6 @@ class scene0 extends Phaser.Scene {
       this,
     );
 
-    
     this.uiLayer = this.add.layer();
     const telaNave = this.add.image(400, 225, "telanave").setScrollFactor(0);
     this.uiLayer.add(telaNave);
@@ -388,6 +398,14 @@ class scene0 extends Phaser.Scene {
     this.uiTopLayer.add(this.joystick.thumb);
     this.uiTopLayer.setDepth(3000);
   } //CHAVE DO CREATE
+
+  despawnCombustivel() {
+    this.combustivelGroup.getFirstAlive()?.destroy(); // Destrói o primeiro combustível ativo, se existir
+  }
+  //a cada 5s quero apagar UM combustivel
+  despawnAsteroid() {
+    this.asteroidGroup.getFirstAlive()?.destroy(); // Destrói o primeiro asteroide ativo, se existir
+  }
 
   hitAsteroid(player, asteroidGroup) {
     this.life -= 1;
@@ -484,7 +502,7 @@ class scene0 extends Phaser.Scene {
 
   spawnCombustivel() {
     //REFINAR!!!!! NAO SPAWNAR UM EM CIMA DO OUTRO E NEM ONDE ESTA O PLAYER
-    const maxCombustivel = 3;
+    const maxCombustivel = 4;
 
     if (this.combustivelGroup.getLength() < maxCombustivel) {
       var x = Phaser.Math.Between(400, 1200);
@@ -507,8 +525,8 @@ class scene0 extends Phaser.Scene {
 
       this.tweens.add({
         targets: combustivel,
-        scale: 0.7,
-        duration: 2000,
+        scale: 0.8,
+        duration: 6000,
         ease: "Linear",
       });
     }
