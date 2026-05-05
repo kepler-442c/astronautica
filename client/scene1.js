@@ -79,7 +79,7 @@ export default class scene1 extends Phaser.Scene {
     this.anims.create({
       key: "alvo",
       frames: this.anims.generateFrameNumbers("Alvo1", {
-        frames: [2, 3, 7, 8, 9, 10, 11],
+        frames: [4, 5, 9, 10, 11, 12, 13],
       }),
       frameRate: 5,
       repeat: -1,
@@ -88,7 +88,7 @@ export default class scene1 extends Phaser.Scene {
     this.anims.create({
       key: "alvo_destroy",
       frames: this.anims.generateFrameNumbers("Alvo1", {
-        frames: [4, 5, 6],
+        frames: [6, 7, 8],
       }),
       frameRate: 10,
       repeat: 0,
