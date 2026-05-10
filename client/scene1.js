@@ -41,6 +41,8 @@ export default class scene1 extends Phaser.Scene {
       frameHeight: 200, //grande para ver animação,
     });
 
+    this.load.audio("musica", "atirador_f1.mp3");
+    
     this.load.audio("laser", "lazer.mp3");
 
     this.load.spritesheet("acerto", "projeto_acerto.png", {
@@ -59,22 +61,11 @@ export default class scene1 extends Phaser.Scene {
     });
   }
   create() {
-    this.physics.pause(); // Pausa a física para congelar a cena
 
-    this.input.once("pointerdown", () => {
-      this.physics.resume();
-    });
+    this.music = this.sound.add("musica", { loop: true });
+    this.music.play();
+
     this.add.image(0, 0, "mapf1").setOrigin(0);
-
-    this.anims.create({
-      key: "estrelas_anim",
-      frames: this.anims.generateFrameNumbers("estrelas", {
-        start: 0,
-        end: 14,
-      }),
-      frameRate: 40,
-      repeat: -1,
-    });
 
     this.anims.create({
       key: "alvo",
@@ -171,12 +162,6 @@ export default class scene1 extends Phaser.Scene {
       frameRate: 10,
       repeat: 0,
     });
-
-    this.estrelas = this.add
-      .sprite(0, 0, "estrelas", 0)
-      .setOrigin(0)
-      .setAlpha(0.5);
-    this.estrelas.play("estrelas_anim");
 
     this.hitFeedback = this.add
       .sprite(400, 225, "acerto", 0)
