@@ -26,8 +26,8 @@ class sceneCut extends Phaser.Scene {
     this.anims.create({
       key: "andromedano-idle",
       frames: this.anims.generateFrameNumbers("andromedano", {
-        start: 7,
-        end: 11,
+        start: 9,
+        end: 13,
       }),
       frameRate: 5,
       repeat: -1,
