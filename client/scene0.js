@@ -408,7 +408,7 @@ class scene0 extends Phaser.Scene {
     this.uiLayer = this.add.layer();
     const telaNave = this.add.image(400, 225, "telanave").setScrollFactor(0);
     this.uiLayer.add(telaNave);
-    this.uiLayer.setDepth(2000);
+    this.uiLayer.setDepth(3000);
 
     //this.fuellevel.setDepth(2000);
 
@@ -418,16 +418,12 @@ class scene0 extends Phaser.Scene {
     this.uiTopLayer.add(this.button);
     this.uiTopLayer.add(this.joystick.base);
     this.uiTopLayer.add(this.joystick.thumb);
-    this.uiTopLayer.setDepth(3000);
+    this.uiTopLayer.setDepth(4000);
 
     this.game.socket.on("scene0", (state) => {
       if (state.player) {
-        this.player.x = state.player.x;
-        this.player.y = state.player.y;
         this.fuel = state.player.fuel;
         this.life = state.player.life;
-        this.nitro = state.player.nitro;
-        this.tempo = state.player.tempo; //?
       }
     });
 
@@ -502,9 +498,9 @@ class scene0 extends Phaser.Scene {
      if (
        this.player.body.velocity.x === 0 &&
        this.player.body.velocity.y === 0 &&
-       (this.player.body.blocked.down || this.player.body.blocked.up)
+        !this.joystick.force
      )
-       this.player.anims.play("standing-still", true);
+      
 
      try {
        this.game.socket.emit("scene0", this.game.room, {
@@ -513,8 +509,7 @@ class scene0 extends Phaser.Scene {
           y: this.player.y,
           fuel: this.fuel,
           life: this.life,
-          nitro: this.nitro,
-          tempo: this.tempo, //ver se nao precisa mandar mais variaveis
+ //ver se nao precisa mandar mais variaveis
         });
 
      } catch (e) {
@@ -542,6 +537,7 @@ class scene0 extends Phaser.Scene {
       asteroid.setBounce(1);
       asteroid.setSize(30, 30);
       asteroid.setCollideWorldBounds(true);
+      asteroid.setDepth(2000);
       asteroid.setVelocity(
         Phaser.Math.Between(-200, 200),
         Phaser.Math.Between(-200, 200),
@@ -565,7 +561,9 @@ class scene0 extends Phaser.Scene {
 
       while (
         Math.abs(x - this.player.x) < 100 ||
-        Math.abs(y - this.player.y) < 100
+        Math.abs(y - this.player.y) < 100 ||
+        Math.abs(x - this.combustivelGroup.x) < 100 ||
+        Math.abs(y - this.combustivelGroup.y) < 100
       ) {
         // Garante que o combustível não será criado muito próximo do player
         x = Phaser.Math.Between(400, 1200);
@@ -577,6 +575,8 @@ class scene0 extends Phaser.Scene {
       this.anims.play("combustivel_anim", combustivel);
       combustivel.setSize(50, 50);
       combustivel.setScale(0.3);
+      combustivel.setDepth(1000);
+
 
       this.tweens.add({
         targets: combustivel,
