@@ -2,7 +2,10 @@ var config = {
   type: Phaser.AUTO,
   width: 800,
   height: 450,
-  fps: 10,
+  fps: {
+    target: 20,
+    forceSetTimeOut: true,
+  },
   input: {
     activePointers: 3, // Permite até 3 toques simultâneos
   },

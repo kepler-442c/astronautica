@@ -10,6 +10,7 @@ class scene0 extends Phaser.Scene {
     this.nitro = false;
     this.invincible = false;
     this.tempo = 60; //tempo para passar de fase
+    //this.life2 
   }
   // animacao estrela!!!!!, scene2? coisas basicas
   preload() {
@@ -276,6 +277,18 @@ class scene0 extends Phaser.Scene {
       }
     }, 1000);
 
+    if (this.life2 <= 0) {
+      this.scene.stop();
+      clearInterval(this.intervalFuel);
+      clearInterval(this.intervalNitro);
+      clearInterval(this.intervalTime);
+      this.fuel = 20;
+      this.life = 3;
+      this.tempo = 60;
+      this.invincible = false;
+      this.scene.start("gameover");
+    }
+
     this.intervalNitro = setInterval(() => {
       if (this.nitro === true) {
         this.fuel -= 3;
@@ -305,6 +318,7 @@ class scene0 extends Phaser.Scene {
         this.scene.start("scene2");
       }
     }, 1000);
+
 
     this.button = this.add
       .sprite(600, 250, "buttonnitro", 0)
@@ -420,13 +434,22 @@ class scene0 extends Phaser.Scene {
     this.uiTopLayer.add(this.joystick.thumb);
     this.uiTopLayer.setDepth(4000);
 
-    this.game.socket.on("scene0", (state) => {
-      if (state.player) {
-        this.fuel = state.player.fuel;
-        this.life = state.player.life;
-      }
-    });
+    
+    this.game.socket.on("scene1", (state) => {
 
+      this.life2 = state.player.life2;
+      
+      
+      
+    });
+    this.textLife2 = this.add
+      .text(670, 150, `Life2: ${this.life2}`, {
+        fontFamily: "stepalange",
+        fontSize: "36px",
+        fill: "#ffffff",
+      })
+      .setScrollFactor(0)
+      .setDepth(3000);
 
   } //CHAVE DO CREATE
 
@@ -495,26 +518,19 @@ class scene0 extends Phaser.Scene {
   }
 
   update() {
-     if (
-       this.player.body.velocity.x === 0 &&
-       this.player.body.velocity.y === 0 &&
-        !this.joystick.force
-     )
-      
+         try {
+           this.game.socket.emit("scene0", this.game.room, {
+             player: {
+               id: this.game.socket.id,
+               life: this.life,
+               fuel: this.fuel,
+               invincible: this.invincible,
 
-     try {
-       this.game.socket.emit("scene0", this.game.room, {
-        
-          x: this.player.x,
-          y: this.player.y,
-          fuel: this.fuel,
-          life: this.life,
- //ver se nao precisa mandar mais variaveis
-        });
-
-     } catch (e) {
-       console.error("Error updating player:", e);
-     }
+             },
+           });
+         } catch (e) {
+           console.error("Error updating player:", e);
+         }
   }
 
   spawnAsteroid() {

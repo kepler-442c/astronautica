@@ -6,7 +6,7 @@ export default class scene1 extends Phaser.Scene {
     this.speed = 300;
     this.direction = undefined;
     this.fuel = 20;
-    this.life = 3;
+    this.life2 = 3;
     this.nitro = false;
     this.tempo = 60; //tempo para passar de fase
   }
@@ -163,6 +163,16 @@ export default class scene1 extends Phaser.Scene {
       repeat: 0,
     });
 
+    this.textLife = this.add
+      .text(670, 100, `Life: ${this.life2}`, {
+        //600, 50
+        fontFamily: "stepalange",
+        fontSize: "36px",
+        fill: "#ffffff",
+      })
+      .setScrollFactor(0)
+      .setDepth(2000);
+
     this.hitFeedback = this.add
       .sprite(400, 225, "acerto", 0)
       .setOrigin(0.5)
@@ -206,17 +216,31 @@ export default class scene1 extends Phaser.Scene {
       .setInteractive()
       .setScrollFactor(0)
       .setDepth(2000);
+      
+      this.fireButton.on("pointerdown", () => {
+        this.fireButton.setFrame(1);
+        this.laserSound.play();
+        this.life2 -= 1; //TIRAR DEPOIS
+        this.textLife.setText(`Life: ${this.life2}`);
+        
+            if (this.life2 <= 0) {
+              this.scene.stop();
+              this.life2 = 3;
+              this.scene.start("gameover");
+            }
+        
+        const miraBounds = new Phaser.Geom.Rectangle(
+          this.mira.x - 8,
+          this.mira.y - 8,
+          16,
+          16,
+        );
 
-    this.fireButton.on("pointerdown", () => {
-      this.fireButton.setFrame(1);
-      this.laserSound.play();
-
-      const miraBounds = new Phaser.Geom.Rectangle(
-        this.mira.x - 8,
-        this.mira.y - 8,
-        16,
-        16,
-      );
+        if (this.life2 <= 0) {
+          this.scene.stop();
+          this.life2 = 3;
+          this.scene.start("gameover");
+        }
 
       const hitAlvo = this.alvoGroup.getChildren().find((alvo) => {
         const scale = alvo.scale;
@@ -291,10 +315,21 @@ export default class scene1 extends Phaser.Scene {
       }
     });
 
+
+    this.game.socket.on("scene0", (state) => {
+      this.life = state.player.life;
+    });
   
   }// CHAVE DO CREATE
 
-
+  update() {
+    this.game.socket.emit("scene1", this.game.room, {
+      player: {
+        id: this.game.socket.id,
+        life2: this.life2,
+      },
+    });
+  }
   spawnAlvo() {
     const maxAlvo = 5; // Limite de asteroides (maior quando for lancar o jogo)
 
