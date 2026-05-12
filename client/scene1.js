@@ -27,6 +27,8 @@ export default class scene1 extends Phaser.Scene {
 
     this.load.image("telanave", "telanave_atirador.png");
 
+    this.load.font("stepalange", "stepalange.otf");
+
     this.load.spritesheet("butão", "button.png", {
       frameWidth: 32,
       frameHeight: 32,

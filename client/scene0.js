@@ -188,6 +188,7 @@ class scene0 extends Phaser.Scene {
       frameRate: 5,
       repeat: 0,
     });
+    
 
     /*this.anims.create({
      key: "estrelasvindo_anim",
@@ -580,7 +581,7 @@ class scene0 extends Phaser.Scene {
 
   spawnCombustivel() {
     //REFINAR!!!!! NAO SPAWNAR UM EM CIMA DO OUTRO E NEM ONDE ESTA O PLAYER
-    const maxCombustivel = 4;
+    const maxCombustivel = 3;
 
     if (this.combustivelGroup.getLength() < maxCombustivel) {
       var x = Phaser.Math.Between(400, 1200);
