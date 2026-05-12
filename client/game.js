@@ -15,7 +15,7 @@ class Game extends Phaser.Game {
     this.scene.add("scene1", scene1);
     this.scene.start("sceneMenu");
     this.scene.add("sceneCut", sceneCut);
-    this.scene.add("game-over", gameover);
+    this.scene.add("gameover", gameover);
     this.scene.add("sceneCred", sceneCred);
 
      if (location.hostname.match(/localhost|127\.0\.0\.1/)) {

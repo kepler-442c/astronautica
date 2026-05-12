@@ -435,22 +435,33 @@ class scene0 extends Phaser.Scene {
     this.uiTopLayer.setDepth(4000);
 
     
+    
+    this.textLife2 = this.add
+    .text(670, 150, `Life2: ${this.life2}`, {
+      fontFamily: "stepalange",
+      fontSize: "36px",
+      fill: "#ffffff",
+    })
+    .setScrollFactor(0)
+    .setDepth(3000);
+    
     this.game.socket.on("scene1", (state) => {
 
       this.life2 = state.player.life2;
-      
-      
+      this.textLife2.setText(`Life2: ${this.life2}`);
+
+      this.morreu = state.player.morreu;
+      if (this.morreu) {
+        this.scene.stop();
+        clearInterval(this.intervalFuel);
+        clearInterval(this.intervalNitro);
+        clearInterval(this.intervalTime);
+        this.life2 = 3;
+        this.scene.start("gameover");
+        
+      } 
       
     });
-    this.textLife2 = this.add
-      .text(670, 150, `Life2: ${this.life2}`, {
-        fontFamily: "stepalange",
-        fontSize: "36px",
-        fill: "#ffffff",
-      })
-      .setScrollFactor(0)
-      .setDepth(3000);
-
   } //CHAVE DO CREATE
 
   despawnCombustivel() {

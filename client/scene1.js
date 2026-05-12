@@ -9,6 +9,7 @@ export default class scene1 extends Phaser.Scene {
     this.life2 = 3;
     this.nitro = false;
     this.tempo = 60; //tempo para passar de fase
+    this.morreu = false;
   }
   //telanave, musica 2f, som de coleta de combustivel, camada texto, nitro
   preload() {
@@ -317,6 +318,8 @@ export default class scene1 extends Phaser.Scene {
     this.game.socket.on("scene0", (state) => {
       this.life = state.player.life;
     });
+
+    
   } // CHAVE DO CREATE
 
   update() {
@@ -324,6 +327,7 @@ export default class scene1 extends Phaser.Scene {
       player: {
         id: this.game.socket.id,
         life2: this.life2,
+        morreu: this.morreu,
       },
     });
   }
@@ -358,10 +362,12 @@ export default class scene1 extends Phaser.Scene {
               if (alvo.active && alvo.anims.currentAnim?.key === "alvo_dano") {
                 this.life2 -= 1;
                 this.textLife.setText(`Life: ${this.life2}`);
-                if (this.life2 <= 0) {
+                if (this.life2 === 0) {
                   this.scene.stop();
                   this.life2 = 3;
+                  this.morreu = true;
                   this.scene.start("gameover");
+                  
                 }
               }
             },
