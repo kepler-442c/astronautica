@@ -10,7 +10,7 @@ class scene0 extends Phaser.Scene {
     this.nitro = false;
     this.invincible = false;
     this.tempo = 60; //tempo para passar de fase
-    //this.life2 
+    this.morreu = false;
   }
   // animacao estrela!!!!!, scene2? coisas basicas
   preload() {
@@ -238,7 +238,7 @@ class scene0 extends Phaser.Scene {
     //0-15 vermelho, 16-25 amarelo, 26+ verde
 
     this.textLife = this.add
-      .text(670, 100, `Life: ${this.life}`, {
+      .text(680, 100, `Life: ${this.life}`, {
         //600, 50
         fontFamily: "stepalange",
         fontSize: "36px",
@@ -274,21 +274,12 @@ class scene0 extends Phaser.Scene {
         this.life = 3;
         this.tempo = 60;
         this.invincible = false;
+        this.morreu = true;
         this.scene.start("gameover");
       }
     }, 1000);
 
-    if (this.life2 <= 0) {
-      this.scene.stop();
-      clearInterval(this.intervalFuel);
-      clearInterval(this.intervalNitro);
-      clearInterval(this.intervalTime);
-      this.fuel = 20;
-      this.life = 3;
-      this.tempo = 60;
-      this.invincible = false;
-      this.scene.start("gameover");
-    }
+    
 
     this.intervalNitro = setInterval(() => {
       if (this.nitro === true) {
@@ -305,6 +296,7 @@ class scene0 extends Phaser.Scene {
         this.life = 3;
         this.tempo = 60;
         this.invincible = false;
+        this.morreu = true;
         this.scene.start("gameover");
       }
     }, 500);
@@ -437,8 +429,8 @@ class scene0 extends Phaser.Scene {
 
     
     
-    this.textLife2 = this.add
-    .text(670, 150, `Life2: ${this.life2}`, {
+    this.textShooterLife = this.add
+    .text(570, 50, `Shooter Life: ${this.life2}`, {
       fontFamily: "stepalange",
       fontSize: "36px",
       fill: "#ffffff",
@@ -449,15 +441,14 @@ class scene0 extends Phaser.Scene {
     this.game.socket.on("scene1", (state) => {
 
       this.life2 = state.player.life2;
-      this.textLife2.setText(`Life2: ${this.life2}`);
+      this.textShooterLife.setText(`Shooter Life: ${this.life2}`);
 
-      this.morreu = state.player.morreu;
-      if (this.morreu) {
+      this.morreu2 = state.player.morreu2;
+      if (this.morreu2) {
         this.scene.stop();
         clearInterval(this.intervalFuel);
         clearInterval(this.intervalNitro);
         clearInterval(this.intervalTime);
-        this.life2 = 3;
         this.scene.start("gameover");
         
       } 
@@ -514,6 +505,7 @@ class scene0 extends Phaser.Scene {
       this.fuel = 20;
       this.tempo = 60;
       this.invincible = false;
+      this.morreu = true;
       this.scene.start("gameover");
     }
   }
@@ -535,9 +527,7 @@ class scene0 extends Phaser.Scene {
              player: {
                id: this.game.socket.id,
                life: this.life,
-               fuel: this.fuel,
-               invincible: this.invincible,
-
+               morreu: this.morreu,
              },
            });
          } catch (e) {

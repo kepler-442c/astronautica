@@ -9,7 +9,7 @@ export default class scene1 extends Phaser.Scene {
     this.life2 = 3;
     this.nitro = false;
     this.tempo = 60; //tempo para passar de fase
-    this.morreu = false;
+    this.morreu2 = false;
   }
   //telanave, musica 2f, som de coleta de combustivel, camada texto, nitro
   preload() {
@@ -321,6 +321,29 @@ export default class scene1 extends Phaser.Scene {
       this.life = state.player.life;
     });
 
+    this.textPilotLife = this.add
+      .text(600, 50, `Pilot Life: ${this.life}`, {
+        //600, 50
+        fontFamily: "stepalange",
+        fontSize: "36px",
+        fill: "#ffffff",
+      })
+      .setScrollFactor(0)
+      .setDepth(2000);
+
+    this.game.socket.on("scene0", (state) => {
+
+      this.life = state.player.life;
+      this.textPilotLife.setText(`Pilot Life: ${this.life}`);
+
+      this.morreu = state.player.morreu;
+      if (this.morreu) {
+        this.scene.stop();
+        this.scene.start("gameover");
+        
+      }
+    });
+      
     
   } // CHAVE DO CREATE
 
@@ -329,7 +352,7 @@ export default class scene1 extends Phaser.Scene {
       player: {
         id: this.game.socket.id,
         life2: this.life2,
-        morreu: this.morreu,
+        morreu2: this.morreu2,
       },
     });
   }
@@ -359,7 +382,7 @@ export default class scene1 extends Phaser.Scene {
         onComplete: () => {
           alvo.play("alvo_dano");
           alvo.damageTimer = this.time.addEvent({
-            delay: 2000,
+            delay: 20000,
             callback: () => {
               if (alvo.active && alvo.anims.currentAnim?.key === "alvo_dano") {
                 this.life2 -= 1;
@@ -367,7 +390,7 @@ export default class scene1 extends Phaser.Scene {
                 if (this.life2 === 0) {
                   this.scene.stop();
                   this.life2 = 3;
-                  this.morreu = true;
+                  this.morreu2 = true;
                   this.scene.start("gameover");
                   
                 }
