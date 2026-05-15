@@ -11,8 +11,8 @@ export default class scene1 extends Phaser.Scene {
     this.tempo = 60; //tempo para passar de fase
     this.morreu2 = false;
   }
-  //telanave, musica 2f, som de coleta de combustivel, camada texto, nitro
-  preload() {
+  //telanave2, musica 2f, som de coleta de combustivel, camada texto, nitro
+  /*preload() {
     this.load.plugin(
       "rexvirtualjoystickplugin",
       "../rexvirtualjoystickplugin.min.js",
@@ -25,7 +25,7 @@ export default class scene1 extends Phaser.Scene {
 
     this.load.image("mira", "mira.png");
 
-    this.load.image("telanave", "telanave_atirador.png");
+    this.load.image("telanave2", "telanave2_atirador.png");
 
     this.load.font("stepalange", "stepalange.otf");
 
@@ -62,7 +62,7 @@ export default class scene1 extends Phaser.Scene {
       frameWidth: 800,
       frameHeight: 450,
     });
-  }
+  }*/
   create() {
     this.music = this.sound.add("musica", { loop: true });
     this.music.play();
@@ -223,7 +223,7 @@ export default class scene1 extends Phaser.Scene {
     this.fireButton = this.add
       .sprite(640, 340, "butão", 0)
       .setOrigin(1, 1)
-      .setScale(1.2)
+      .setScale(3)
       .setInteractive()
       .setScrollFactor(0)
       .setDepth(2000);
@@ -314,12 +314,12 @@ export default class scene1 extends Phaser.Scene {
     });
 
     this.uiLayer = this.add.layer();
-    const telaNave = this.add.image(400, 225, "telanave").setScrollFactor(0);
-    this.uiLayer.add(telaNave);
+    const telanave2 = this.add.image(400, 225, "telanave2").setScrollFactor(0);
+    this.uiLayer.add(telanave2);
     this.uiLayer.setDepth(1500);
-    this.game.socket.on("scene0", (state) => {
-      this.life = state.player.life;
-    });
+    
+    
+    
 
     this.textPilotLife = this.add
       .text(600, 50, `Pilot Life: ${this.life}`, {
@@ -391,6 +391,7 @@ export default class scene1 extends Phaser.Scene {
                   this.scene.stop();
                   this.life2 = 3;
                   this.morreu2 = true;
+                  this.scene.stop();
                   this.scene.start("gameover");
                   
                 }

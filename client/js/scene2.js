@@ -12,9 +12,10 @@ class scene2 extends Phaser.Scene {
     this.tempo = 60; //tempo para passar de fase
     this.morreu = false;
   } //ARRUMAR CAMADAS E LOCALIZAÇÃO DO SPAWN DO COMBUSTIVEL, CAMERA SEGUIR,
-  //SEPARAR ANIMACAO ACID E ACIDEXP? MELHORAR ESCALAS
-
-  preload() {
+  //SEPARAR ANIMACAO ACID E ACIDEXP? MELHORAR ESCALAS, encontrar songf2
+  //npm install - npm run dev
+  
+ /* preload() {
     this.load.plugin(
       "rexvirtualjoystickplugin",
       "../rexvirtualjoystickplugin.min.js",
@@ -52,7 +53,7 @@ class scene2 extends Phaser.Scene {
     this.load.audio("explosion", "explosion.mp3");
 
     this.load.audio("collect", "collect.mp3");
-  }
+  }*/
 
   create() {
     this.anims.create({
@@ -85,7 +86,14 @@ class scene2 extends Phaser.Scene {
       repeat: -1,
     });
 
-    
+    /*this.music = this.sound.add("songf2", { loop: true });
+    this.music.play();
+
+    this.events.once("shutdown", () => {
+      if (this.music && this.music.isPlaying) {
+        this.music.stop();
+      }
+    });*/
 
     this.add
       .sprite(400, 225, "mapf2")

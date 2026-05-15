@@ -3,7 +3,7 @@ export default class SceneMenu extends Phaser.Scene {
     super("sceneMenu");
   }
 
-  preload() {
+ /* preload() {
     this.load.plugin(
       "rexvirtualjoystickplugin",
       "../rexvirtualjoystickplugin.min.js",
@@ -46,7 +46,7 @@ export default class SceneMenu extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 32,
     });
-  }
+  }*/
 
   // //Ende Game
   // this.load.image("botao_Voltar", "assets/voltar.png");
@@ -80,7 +80,7 @@ export default class SceneMenu extends Phaser.Scene {
     btnPlay.setInteractive();
 
     //Adicionar o clique do botao
-    btnPlay.on("pointerdown", () => this.scene.start("scene2")); //nao esqucer de mudar para scene0 depois
+    btnPlay.on("pointerdown", () => this.scene.start("scene0")); //nao esqucer de mudar para scene0 depois
 
     let btnAtirador = this.add.image(300, 280, "atirador").setOrigin(0, 0);
     btnAtirador.setScale(3); // diminui para 50% do tamanho original

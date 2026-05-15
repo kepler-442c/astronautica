@@ -12,8 +12,9 @@ class scene0 extends Phaser.Scene {
     this.tempo = 60; //tempo para passar de fase
     this.morreu = false;
   }
+  //localhost:8080/?room=1234
   // animacao estrela!!!!!, scene2? coisas basicas
-  preload() {
+  /*preload() {
     this.load.plugin(
       "rexvirtualjoystickplugin",
       "../rexvirtualjoystickplugin.min.js",
@@ -48,7 +49,7 @@ class scene0 extends Phaser.Scene {
     /*this.load.spritesheet("asteroideum", "asteroideum.png", {
       frameWidth: 48,
       frameHeight: 48,
-    });*/
+    });
     this.load.image("asteroideum", "asteroideum.png");
 
     this.load.audio("songf1", "songf1.mp3");
@@ -70,7 +71,7 @@ class scene0 extends Phaser.Scene {
     /*this.load.spritesheet("uispritesheet", "uispritesheet.png", {
       frameWidth: 800,
       frameHeight: 450,
-    });*/
+    });
 
     this.load.spritesheet("buttonnitro", "buttonnitro.png", {
       frameWidth: 64,
@@ -81,7 +82,7 @@ class scene0 extends Phaser.Scene {
       frameWidth: 96,
       frameHeight: 96,
     });
-  }
+  }*/
 
   create() {
     this.add
@@ -275,6 +276,7 @@ class scene0 extends Phaser.Scene {
         this.tempo = 60;
         this.invincible = false;
         this.morreu = true;
+        this.scene.stop();
         this.scene.start("gameover");
       }
     }, 1000);
@@ -297,6 +299,7 @@ class scene0 extends Phaser.Scene {
         this.tempo = 60;
         this.invincible = false;
         this.morreu = true;
+        this.scene.stop();
         this.scene.start("gameover");
       }
     }, 500);
@@ -449,6 +452,7 @@ class scene0 extends Phaser.Scene {
         clearInterval(this.intervalFuel);
         clearInterval(this.intervalNitro);
         clearInterval(this.intervalTime);
+        this.scene.stop();
         this.scene.start("gameover");
         
       } 
@@ -506,6 +510,7 @@ class scene0 extends Phaser.Scene {
       this.tempo = 60;
       this.invincible = false;
       this.morreu = true;
+      this.scene.stop();
       this.scene.start("gameover");
     }
   }

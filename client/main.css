@@ -1,9 +1,23 @@
+html,
+
 body {
   margin: 0;
+  padding: 0;
+  top: 0;
+  background-color: rgb(15, 1, 24);
+  width: 100%;
+  height: 100%;
 }
 
-html {
-      margin : 0;
-      padding : 0;
-      background-color: rgb(15, 1, 24);
-    }
+.under {
+  position: fixed;
+  inset: 0;
+}
+
+.over {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
