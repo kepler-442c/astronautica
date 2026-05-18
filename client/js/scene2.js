@@ -14,8 +14,8 @@ class scene2 extends Phaser.Scene {
   } //ARRUMAR CAMADAS E LOCALIZAÇÃO DO SPAWN DO COMBUSTIVEL, CAMERA SEGUIR,
   //SEPARAR ANIMACAO ACID E ACIDEXP? MELHORAR ESCALAS, encontrar songf2
   //npm install - npm run dev
-  
- /* preload() {
+
+  /* preload() {
     this.load.plugin(
       "rexvirtualjoystickplugin",
       "../rexvirtualjoystickplugin.min.js",
@@ -84,6 +84,26 @@ class scene2 extends Phaser.Scene {
       }),
       frameRate: 5,
       repeat: -1,
+    });
+
+    this.acid = this.anims.create({
+      key: "acid_anim",
+      frames: this.anims.generateFrameNumbers("acid", {
+        start: 0,
+        end: 9,
+      }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
+    this.acidex = this.anims.create({
+      key: "acidex_anim",
+      frames: this.anims.generateFrameNumbers("acidex", {
+        start: 0,
+        end: 6,
+      }),
+      frameRate: 7,
+      repeat: 0,
     });
 
     /*this.music = this.sound.add("songf2", { loop: true });
@@ -270,12 +290,10 @@ class scene2 extends Phaser.Scene {
   }
 
   hitAcid(player, acidGroup) {
-    this.sound.play("explosion");
-    (acidGroup.destroy(true, true),
-      (this.life -= 1),
-      this.textLife.setText(`Life: ${this.life}`),
-      (this.invincible = true));
+    this.life -= 1;
+    this.textLife.setText(`Life: ${this.life}`);
 
+    //animacao de hit
     this.add.tween({
       targets: this.player,
       alpha: 0,
@@ -284,18 +302,30 @@ class scene2 extends Phaser.Scene {
       repeat: 5,
     });
 
+    this.invincible = true;
     this.time.delayedCall(1000, () => {
       this.invincible = false;
-      this.player.clearTint();
     });
 
-    if (this.life <= 0) {
+    //animação de explosão
+    this.exp = this.add
+      .sprite(acidGroup.x, acidGroup.y, "acidex")
+      .setScale(acidGroup.scaleX, acidGroup.scaleY);
+    this.sound.play("explosion");
+    this.exp.play("acidex_anim");
+    acidGroup.destroy();
+
+    this.exp.on("animationcomplete", () => {
+      this.exp.destroy();
+    });
+
+    if (this.life === 0) {
       this.scene.stop();
       clearInterval(this.intervalFuel);
       clearInterval(this.intervalNitro);
       clearInterval(this.intervalTime);
-      this.fuel = 20;
       this.life = 3;
+      this.fuel = 20;
       this.tempo = 60;
       this.invincible = false;
       this.morreu = true;
@@ -303,7 +333,7 @@ class scene2 extends Phaser.Scene {
     }
   }
 
-  processAsteroidCollision(player, asteroid) {
+  processAcidCollision(player, acid) {
     return !this.invincible;
   }
 
@@ -342,43 +372,41 @@ class scene2 extends Phaser.Scene {
         ease: "Linear",
       });
     }
-    
   }
 
   spawnAcid() {
-    //REFINAR!!!!! NAO SPAWNAR UM EM CIMA DO OUTRO E NEM ONDE ESTA O PLAYER
-    const maxAcid = 3;
+    const maxAcids = 10;
 
-    if (this.acidGroup.getLength() < maxAcid) {
-      var x = Phaser.Math.Between(0, 800);
-      var y = Phaser.Math.Between(0, 450);
+    if (this.acidGroup.getLength() < maxAcids) {
+      var x = Phaser.Math.Between(400, 1200);
+      var y = Phaser.Math.Between(225, 675);
 
       while (
         Math.abs(x - this.player.x) < 100 ||
-        Math.abs(y - this.player.y) < 100 ||
-        Math.abs(x - this.acidGroup.x) < 100 ||
-        Math.abs(y - this.acidGroup.y) < 100
+        Math.abs(y - this.player.y) < 100
       ) {
-        // Garante que o combustível não será criado muito próximo do player
-        x = Phaser.Math.Between(0, 800);
-        y = Phaser.Math.Between(0, 450);
+        // Garante que o acide não será criado muito próximo do player
+        x = Phaser.Math.Between(400, 1200);
+        y = Phaser.Math.Between(225, 675);
       }
 
       const acid = this.acidGroup.create(x, y, "acid");
-      acid.setCollideWorldBounds(true);
+      acid.setBounce(1);
+      acid.setSize(30, 30);
+      acid.setScale(0.5);
       this.anims.play("acid_anim", acid);
-      acid.setSize(16, 16);
-      acid.setScale(3);
-      acid.setDepth(1000);
-
+      acid.setCollideWorldBounds(true);
+      acid.setDepth(2000);
+      acid.setVelocity(
+        Phaser.Math.Between(-200, 200),
+        Phaser.Math.Between(-200, 200),
+      );
       this.tweens.add({
         targets: acid,
-        scale: 6,
-        duration: 6000,
+        scale: 1,
+        duration: 3000,
         ease: "Linear",
       });
-
-      
     }
   }
 }
