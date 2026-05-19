@@ -34,9 +34,21 @@ io.on("connection", (socket) => {
     console.log(`Changing scene to ${scene} in room ${room}`);
     socket.to(room).emit("change-scene", scene);
   });
-
+                    //cenas
   socket.on("scene0", (room, state) => {
     socket.to(room).emit("scene0", state);
+  });
+
+  socket.on("scene1", (room, state) => {
+    socket.to(room).emit("scene1", state);
+  });
+
+  socket.on("scene2", (room, state) => {
+    socket.to(room).emit("scene2", state);
+  });
+
+  socket.on("scene3", (room, state) => {
+    socket.to(room).emit("scene3", state);
   });
 
   socket.on("disconnect", () => {

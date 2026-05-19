@@ -11,6 +11,7 @@ class scene0 extends Phaser.Scene {
     this.invincible = false;
     this.tempo = 60; //tempo para passar de fase
     this.morreu = false;
+    //this.remotePlayers = [];
   }
   //localhost:8080/?room=1234
   // animacao estrela!!!!!, scene2? coisas basicas

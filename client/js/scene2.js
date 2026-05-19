@@ -38,6 +38,16 @@ class scene2 extends Phaser.Scene {
       frameHeight: 64,
     });
 
+    this.load.spritesheet("acid", "acid.png", {
+      frameWidth: 128,
+      frameHeight: 128,
+    });
+
+    this.load.spritesheet("acidex", "acidoexplosao.png", {
+      frameWidth: 128,
+      frameHeight: 128,
+    });
+
     this.load.image("telanave", "telanave.png");
 
     this.load.spritesheet("acid", "acid.png", {
@@ -68,7 +78,7 @@ class scene2 extends Phaser.Scene {
 
     this.anims.create({
       key: "combustivel_azul_anim",
-      frames: this.anims.generateFrameNumbers("combustivel_azul_azul", {
+      frames: this.anims.generateFrameNumbers("combustivel_azul", {
         start: 0,
         end: 3,
       }),
@@ -76,15 +86,6 @@ class scene2 extends Phaser.Scene {
       repeat: -1,
     });
 
-    this.acid = this.anims.create({
-      key: "acid_anim",
-      frames: this.anims.generateFrameNumbers("acid", {
-        start: 0,
-        end: 15,
-      }),
-      frameRate: 5,
-      repeat: -1,
-    });
 
     this.acid = this.anims.create({
       key: "acid_anim",
@@ -115,24 +116,17 @@ class scene2 extends Phaser.Scene {
       }
     });*/
 
-    this.add
-      .sprite(400, 225, "mapf2")
-      .play("mapf2_anim")
+    this.add.sprite(0, 0, "mapf2").setOrigin(0).play("mapf2_anim"); //mapf2 NECESSITA ser 1600x900 p esse código funcionar 
 
-      .setScrollFactor(0.8);
+    this.player = this.star = this.physics.add
+      .image(800, 450, "star", 0)
+      .setSize(48, 22); 
+    this.star.setScale(0.8);
 
-    this.player = this.physics.add.sprite(400, 225, "player").setTint(0x898989);
-    this.physics.world.setBounds(0, 0, 800, 450);
-    this.cameras.main.setBounds(0, 0, 800, 450); //fazer a camera seguir depois
-    this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
-    this.player.setCollideWorldBounds(true);
+    this.cameras.main.startFollow(this.player);
 
-   /* this.player = this.physics.add.sprite(400, 225, "player").setTint(0x898989);
-    this.physics.world.setBounds(100, 100, 900, 550);
-    this.cameras.main.setBounds(-200, -200, 1600, 900); //fazer a camera seguir depois
-    this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
-    this.player.setCollideWorldBounds(true);*/
-    //essa ^ é a camera meia boca
+    this.cameras.main.setBounds(0, 0, 800 * 2, 450 * 2);
+    this.physics.world.setBounds(400, 225, 800, 450);
 
     this.telaNave = this.add.image(400, 225, "telanave").setScrollFactor(0);
 

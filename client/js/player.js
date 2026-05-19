@@ -4,7 +4,18 @@ class player extends Phaser.Scene {
   }
 
   create() {
-    this.add.image(400, 225, "mapf1").postFX.addBlur(5);//trocar fundo depois
+
+    this.anims.create({
+      key: "capa_anim",
+      frames: this.anims.generateFrameNumbers("capa", {
+        start: 0,
+        end: 7,
+      }),
+      frameRate: 6,
+      repeat: -1,
+    });
+
+    this.add.sprite(400, 225, "capa_anim").play("capa_anim").postFX.addBlur(5); 
 
     this.add
       .text(400, 50, "Escolha seu personagem:", {

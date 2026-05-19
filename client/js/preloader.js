@@ -4,7 +4,7 @@ class preloader extends Phaser.Scene {
   }
 
   init() {
-    this.add.image(400, 225, "mapf1"); //trocar fundo depois
+    this.add.sprite(400, 225, "capa_anim").play("capa_anim").postFX.addBlur(5);
 
     this.add.rectangle(400, 300, 468, 32).setStrokeStyle(1, 0xffffff);
     const bar = this.add.rectangle(400 - 230, 300, 4, 28, 0xffffff);
@@ -126,20 +126,39 @@ class preloader extends Phaser.Scene {
 
     //fase2 nave
     this.load.spritesheet("mapf2", "fase_2.png", {
-      frameWidth: 800,
-      frameHeight: 450,
+      frameWidth: 800,//1000
+      frameHeight: 450,//900
     });
 
-    
+    this.load.spritesheet("combustivel_azul", "combustivel_azul.png", {
+     frameWidth: 64,
+      frameHeight: 64,
+    });
 
-     this.load.spritesheet("acid", "acid.png", {
-       frameWidth: 32,
-       frameHeight: 32,
-     });
-    
+    this.load.spritesheet("acid", "acid.png", {
+     frameWidth: 128,
+     frameHeight: 128,
+    });
+
+    this.load.spritesheet("acidex", "acidoexplosao.png", {
+      frameWidth: 128,
+      frameHeight: 128,
+    });
   }
 
   create() {
+    this.anims.create({
+      key: "capa_anim",
+      frames: this.anims.generateFrameNumbers("capa", {
+        start: 0,
+        end: 7,
+      }),
+      frameRate: 6,
+      repeat: -1,
+    });
+
+
+
     this.scene.stop("preloader");
     if (this.game.room) {
       this.scene.start("player");
