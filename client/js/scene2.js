@@ -33,7 +33,7 @@ class scene2 extends Phaser.Scene {
 
     this.load.image("player", "star.png");
 
-    this.load.spritesheet("combustivel", "combustivel.png", {
+    this.load.spritesheet("combustivel_azul", "combustivel_azul.png", {
       frameWidth: 64,
       frameHeight: 64,
     });
@@ -67,8 +67,8 @@ class scene2 extends Phaser.Scene {
     });
 
     this.anims.create({
-      key: "combustivel_anim",
-      frames: this.anims.generateFrameNumbers("combustivel", {
+      key: "combustivel_azul_anim",
+      frames: this.anims.generateFrameNumbers("combustivel_azul_azul", {
         start: 0,
         end: 3,
       }),
@@ -126,6 +126,13 @@ class scene2 extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 800, 450); //fazer a camera seguir depois
     this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
     this.player.setCollideWorldBounds(true);
+
+   /* this.player = this.physics.add.sprite(400, 225, "player").setTint(0x898989);
+    this.physics.world.setBounds(100, 100, 900, 550);
+    this.cameras.main.setBounds(-200, -200, 1600, 900); //fazer a camera seguir depois
+    this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
+    this.player.setCollideWorldBounds(true);*/
+    //essa ^ é a camera meia boca
 
     this.telaNave = this.add.image(400, 225, "telanave").setScrollFactor(0);
 
@@ -251,7 +258,7 @@ class scene2 extends Phaser.Scene {
 
     this.time.addEvent({
       delay: 1000,
-      callback: this.spawnCombustivel,
+      callback: this.spawnCombustivel_azul,
       callbackScope: this,
       loop: true,
     });
@@ -263,11 +270,11 @@ class scene2 extends Phaser.Scene {
       loop: true,
     });
 
-    this.combustivelGroup = this.physics.add.group();
+    this.combustivel_azulGroup = this.physics.add.group();
     this.physics.add.collider(
       this.player,
-      this.combustivelGroup,
-      this.hitCombustivel,
+      this.combustivel_azulGroup,
+      this.hitCombustivel_azul,
       null,
       this,
     );
@@ -282,9 +289,9 @@ class scene2 extends Phaser.Scene {
     );
   } //CHAVE DO CREATE
 
-  hitCombustivel(player, combustivelGroup) {
+  hitCombustivel_azul(player, combustivel_azulGroup) {
     this.sound.play("collect");
-    (combustivelGroup.destroy(true, true),
+    (combustivel_azulGroup.destroy(true, true),
       (this.fuel += 5),
       this.textFuel.setText(`Fuel: ${this.fuel}`));
   }
@@ -339,34 +346,34 @@ class scene2 extends Phaser.Scene {
 
   update() {}
 
-  spawnCombustivel() {
+  spawnCombustivel_azul() {
     //REFINAR!!!!! NAO SPAWNAR UM EM CIMA DO OUTRO E NEM ONDE ESTA O PLAYER
-    const maxCombustivel = 3;
+    const maxCombustivel_azul = 3;
 
-    if (this.combustivelGroup.getLength() < maxCombustivel) {
+    if (this.combustivel_azulGroup.getLength() < maxCombustivel_azul) {
       var x = Phaser.Math.Between(0, 800);
       var y = Phaser.Math.Between(0, 450);
 
       while (
         Math.abs(x - this.player.x) < 100 ||
         Math.abs(y - this.player.y) < 100 ||
-        Math.abs(x - this.combustivelGroup.x) < 100 ||
-        Math.abs(y - this.combustivelGroup.y) < 100
+        Math.abs(x - this.combustivel_azulGroup.x) < 100 ||
+        Math.abs(y - this.combustivel_azulGroup.y) < 100
       ) {
         // Garante que o combustível não será criado muito próximo do player
         x = Phaser.Math.Between(0, 800);
         y = Phaser.Math.Between(0, 450);
       }
 
-      const combustivel = this.combustivelGroup.create(x, y, "combustivel");
-      combustivel.setCollideWorldBounds(true);
-      this.anims.play("combustivel_anim", combustivel);
-      combustivel.setSize(50, 50);
-      combustivel.setScale(0.3);
-      combustivel.setDepth(1000);
+      const combustivel_azul = this.combustivel_azulGroup.create(x, y, "combustivel_azul");
+      combustivel_azul.setCollideWorldBounds(true);
+      this.anims.play("combustivel_azul_anim", combustivel_azul);
+      combustivel_azul.setSize(50, 50);
+      combustivel_azul.setScale(0.3);
+      combustivel_azul.setDepth(1000);
 
       this.tweens.add({
-        targets: combustivel,
+        targets: combustivel_azul,
         scale: 0.8,
         duration: 6000,
         ease: "Linear",
