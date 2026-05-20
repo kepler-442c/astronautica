@@ -122,13 +122,18 @@ class scene2 extends Phaser.Scene {
       .image(800, 450, "star", 0)
       .setSize(48, 22); 
     this.star.setScale(0.8);
+    this.player.setCollideWorldBounds(true);
 
     this.cameras.main.startFollow(this.player);
 
     this.cameras.main.setBounds(0, 0, 800 * 2, 450 * 2);
-    this.physics.world.setBounds(400, 225, 800, 450);
+    this.physics.world.setBounds(400, 225, 1000, 450);//por que raios nao esta colidindo
+    //adiconar borda vermelha
+  
 
-    this.telaNave = this.add.image(400, 225, "telanave").setScrollFactor(0);
+    https: this.telaNave = this.add
+      .image(400, 225, "telanave")
+      .setScrollFactor(0);
 
     this.button = this.add
       .sprite(600, 250, "buttonnitro", 0)

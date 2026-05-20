@@ -382,7 +382,7 @@ export default class scene1 extends Phaser.Scene {
         onComplete: () => {
           alvo.play("alvo_dano");
           alvo.damageTimer = this.time.addEvent({
-            delay: 20000,
+            delay: 21000,
             callback: () => {
               if (alvo.active && alvo.anims.currentAnim?.key === "alvo_dano") {
                 this.life2 -= 1;

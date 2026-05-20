@@ -125,9 +125,14 @@ class preloader extends Phaser.Scene {
     });
 
     //fase2 nave
-    this.load.spritesheet("mapf2", "fase_2.png", {
+    /*this.load.spritesheet("mapf2", "fase_2.png", {
       frameWidth: 800,//1000
       frameHeight: 450,//900
+    });*/
+
+    this.load.spritesheet("mapf2", "fase2_maior.png", {
+      frameWidth: 1600,
+      frameHeight: 900,
     });
 
     this.load.spritesheet("combustivel_azul", "combustivel_azul.png", {
@@ -144,6 +149,11 @@ class preloader extends Phaser.Scene {
       frameWidth: 128,
       frameHeight: 128,
     });
+
+    /*this.load.spritesheet("f2bounds", "f2bounds.png", {
+      frameWidth: 1250,
+      frameHeight: 850,
+    });*/ //adiconar depois
   }
 
   create() {

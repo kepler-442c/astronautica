@@ -146,15 +146,7 @@ class scene0 extends Phaser.Scene {
       repeat: -1,
     });
 
-    /*this.anims.create({
-      key: "campoast_anim",
-      frames: this.anims.generateFrameNumbers("campoast", {
-        start: 0,
-        end: 0,
-      }),
-      frameRate: 5,
-      repeat: -1,
-    });*/
+
 
     const bounds_anim = this.add.sprite(800, 450, "bounds").play("bounds_anim");
     this.add.tween({
