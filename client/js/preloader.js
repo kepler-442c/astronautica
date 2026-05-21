@@ -150,24 +150,10 @@ class preloader extends Phaser.Scene {
       frameHeight: 128,
     });
 
-    /*this.load.spritesheet("f2bounds", "f2bounds.png", {
-      frameWidth: 1250,
-      frameHeight: 850,
-    });*/ //adiconar depois
+    this.load.image("f2bounds", "bounds2.png"); //adiconar depois
   }
 
   create() {
-    this.anims.create({
-      key: "capa_anim",
-      frames: this.anims.generateFrameNumbers("capa", {
-        start: 0,
-        end: 7,
-      }),
-      frameRate: 6,
-      repeat: -1,
-    });
-
-
 
     this.scene.stop("preloader");
     if (this.game.room) {

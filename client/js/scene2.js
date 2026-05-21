@@ -116,7 +116,10 @@ class scene2 extends Phaser.Scene {
       }
     });*/
 
-    this.add.sprite(0, 0, "mapf2").setOrigin(0).play("mapf2_anim"); //mapf2 NECESSITA ser 1600x900 p esse código funcionar 
+    this.add.sprite(0, 0, "mapf2")
+      .setOrigin(0)
+      .play("mapf2_anim") //mapf2 NECESSITA ser 1600x900 p esse código funcionar 
+      .setScrollFactor(.8);
 
     this.player = this.star = this.physics.add
       .image(800, 450, "star", 0)
@@ -127,13 +130,19 @@ class scene2 extends Phaser.Scene {
     this.cameras.main.startFollow(this.player);
 
     this.cameras.main.setBounds(0, 0, 800 * 2, 450 * 2);
-    this.physics.world.setBounds(400, 225, 1000, 450);//por que raios nao esta colidindo
-    //adiconar borda vermelha
-  
+    this.physics.world.setBounds(400, 225, 800, 450);
 
-    https: this.telaNave = this.add
+    
+
+    this.bounds2 = this.add
+      .image(800, 450, "f2bounds")
+      .setScale(1.05);
+      this.physics.add.existing(this.bounds2, true);
+
+    this.telaNave = this.add
       .image(400, 225, "telanave")
-      .setScrollFactor(0);
+      .setScrollFactor(0)
+      .setDepth(3000);
 
     this.button = this.add
       .sprite(600, 250, "buttonnitro", 0)
@@ -162,8 +171,8 @@ class scene2 extends Phaser.Scene {
       x: 150,
       y: 290,
       radius: 50,
-      base: this.add.circle(0, 0, 50, 0x888888),
-      thumb: this.add.circle(0, 0, 25, 0xcccccc),
+      base: this.add.circle(0, 0, 50, 0x888888).setDepth(3000),
+      thumb: this.add.circle(0, 0, 25, 0xcccccc).setDepth(3000),
     });
 
     this.joystick.on("update", () => {
@@ -194,7 +203,8 @@ class scene2 extends Phaser.Scene {
         fontSize: "36px",
         fill: "#ffffff",
       })
-      .setScrollFactor(0);
+      .setScrollFactor(0)
+      .setDepth(3000);
 
     this.textFuel = this.add
       .text(16, 100, `Fuel: ${this.fuel}`, {
@@ -203,7 +213,8 @@ class scene2 extends Phaser.Scene {
         fontSize: "36px",
         fill: "#ffffff",
       })
-      .setScrollFactor(0);
+      .setScrollFactor(0)
+      .setDepth(3000);
 
     //mecanicas de fuel
     this.intervalFuel = setInterval(() => {
@@ -369,7 +380,7 @@ class scene2 extends Phaser.Scene {
       this.anims.play("combustivel_azul_anim", combustivel_azul);
       combustivel_azul.setSize(50, 50);
       combustivel_azul.setScale(0.3);
-      combustivel_azul.setDepth(1000);
+      combustivel_azul.setDepth(2000);
 
       this.tweens.add({
         targets: combustivel_azul,

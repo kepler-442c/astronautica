@@ -32,8 +32,15 @@ class room extends Phaser.Scene {
         player,
       );
 
-      if (player === "piloto") this.game.localPlayer = "atirador";
-      else this.game.localPlayer = "piloto";
+      if (player === "piloto") {
+        this.game.localPlayer = "atirador";
+        this.scene.stop("room");
+        this.scene.start("scene1");
+      } else {
+        this.game.localPlayer = "piloto";
+        this.scene.stop("room");
+        this.scene.start("scene0");
+      }
 
       this.qrcodeContainer.remove();
 
@@ -46,9 +53,10 @@ class room extends Phaser.Scene {
         });
       }*/
       //scene player?
-      this.scene.start("scene0");
+     
+      });
 
-    });
+    
     
   }
 
