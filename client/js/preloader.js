@@ -95,6 +95,11 @@ class preloader extends Phaser.Scene {
       frameHeight: 32,
     });
 
+    this.load.spritesheet("dano_atirador", "vidro_dano.png", {
+      frameWidth: 90,
+      frameHeight: 90,
+    });
+
     this.load.spritesheet("Alvo1", "enemigo1.png", {
       frameWidth: 64,
       frameHeight: 64,

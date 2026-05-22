@@ -6,7 +6,7 @@ export default class scene1 extends Phaser.Scene {
     this.speed = 300;
     this.direction = undefined;
     this.fuel = 20;
-    this.life2 = 3;
+    this.life2 = 5;
     this.nitro = false;
     this.tempo = 60; //tempo para passar de fase
     this.morreu2 = false;
@@ -317,9 +317,8 @@ export default class scene1 extends Phaser.Scene {
     const telanave2 = this.add.image(400, 225, "telanave2").setScrollFactor(0);
     this.uiLayer.add(telanave2);
     this.uiLayer.setDepth(1500);
-    
-    
-    
+
+    this.damageLayer = this.add.layer().setDepth(1499);
 
     this.textPilotLife = this.add
       .text(600, 50, `Pilot Life: ${this.life}`, {
@@ -332,7 +331,6 @@ export default class scene1 extends Phaser.Scene {
       .setDepth(2000);
 
     this.game.socket.on("scene0", (state) => {
-
       this.life = state.player.life;
       this.textPilotLife.setText(`Pilot Life: ${this.life}`);
 
@@ -340,11 +338,8 @@ export default class scene1 extends Phaser.Scene {
       if (this.morreu) {
         this.scene.stop();
         this.scene.start("gameover");
-        
       }
     });
-      
-    
   } // CHAVE DO CREATE
 
   update() {
@@ -356,6 +351,83 @@ export default class scene1 extends Phaser.Scene {
       },
     });
   }
+
+  addDamageFrames() {
+    const frameNames = this.textures
+      .get("dano_atirador")
+      .getFrameNames()
+      .filter((name) => name !== "__BASE");
+
+    if (frameNames.length === 0) {
+      return;
+    }
+
+    const positions = [];
+    const minDistance = 100;
+    const maxAttempts = 50;
+
+    while (positions.length < 3) {
+      let attempt = 0;
+      let candidate;
+
+      do {
+        candidate = {
+          x: Phaser.Math.Between(0, 800),
+          y: Phaser.Math.Between(0, 450),
+        };
+        attempt += 1;
+      } while (
+        attempt < maxAttempts &&
+        positions.some(
+          (pos) =>
+            Phaser.Math.Distance.Between(
+              pos.x,
+              pos.y,
+              candidate.x,
+              candidate.y,
+            ) < minDistance,
+        )
+      );
+
+      if (
+        positions.every(
+          (pos) =>
+            Phaser.Math.Distance.Between(
+              pos.x,
+              pos.y,
+              candidate.x,
+              candidate.y,
+            ) >= minDistance,
+        )
+      ) {
+        positions.push(candidate);
+      } else {
+        // fallback: allow the position if we couldn't find one far enough
+        positions.push(candidate);
+      }
+    }
+
+    positions.forEach((pos) => {
+      const frameName = Phaser.Math.RND.pick(frameNames);
+      const damageSprite = this.add
+        .sprite(pos.x, pos.y, "dano_atirador", frameName)
+        .setScrollFactor(0)
+        .setDepth(1499)
+        .setScale(1)
+        .setAlpha(1);
+
+      this.damageLayer.add(damageSprite);
+
+      this.tweens.add({
+        targets: damageSprite,
+        alpha: 0,
+        duration: 3000,
+        ease: "Linear",
+        onComplete: () => damageSprite.destroy(),
+      });
+    });
+  }
+
   spawnAlvo() {
     const maxAlvo = 1; // Limite de asteroides (maior quando for lancar o jogo)
 
@@ -382,18 +454,18 @@ export default class scene1 extends Phaser.Scene {
         onComplete: () => {
           alvo.play("alvo_dano");
           alvo.damageTimer = this.time.addEvent({
-            delay: 21000,//diminuir antes de lançar
+            delay: 2100, //diminuir antes de lançar
             callback: () => {
               if (alvo.active && alvo.anims.currentAnim?.key === "alvo_dano") {
                 this.life2 -= 1;
                 this.textLife.setText(`Life: ${this.life2}`);
+                this.addDamageFrames();
                 if (this.life2 === 0) {
                   this.scene.stop();
-                  this.life2 = 3;
+                  this.life2 = 5;
                   this.morreu2 = true;
                   this.scene.stop();
                   this.scene.start("gameover");
-                  
                 }
               }
             },
