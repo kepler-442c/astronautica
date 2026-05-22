@@ -4,7 +4,9 @@ class preloader extends Phaser.Scene {
   }
 
   init() {
+    this.add.image(400, 225, "mapf1").setOrigin(0.5, 0.5).postFX.addBlur(5);
     this.add.sprite(400, 225, "capa_anim").play("capa_anim").postFX.addBlur(5);
+
 
     this.add.rectangle(400, 300, 468, 32).setStrokeStyle(1, 0xffffff);
     const bar = this.add.rectangle(400 - 230, 300, 4, 28, 0xffffff);
@@ -27,7 +29,9 @@ class preloader extends Phaser.Scene {
     //menu
      this.load.image("atirador", "botao_atirador.png");
      this.load.image("piloto", "botao_piloto.png");
-     this.load.image("cutscene", "botao_cutscene.png");
+    this.load.image("cutscene", "botao_cutscene.png");
+    this.load.image("avatar_atirador", "atirador_menu.png");
+    this.load.image("avatar_piloto", "piloto_menu.png");
 
 
     this.load.image("et1", "enemigo1.png");

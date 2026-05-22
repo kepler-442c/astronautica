@@ -11,58 +11,7 @@ export default class scene1 extends Phaser.Scene {
     this.tempo = 60; //tempo para passar de fase
     this.morreu2 = false;
   }
-  //telanave2, musica 2f, som de coleta de combustivel, camada texto, nitro
-  /*preload() {
-    this.load.plugin(
-      "rexvirtualjoystickplugin",
-      "../rexvirtualjoystickplugin.min.js",
-      true,
-    );
 
-    this.load.setPath("assets/");
-
-    this.load.image("mapf1", "mapf1.png");
-
-    this.load.image("mira", "mira.png");
-
-    this.load.image("telanave2", "telanave2_atirador.png");
-
-    this.load.font("stepalange", "stepalange.otf");
-
-    this.load.spritesheet("butão", "button.png", {
-      frameWidth: 32,
-      frameHeight: 32,
-    });
-
-    this.load.spritesheet("Alvo1", "enemigo1.png", {
-      frameWidth: 64,
-      frameHeight: 64,
-    });
-
-    this.load.spritesheet("arma", "torreta.png", {
-      frameWidth: 428,
-      frameHeight: 200, //grande para ver animação,
-    });
-
-    this.load.audio("musica", "atirador_f1.mp3");
-
-    this.load.audio("laser", "lazer.mp3");
-
-    this.load.spritesheet("acerto", "projeto_acerto.png", {
-      frameWidth: 142,
-      frameHeight: 112, //grande para ver animação,
-    });
-
-    this.load.spritesheet("erro", "projetil_erro.png", {
-      frameWidth: 47,
-      frameHeight: 47, //grande para ver animação,
-    });
-
-    this.load.spritesheet("estrelas", "estrelas_sprite_shit.png", {
-      frameWidth: 800,
-      frameHeight: 450,
-    });
-  }*/
   create() {
     this.music = this.sound.add("musica", { loop: true });
     this.music.play();
@@ -110,13 +59,6 @@ export default class scene1 extends Phaser.Scene {
     });
 
     this.alvoGroup = this.physics.add.group();
-    // this.physics.add.collider(
-    //   this.player,
-    //   this.alvoGroup,
-    //   this.hitAlvo,
-    //   null,
-    //   this,
-    // );
 
     this.anims.create({
       key: "arma_intro",
