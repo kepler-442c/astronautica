@@ -11,7 +11,7 @@ class player extends Phaser.Scene {
     this.add.sprite(400, 225, "capa_anim").play("capa_anim").postFX.addBlur(5);
 
     this.add
-      .text(400, 50, "Escolha seu personagem:", {
+      .text(400, 120, "Escolha seu personagem:", {
         fontFamily: "stepalange",
         fontSize: "64px",
         fill: "#ffffff",

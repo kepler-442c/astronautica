@@ -86,7 +86,6 @@ class scene2 extends Phaser.Scene {
       repeat: -1,
     });
 
-
     this.acid = this.anims.create({
       key: "acid_anim",
       frames: this.anims.generateFrameNumbers("acid", {
@@ -107,6 +106,16 @@ class scene2 extends Phaser.Scene {
       repeat: 0,
     });
 
+    this.anims.create({
+      key: "purpleheart_anim",
+      frames: this.anims.generateFrameNumbers("purpleheart", {
+        start: 0,
+        end: 0,
+      }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
     /*this.music = this.sound.add("songf2", { loop: true });
     this.music.play();
 
@@ -116,14 +125,15 @@ class scene2 extends Phaser.Scene {
       }
     });*/
 
-    this.add.sprite(0, 0, "mapf2")
+    this.add
+      .sprite(0, 0, "mapf2")
       .setOrigin(0)
-      .play("mapf2_anim") //mapf2 NECESSITA ser 1600x900 p esse código funcionar 
-      .setScrollFactor(.8);
+      .play("mapf2_anim") //mapf2 NECESSITA ser 1600x900 p esse código funcionar
+      .setScrollFactor(0.8);
 
     this.player = this.star = this.physics.add
       .image(800, 450, "star", 0)
-      .setSize(48, 22); 
+      .setSize(48, 22);
     this.star.setScale(0.8);
     this.player.setCollideWorldBounds(true);
 
@@ -132,12 +142,8 @@ class scene2 extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 800 * 2, 450 * 2);
     this.physics.world.setBounds(400, 225, 800, 450);
 
-    
-
-    this.bounds2 = this.add
-      .image(800, 450, "f2bounds")
-      .setScale(1.05);
-      this.physics.add.existing(this.bounds2, true);
+    this.bounds2 = this.add.image(800, 450, "f2bounds").setScale(1.05);
+    this.physics.add.existing(this.bounds2, true);
 
     this.telaNave = this.add
       .image(400, 225, "telanave")
@@ -280,6 +286,20 @@ class scene2 extends Phaser.Scene {
       loop: true,
     });
 
+    this.time.addEvent({
+      delay: 29000,
+      callback: this.spawnPurpleHeart,
+      callbackScope: this,
+      loop: true,
+    });
+
+    this.time.addEvent({
+      delay: 35000,
+      callback: this.despawnPurpleHeart,
+      callbackScope: this,
+      loop: true,
+    });
+
     this.combustivel_azulGroup = this.physics.add.group();
     this.physics.add.collider(
       this.player,
@@ -297,13 +317,33 @@ class scene2 extends Phaser.Scene {
       null,
       this,
     );
+
+    this.purpleHeartGroup = this.physics.add.group();
+    this.physics.add.collider(
+      this.player,
+      this.purpleHeartGroup,
+      this.hitPurpleHeart,
+      null,
+      this,
+    );
   } //CHAVE DO CREATE
+
+  despawnPurpleHeart() {
+    this.purpleHeartGroup.getFirstAlive()?.destroy(); // Destrói o primeiro coração roxo ativo, se existir
+  }
 
   hitCombustivel_azul(player, combustivel_azulGroup) {
     this.sound.play("collect");
     (combustivel_azulGroup.destroy(true, true),
       (this.fuel += 5),
       this.textFuel.setText(`Fuel: ${this.fuel}`));
+  }
+
+  hitPurpleHeart(player, purpleHeartGroup) {
+    this.sound.play("collect");
+    (purpleHeartGroup.destroy(true, true),
+      (this.life += 1),
+      this.textLife.setText(`Life: ${this.life}`));
   }
 
   hitAcid(player, acidGroup) {
@@ -375,7 +415,11 @@ class scene2 extends Phaser.Scene {
         y = Phaser.Math.Between(0, 450);
       }
 
-      const combustivel_azul = this.combustivel_azulGroup.create(x, y, "combustivel_azul");
+      const combustivel_azul = this.combustivel_azulGroup.create(
+        x,
+        y,
+        "combustivel_azul",
+      );
       combustivel_azul.setCollideWorldBounds(true);
       this.anims.play("combustivel_azul_anim", combustivel_azul);
       combustivel_azul.setSize(50, 50);
@@ -422,6 +466,41 @@ class scene2 extends Phaser.Scene {
         targets: acid,
         scale: 1,
         duration: 3000,
+        ease: "Linear",
+      });
+    }
+  }
+
+  spawnPurpleHeart() {
+    //REFINAR!!!!! NAO SPAWNAR UM EM CIMA DO OUTRO E NEM ONDE ESTA O PLAYER
+    const maxPurpleHearts = 1;
+
+    if (this.purpleHeartGroup.getLength() < maxPurpleHearts) {
+      var x = Phaser.Math.Between(400, 1200);
+      var y = Phaser.Math.Between(225, 675);
+
+      while (
+        Math.abs(x - this.player.x) < 100 ||
+        Math.abs(y - this.player.y) < 100 ||
+        Math.abs(x - this.purpleHeartGroup.x) < 100 ||
+        Math.abs(y - this.purpleHeartGroup.y) < 100
+      ) {
+        // Garante que o coração roxo não será criado muito próximo do player
+        x = Phaser.Math.Between(400, 1200);
+        y = Phaser.Math.Between(225, 675);
+      }
+
+      const purpleHeart = this.purpleHeartGroup.create(x, y, "purpleHeart");
+      purpleHeart.setCollideWorldBounds(true);
+      this.anims.play("purpleheart_anim", purpleHeart);
+      purpleHeart.setSize(50, 50);
+      purpleHeart.setScale(0.3);
+      purpleHeart.setDepth(1000);
+
+      this.tweens.add({
+        targets: purpleHeart,
+        scale: 0.8,
+        duration: 6000,
         ease: "Linear",
       });
     }

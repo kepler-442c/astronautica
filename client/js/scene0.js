@@ -9,7 +9,7 @@ class scene0 extends Phaser.Scene {
     this.life = 3;
     this.nitro = false;
     this.invincible = false;
-    this.tempo = 60; //tempo para passar de fase
+    this.tempo = 2; //tempo para passar de fase
     this.morreu = false;
     //this.remotePlayers = [];
   }
@@ -42,12 +42,12 @@ class scene0 extends Phaser.Scene {
       frameHeight: 850,
     });*/
 
-    /*this.load.spritesheet("fuellevel", "fuellevel.png", {
+  /*this.load.spritesheet("fuellevel", "fuellevel.png", {
       frameWidth: 800,
       frameHeight: 450,
     });*/
 
-    /*this.load.spritesheet("asteroideum", "asteroideum.png", {
+  /*this.load.spritesheet("asteroideum", "asteroideum.png", {
       frameWidth: 48,
       frameHeight: 48,
     });
@@ -92,7 +92,7 @@ class scene0 extends Phaser.Scene {
       .setOrigin(0, 0)
       .setFlipX(true)
       .setFlipY(true)
-      .setScrollFactor(.8); //parallax
+      .setScrollFactor(0.8); //parallax
     this.add
       .image(800, 0, "mapf1")
       .setOrigin(0)
@@ -100,7 +100,7 @@ class scene0 extends Phaser.Scene {
       .setOrigin(0, 0)
       .setFlipX(true)
       .setFlipY(true)
-      .setScrollFactor(.8);
+      .setScrollFactor(0.8);
     this.add
       .image(0, 450, "mapf1")
       .setOrigin(0)
@@ -108,13 +108,13 @@ class scene0 extends Phaser.Scene {
       .setOrigin(0, 0)
       .setFlipX(true)
       .setFlipY(true)
-      .setScrollFactor(.8);
+      .setScrollFactor(0.8);
     this.add
       .image(800, 450, "mapf1")
       .setOrigin(0, 0)
       .setFlipX(true)
       .setFlipY(true)
-      .setScrollFactor(.8);
+      .setScrollFactor(0.8);
 
     this.player = this.star = this.physics.add
       .image(800, 450, "star", 0)
@@ -146,7 +146,15 @@ class scene0 extends Phaser.Scene {
       repeat: -1,
     });
 
-
+    this.anims.create({
+      key: "pinkheart_anim",
+      frames: this.anims.generateFrameNumbers("pinkheart", {
+        start: 0,
+        end: 0,
+      }),
+      frameRate: 5,
+      repeat: -1,
+    });
 
     const bounds_anim = this.add.sprite(800, 450, "bounds").play("bounds_anim");
     this.add.tween({
@@ -182,7 +190,6 @@ class scene0 extends Phaser.Scene {
       frameRate: 5,
       repeat: 0,
     });
-    
 
     /*this.anims.create({
      key: "estrelasvindo_anim",
@@ -274,8 +281,6 @@ class scene0 extends Phaser.Scene {
       }
     }, 1000);
 
-    
-
     this.intervalNitro = setInterval(() => {
       if (this.nitro === true) {
         this.fuel -= 3;
@@ -307,7 +312,6 @@ class scene0 extends Phaser.Scene {
         this.scene.start("scene2");
       }
     }, 1000);
-
 
     this.button = this.add
       .sprite(600, 250, "buttonnitro", 0)
@@ -376,6 +380,13 @@ class scene0 extends Phaser.Scene {
     });
 
     this.time.addEvent({
+      delay: 29000,
+      callback: this.spawnPinkHeart,
+      callbackScope: this,
+      loop: true,
+    });
+
+    this.time.addEvent({
       delay: 6000,
       callback: this.despawnCombustivel,
       callbackScope: this,
@@ -385,6 +396,13 @@ class scene0 extends Phaser.Scene {
     this.time.addEvent({
       delay: 6000,
       callback: this.despawnAsteroid,
+      callbackScope: this,
+      loop: true,
+    });
+
+    this.time.addEvent({
+      delay: 35000,
+      callback: this.despawnPinkHeart,
       callbackScope: this,
       loop: true,
     });
@@ -408,6 +426,15 @@ class scene0 extends Phaser.Scene {
       this,
     );
 
+    this.pinkHeartGroup = this.physics.add.group();
+    this.physics.add.collider(
+      this.player,
+      this.pinkHeartGroup,
+      this.hitPinkHeart,
+      null,
+      this,
+    );
+
     this.uiLayer = this.add.layer();
     const telaNave = this.add.image(400, 225, "telanave").setScrollFactor(0);
     this.uiLayer.add(telaNave);
@@ -423,19 +450,16 @@ class scene0 extends Phaser.Scene {
     this.uiTopLayer.add(this.joystick.thumb);
     this.uiTopLayer.setDepth(4000);
 
-    
-    
     this.textShooterLife = this.add
-    .text(570, 50, `Shooter Life: ${this.life2}`, {
-      fontFamily: "stepalange",
-      fontSize: "36px",
-      fill: "#ffffff",
-    })
-    .setScrollFactor(0)
-    .setDepth(3000);
-    
-    this.game.socket.on("scene1", (state) => {
+      .text(570, 50, `Shooter Life: ${this.life2}`, {
+        fontFamily: "stepalange",
+        fontSize: "36px",
+        fill: "#ffffff",
+      })
+      .setScrollFactor(0)
+      .setDepth(3000);
 
+    this.game.socket.on("scene1", (state) => {
       this.life2 = state.player.life2;
       this.textShooterLife.setText(`Shooter Life: ${this.life2}`);
 
@@ -447,9 +471,7 @@ class scene0 extends Phaser.Scene {
         clearInterval(this.intervalTime);
         this.scene.stop();
         this.scene.start("gameover");
-        
-      } 
-      
+      }
     });
   } //CHAVE DO CREATE
 
@@ -459,6 +481,10 @@ class scene0 extends Phaser.Scene {
   //a cada 5s quero apagar UM combustivel
   despawnAsteroid() {
     this.asteroidGroup.getFirstAlive()?.destroy(); // Destrói o primeiro asteroide ativo, se existir
+  }
+
+  despawnPinkHeart() {
+    this.pinkHeartGroup.getFirstAlive()?.destroy(); // Destrói o primeiro coração rosa ativo, se existir
   }
 
   hitAsteroid(player, asteroidGroup) {
@@ -480,11 +506,9 @@ class scene0 extends Phaser.Scene {
     });
 
     //animação de explosão
-    this.exp = this.add.sprite(
-      asteroidGroup.x,
-      asteroidGroup.y,
-      "asteroideumex",
-    ).setScale(asteroidGroup.scaleX, asteroidGroup.scaleY);
+    this.exp = this.add
+      .sprite(asteroidGroup.x, asteroidGroup.y, "asteroideumex")
+      .setScale(asteroidGroup.scaleX, asteroidGroup.scaleY);
     this.sound.play("explosion");
     this.exp.play("asteroideumex_anim");
     asteroidGroup.destroy();
@@ -515,22 +539,29 @@ class scene0 extends Phaser.Scene {
       this.textFuel.setText(`Fuel: ${this.fuel}`));
   }
 
+  hitPinkHeart(player, pinkHeartGroup) {
+    this.sound.play("collect");
+    (pinkHeartGroup.destroy(true, true),
+      (this.life += 1),
+      this.textLife.setText(`Life: ${this.life}`));
+  }
+
   processAsteroidCollision(player, asteroid) {
     return !this.invincible;
   }
 
   update() {
-         try {
-           this.game.socket.emit("scene0", this.game.room, {
-             player: {
-               id: this.game.socket.id,
-               life: this.life,
-               morreu: this.morreu,
-             },
-           });
-         } catch (e) {
-           console.error("Error updating player:", e);
-         }
+    try {
+      this.game.socket.emit("scene0", this.game.room, {
+        player: {
+          id: this.game.socket.id,
+          life: this.life,
+          morreu: this.morreu,
+        },
+      });
+    } catch (e) {
+      console.error("Error updating player:", e);
+    }
   }
 
   spawnAsteroid() {
@@ -593,9 +624,43 @@ class scene0 extends Phaser.Scene {
       combustivel.setScale(0.3);
       combustivel.setDepth(1000);
 
-
       this.tweens.add({
         targets: combustivel,
+        scale: 0.8,
+        duration: 6000,
+        ease: "Linear",
+      });
+    }
+  }
+
+  spawnPinkHeart() {
+    //REFINAR!!!!! NAO SPAWNAR UM EM CIMA DO OUTRO E NEM ONDE ESTA O PLAYER
+    const maxPinkHearts = 1;
+
+    if (this.pinkHeartGroup.getLength() < maxPinkHearts) {
+      var x = Phaser.Math.Between(400, 1200);
+      var y = Phaser.Math.Between(225, 675);
+
+      while (
+        Math.abs(x - this.player.x) < 100 ||
+        Math.abs(y - this.player.y) < 100 ||
+        Math.abs(x - this.pinkHeartGroup.x) < 100 ||
+        Math.abs(y - this.pinkHeartGroup.y) < 100
+      ) {
+        // Garante que o coração rosa não será criado muito próximo do player
+        x = Phaser.Math.Between(400, 1200);
+        y = Phaser.Math.Between(225, 675);
+      }
+
+      const pinkHeart = this.pinkHeartGroup.create(x, y, "pinkHeart");
+      pinkHeart.setCollideWorldBounds(true);
+      this.anims.play("pinkheart_anim", pinkHeart);
+      pinkHeart.setSize(50, 50);
+      pinkHeart.setScale(0.3);
+      pinkHeart.setDepth(1000);
+
+      this.tweens.add({
+        targets: pinkHeart,
         scale: 0.8,
         duration: 6000,
         ease: "Linear",

@@ -86,6 +86,11 @@ class preloader extends Phaser.Scene {
       frameHeight: 96,
     });
 
+    this.load.spritesheet("pinkheart", "pinkheart.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
     //fase1 tiro
     this.load.image("mira", "mira.png");
 
@@ -134,10 +139,10 @@ class preloader extends Phaser.Scene {
     });
 
     //fase2 nave
-    /*this.load.spritesheet("mapf2", "fase_2.png", {
-      frameWidth: 800,//1000
-      frameHeight: 450,//900
-    });*/
+    this.load.spritesheet("purpleheart", "purpleheart.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
 
     this.load.spritesheet("mapf2", "fase2_maior.png", {
       frameWidth: 1600,
