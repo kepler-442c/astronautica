@@ -97,7 +97,7 @@ class sceneCred extends Phaser.Scene {
     });
     
     this.time.delayedCall(25000, () => {
-      this.scene.start("sceneMenu");
+      this.scene.start("player");
     });
     
    }
