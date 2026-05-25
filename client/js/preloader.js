@@ -25,6 +25,20 @@ class preloader extends Phaser.Scene {
 
     this.load.setPath("assets/");
 
+    this.load.image("fundo", "fundo.png");
+
+    this.load.spritesheet("andromedano", "enemigo1.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+    
+    this.load.spritesheet("explode", "Explosion.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+
+    this.load.font("news-gothic-bold", "news-gothic-bold.otf");
+
 
     //menu
      this.load.image("atirador", "botao_atirador.png");

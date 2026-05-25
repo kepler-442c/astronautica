@@ -3,24 +3,16 @@ class sceneCut extends Phaser.Scene {
     super("sceneCut");
   }
 
-  preload() {
+  /*preload() {
     this.load.setPath("assets/");
 
-    this.load.image("fundo", "fundo.png");
-    this.load.spritesheet("andromedano", "enemigo1.png", {
-      frameWidth: 64,
-      frameHeight: 64,
-    });
-
-    this.load.spritesheet("explode", "Explosion.png", {
-      frameWidth: 32,
-      frameHeight: 32,
-    });
-
-    this.load.font("news-gothic-bold", "news-gothic-bold.otf");
+    
+    
+    
+    
 
     this.load.font("stepalange", "stepalange.otf");
-  }
+  }*/
 
   create() {
     this.anims.create({
@@ -201,7 +193,7 @@ class sceneCut extends Phaser.Scene {
         fontSize: "36px",
         fill: "#ffffff",
       }).setInteractive().on('pointerdown', () => {
-        this.scene.start('sceneMenu');
+        this.scene.start('player');
       });
       this.tweens.add({
         targets: this.textMenu,

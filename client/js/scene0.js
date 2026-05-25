@@ -9,7 +9,7 @@ class scene0 extends Phaser.Scene {
     this.life = 3;
     this.nitro = false;
     this.invincible = false;
-    this.tempo = 2; //tempo para passar de fase
+    this.tempo = 60; //tempo para passar de fase
     this.morreu = false;
     //this.remotePlayers = [];
   }
@@ -476,15 +476,49 @@ class scene0 extends Phaser.Scene {
   } //CHAVE DO CREATE
 
   despawnCombustivel() {
-    this.combustivelGroup.getFirstAlive()?.destroy(); // Destrói o primeiro combustível ativo, se existir
-  }
-  //a cada 5s quero apagar UM combustivel
-  despawnAsteroid() {
-    this.asteroidGroup.getFirstAlive()?.destroy(); // Destrói o primeiro asteroide ativo, se existir
+    const combustivel = this.combustivelGroup.getFirstAlive();
+    if (combustivel) {
+      this.tweens.add({
+        targets: combustivel,
+        scale: 0.3,
+        duration: 2000,
+        ease: "Linear",
+        onComplete: () => {
+          combustivel.destroy();
+        },
+      });
+    }
   }
 
+  despawnAsteroid() {
+    const asteroid = this.asteroidGroup.getFirstAlive();
+    if (asteroid) {
+      this.tweens.add({
+        targets: asteroid,
+        scale: 0.4,
+        duration: 5000,
+        ease: "Linear",
+        onComplete: () => {
+          asteroid.destroy();
+        },
+      });
+    }
+  }
+  
+
   despawnPinkHeart() {
-    this.pinkHeartGroup.getFirstAlive()?.destroy(); // Destrói o primeiro coração rosa ativo, se existir
+    const pinkHeart = this.pinkHeartGroup.getFirstAlive();
+    if (pinkHeart) {
+      this.tweens.add({
+        targets: pinkHeart,
+        scale: 0.3,
+        duration: 3000,
+        ease: "Linear",
+        onComplete: () => {
+          pinkHeart.destroy();
+        },
+      });
+    }
   }
 
   hitAsteroid(player, asteroidGroup) {
@@ -595,7 +629,8 @@ class scene0 extends Phaser.Scene {
         duration: 3000,
         ease: "Linear",
       });
-    }
+
+    }   
   }
 
   spawnCombustivel() {
@@ -630,6 +665,8 @@ class scene0 extends Phaser.Scene {
         duration: 6000,
         ease: "Linear",
       });
+
+      
     }
   }
 

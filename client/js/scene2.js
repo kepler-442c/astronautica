@@ -280,8 +280,22 @@ class scene2 extends Phaser.Scene {
     });
 
     this.time.addEvent({
+      delay: 6000,
+      callback: this.despawnCombustivel_azul,
+      callbackScope: this,
+      loop: true,
+    });
+
+    this.time.addEvent({
       delay: 1000,
       callback: this.spawnAcid,
+      callbackScope: this,
+      loop: true,
+    });
+
+    this.time.addEvent({
+      delay: 6000,
+      callback: this.despawnAcid,
       callbackScope: this,
       loop: true,
     });
@@ -328,8 +342,49 @@ class scene2 extends Phaser.Scene {
     );
   } //CHAVE DO CREATE
 
+  despawnCombustivel_azul() {
+    const combustivel_azul = this.combustivel_azulGroup.getFirstAlive();
+    if (combustivel_azul) {
+      this.tweens.add({
+        targets: combustivel_azul,
+        scale: 0.3,
+        duration: 2000,
+        ease: "Linear",
+        onComplete: () => {
+          combustivel_azul.destroy();
+        },
+      });
+    }
+  }
+
+  despawnAcid() {
+    const acid = this.acidGroup.getFirstAlive();
+    if (acid) {
+      this.tweens.add({
+        targets: acid,
+        scale: 0.4,
+        duration: 5000,
+        ease: "Linear",
+        onComplete: () => {
+          acid.destroy();
+        },
+      });
+    }
+  }
+
   despawnPurpleHeart() {
-    this.purpleHeartGroup.getFirstAlive()?.destroy(); // Destrói o primeiro coração roxo ativo, se existir
+    const purpleHeart = this.purpleHeartGroup.getFirstAlive();
+    if (purpleHeart) {
+      this.tweens.add({
+        targets: purpleHeart,
+        scale: 0.3,
+        duration: 3000,
+        ease: "Linear",
+        onComplete: () => {
+          purpleHeart.destroy();
+        },
+      });
+    } // Destrói o primeiro coração roxo ativo, se existir
   }
 
   hitCombustivel_azul(player, combustivel_azulGroup) {
