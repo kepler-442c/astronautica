@@ -4,25 +4,6 @@ class scenejumpone extends Phaser.Scene {
     this.prox = false;
   }
 
-  preload() {
-    this.load.setPath("assets/");
-    this.load.spritesheet("jumpscare1", "jumpscare1.png", {
-      frameWidth: 800,
-      frameHeight: 450,
-    });
-    this.load.spritesheet("jumpscare2", "jumpscare2.png", {
-      frameWidth: 800,
-      frameHeight: 450,
-    });
-    this.load.spritesheet("jumpscare3", "jumpscare3.png", {
-      frameWidth: 800,
-      frameHeight: 450,
-    });
-    this.load.spritesheet("jumpscare4", "jumpscare4.png", {
-      frameWidth: 800,
-      frameHeight: 450,
-    });
-  }
 
   create() {
     console.log("jump one")
