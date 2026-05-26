@@ -73,6 +73,21 @@ class preloader extends Phaser.Scene {
       frameWidth: 800,
       frameHeight: 450,
     });
+
+    //final
+    this.load.spritesheet("final1", "final1.png", {
+      frameWidth: 1600,
+      frameHeight: 900,
+    });
+    this.load.spritesheet("final2", "final2.png", {
+      frameWidth: 1600,
+      frameHeight: 900,
+    });
+     this.load.spritesheet("final3", "final3.png", {
+       frameWidth: 1600,
+       frameHeight: 900,
+     });
+     
      
     //fase1 nave
     this.load.image("mapf1", "mapf1.png");

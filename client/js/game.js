@@ -10,6 +10,7 @@ import gameover from "./gameover.js";
 import scenejumpone from "./scenejumpone.js"
 import sceneCut from "./sceneCut.js";
 import sceneCred from "./sceneCred.js";
+import scenefinal from "./scenefinal.js";
 
 
 class Game extends Phaser.Game {
@@ -27,6 +28,7 @@ class Game extends Phaser.Game {
     this.scene.add("scenejumpone", scenejumpone);
     this.scene.add("sceneCut", sceneCut);
     this.scene.add("sceneCred", sceneCred);
+    this.scene.add("scenefinal", scenefinal);
     this.scene.start("start");
 
     if (location.hostname.match(/localhost|127\.0\.0\.1/)) {

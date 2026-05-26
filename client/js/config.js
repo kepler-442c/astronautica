@@ -3,7 +3,7 @@ var config = {
   width: 800,
   height: 450,
   fps: {
-    target: 20,
+    target: 30,
     forceSetTimeOut: true,
   },
   input: {

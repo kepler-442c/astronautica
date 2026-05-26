@@ -175,6 +175,7 @@ class sceneCut extends Phaser.Scene {
           fontSize: "36px",
           fill: "#ffffff",
         }).setInteractive().on('pointerdown', () => {
+          this.scene.stop();
         this.scene.start('sceneCred');
       });
         this.tweens.add({
@@ -193,6 +194,7 @@ class sceneCut extends Phaser.Scene {
         fontSize: "36px",
         fill: "#ffffff",
       }).setInteractive().on('pointerdown', () => {
+        this.scene.stop();
         this.scene.start('player');
       });
       this.tweens.add({

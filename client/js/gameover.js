@@ -71,7 +71,7 @@ class gameover extends Phaser.Scene {
     this.time.delayedCall(2500, () => {
       this.rect.setInteractive()
         .on("pointerdown", () => {
-          this.scene.start("sceneMenu");
+
           window.location.reload(); //nao é a melhor soluçao mas vai ter que 
         });
       //this.scene.scene0.restart();
