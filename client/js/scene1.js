@@ -8,7 +8,7 @@ export default class scene1 extends Phaser.Scene {
     this.fuel = 20;
     this.life2 = 5;
     this.nitro = false;
-    this.tempo = 5; //tempo para passar de fase
+    this.tempo = 60; //tempo para passar de fase
     this.morreu2 = false;
   }
 

@@ -116,14 +116,14 @@ class scene2 extends Phaser.Scene {
       repeat: -1,
     });
 
-    /*this.music = this.sound.add("songf2", { loop: true });
+    this.music = this.sound.add("songf1", { loop: true });
     this.music.play();
 
     this.events.once("shutdown", () => {
       if (this.music && this.music.isPlaying) {
         this.music.stop();
       }
-    });*/
+    });
 
     this.add
       .sprite(0, 0, "mapf2")
@@ -269,7 +269,7 @@ class scene2 extends Phaser.Scene {
         clearInterval(this.intervalFuel);
         clearInterval(this.intervalNitro);
         clearInterval(this.intervalTime);
-        this.scene.start("scene2");
+        this.scene.start("scenefinal");//cena final
       }
     }, 1000);
 
