@@ -309,7 +309,8 @@ class scene0 extends Phaser.Scene {
         clearInterval(this.intervalFuel);
         clearInterval(this.intervalNitro);
         clearInterval(this.intervalTime);
-        this.scene.start("scene2");
+        this.scene.stop();
+        this.scene.start("scenejumpone");
       }
     }, 1000);
 
@@ -504,7 +505,6 @@ class scene0 extends Phaser.Scene {
       });
     }
   }
-  
 
   despawnPinkHeart() {
     const pinkHeart = this.pinkHeartGroup.getFirstAlive();
@@ -629,8 +629,7 @@ class scene0 extends Phaser.Scene {
         duration: 3000,
         ease: "Linear",
       });
-
-    }   
+    }
   }
 
   spawnCombustivel() {
@@ -665,8 +664,6 @@ class scene0 extends Phaser.Scene {
         duration: 6000,
         ease: "Linear",
       });
-
-      
     }
   }
 

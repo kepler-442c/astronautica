@@ -136,6 +136,7 @@ class scene2 extends Phaser.Scene {
       .setSize(48, 22);
     this.star.setScale(0.8);
     this.player.setCollideWorldBounds(true);
+    this.player.setDepth(2000);
 
     this.cameras.main.startFollow(this.player);
 

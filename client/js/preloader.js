@@ -54,6 +54,9 @@ class preloader extends Phaser.Scene {
       frameWidth: 800,
       frameHeight: 450,
     });
+
+    //jumpscare
+   
      
     //fase1 nave
     this.load.image("mapf1", "mapf1.png");
@@ -187,8 +190,10 @@ class preloader extends Phaser.Scene {
     if (this.game.room) {
       this.scene.start("player");
     } else {
-      this.scene.start("room");
+      this.scene.start("room"); 
     }
+
+    
   }
   
 }

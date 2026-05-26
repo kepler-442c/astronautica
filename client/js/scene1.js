@@ -8,7 +8,7 @@ export default class scene1 extends Phaser.Scene {
     this.fuel = 20;
     this.life2 = 5;
     this.nitro = false;
-    this.tempo = 60; //tempo para passar de fase
+    this.tempo = 5; //tempo para passar de fase
     this.morreu2 = false;
   }
 
@@ -281,7 +281,16 @@ export default class scene1 extends Phaser.Scene {
         this.scene.stop();
         this.scene.start("gameover");
       }
-    });
+    }); 
+
+    this.intervalTime = setInterval(() => {
+      this.tempo -= 1;
+      if (this.tempo <= 0) {
+        clearInterval(this.intervalTime);
+        this.scene.stop();
+        this.scene.start("scenejumpone");
+      }
+    }, 1000);
   } // CHAVE DO CREATE
 
   update() {
@@ -396,7 +405,7 @@ export default class scene1 extends Phaser.Scene {
         onComplete: () => {
           alvo.play("alvo_dano");
           alvo.damageTimer = this.time.addEvent({
-            delay: 21000, //diminuir antes de lançar
+            delay: 2100, //diminuir antes de lançar
             callback: () => {
               if (alvo.active && alvo.anims.currentAnim?.key === "alvo_dano") {
                 this.life2 -= 1;

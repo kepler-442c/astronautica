@@ -7,8 +7,10 @@ import scene0 from "./scene0.js";
 import scene1 from "./scene1.js";
 import scene2 from "./scene2.js";
 import gameover from "./gameover.js";
+import scenejumpone from "./scenejumpone.js"
 import sceneCut from "./sceneCut.js";
 import sceneCred from "./sceneCred.js";
+
 
 class Game extends Phaser.Game {
   constructor() {
@@ -22,6 +24,7 @@ class Game extends Phaser.Game {
     this.scene.add("scene1", scene1);
     this.scene.add("scene2", scene2);
     this.scene.add("gameover", gameover);
+    this.scene.add("scenejumpone", scenejumpone);
     this.scene.add("sceneCut", sceneCut);
     this.scene.add("sceneCred", sceneCred);
     this.scene.start("start");
