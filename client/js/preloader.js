@@ -162,6 +162,11 @@ class preloader extends Phaser.Scene {
       frameHeight: 64,
     });
 
+    this.load.spritesheet("Alvo2", "enemigo2.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+
     this.load.spritesheet("arma", "torreta.png", {
       frameWidth: 428,
       frameHeight: 200, //grande para ver animação,
@@ -190,6 +195,11 @@ class preloader extends Phaser.Scene {
     this.load.spritesheet("purpleheart", "purpleheart.png", {
       frameWidth: 64,
       frameHeight: 64,
+    });
+
+    this.load.spritesheet("mapf2_menor", "fase2.png", {
+      frameWidth: 800,
+      frameHeight: 450,
     });
 
     this.load.spritesheet("mapf2", "fase2_maior.png", {

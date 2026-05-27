@@ -1,6 +1,6 @@
-export default class scene1 extends Phaser.Scene {
+export default class scene3 extends Phaser.Scene {
   constructor() {
-    super("scene1");
+    super("scene3");
 
     this.threshold = 0.1;
     this.speed = 300;
@@ -16,30 +16,45 @@ export default class scene1 extends Phaser.Scene {
     this.music = this.sound.add("musica", { loop: true });
     this.music.play();
 
-    this.add.image(0, 0, "mapf1").setOrigin(0);
+    // Adiciona animação mapf2_menor como fundo em loop
+    this.anims.create({
+      key: "mapf2_menor_anim",
+      frames: this.anims.generateFrameNumbers("mapf2_menor", {
+        start: 0,
+        end: 3,
+      }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
+    this.mapBackground = this.add
+      .sprite(0, 0, "mapf2_menor", 0)
+      .setOrigin(0)
+      .setDepth(0)
+      .play("mapf2_menor_anim");
 
     this.anims.create({
-      key: "alvo",
-      frames: this.anims.generateFrameNumbers("Alvo1", {
-        frames: [4, 5, 9, 10, 11, 12, 13],
+      key: "alvo2",
+      frames: this.anims.generateFrameNumbers("Alvo2", {
+        frames: [8, 9, 10, 11],
       }),
       frameRate: 5,
       repeat: -1,
     });
 
     this.anims.create({
-      key: "alvo_destroy",
-      frames: this.anims.generateFrameNumbers("Alvo1", {
-        frames: [6, 7, 8],
+      key: "alvo2_destroy",
+      frames: this.anims.generateFrameNumbers("Alvo2", {
+        frames: [4, 5, 6, 7],
       }),
       frameRate: 10,
       repeat: 0,
     });
 
     this.anims.create({
-      key: "alvo_dano",
-      frames: this.anims.generateFrameNumbers("Alvo1", {
-        frames: [0, 1, 2],
+      key: "alvo2_dano",
+      frames: this.anims.generateFrameNumbers("Alvo2", {
+        frames: [0, 1, 2, 3],
       }),
       frameRate: 10,
       repeat: -1,
@@ -58,7 +73,7 @@ export default class scene1 extends Phaser.Scene {
       loop: true,
     });
 
-    this.alvoGroup = this.physics.add.group();
+    this.alvo2Group = this.physics.add.group();
 
     this.anims.create({
       key: "arma_intro",
@@ -163,7 +178,7 @@ export default class scene1 extends Phaser.Scene {
     this.laserSound = this.sound.add("laser");
 
     this.fireButton = this.add
-      .sprite(640, 340, "butão", 0)
+      .sprite(640, 440, "butão", 0)
       .setOrigin(1, 1)
       .setScale(3)
       .setInteractive()
@@ -181,32 +196,32 @@ export default class scene1 extends Phaser.Scene {
         16,
       );
 
-      const hitAlvo = this.alvoGroup.getChildren().find((alvo) => {
-        const scale = alvo.scale;
+      const hitAlvo2 = this.alvo2Group.getChildren().find((alvo2) => {
+        const scale = alvo2.scale;
         const halfWidth = (48 * scale) / 2;
-        const alvoBounds = new Phaser.Geom.Rectangle(
-          alvo.x - halfWidth,
-          alvo.y - halfWidth,
+        const alvo2Bounds = new Phaser.Geom.Rectangle(
+          alvo2.x - halfWidth,
+          alvo2.y - halfWidth,
           48 * scale,
           48 * scale,
         );
         return Phaser.Geom.Intersects.RectangleToRectangle(
-          alvoBounds,
+          alvo2Bounds,
           miraBounds,
         );
       });
 
-      if (hitAlvo) {
+      if (hitAlvo2) {
         this.hitFeedback
           .setPosition(this.mira.x, this.mira.y)
           .setVisible(true)
           .play("acerto_anim");
-        hitAlvo.play("alvo_destroy");
-        hitAlvo.on("animationcomplete-alvo_destroy", () => {
-          if (hitAlvo.damageTimer) {
-            hitAlvo.damageTimer.remove();
+        hitAlvo2.play("alvo2_destroy");
+        hitAlvo2.on("animationcomplete-alvo2_destroy", () => {
+          if (hitAlvo2.damageTimer) {
+            hitAlvo2.damageTimer.remove();
           }
-          hitAlvo.destroy();
+          hitAlvo2.destroy();
         });
       } else {
         this.errorFeedback
@@ -272,29 +287,30 @@ export default class scene1 extends Phaser.Scene {
       .setScrollFactor(0)
       .setDepth(2000);
 
-    this.game.socket.on("scene0", (state) => {
+    this.game.socket.on("scene2", (state) => {
       this.life = state.player.life;
       this.textPilotLife.setText(`Pilot Life: ${this.life}`);
 
       this.morreu = state.player.morreu;
       if (this.morreu) {
         this.scene.stop();
+        clearInterval(this.intervalTime);
         this.scene.start("gameover");
       }
-    }); 
+    });
 
     this.intervalTime = setInterval(() => {
       this.tempo -= 1;
       if (this.tempo <= 0) {
         clearInterval(this.intervalTime);
         this.scene.stop();
-        this.scene.start("scenejumpone");
+        this.scene.start("scenefinal");
       }
     }, 1000);
   } // CHAVE DO CREATE
 
   update() {
-    this.game.socket.emit("scene1", this.game.room, {
+    this.game.socket.emit("scene3", this.game.room, {
       player: {
         id: this.game.socket.id,
         life2: this.life2,
@@ -380,18 +396,18 @@ export default class scene1 extends Phaser.Scene {
   }
 
   spawnAlvo() {
-    const maxAlvo = 3; // Limite de asteroides (maior quando for lancar o jogo)
+    const maxAlvo2 = 3; // Limite de asteroides (maior quando for lancar o jogo)
 
-    if (this.alvoGroup.getLength() < maxAlvo) {
+    if (this.alvo2Group.getLength() < maxAlvo2) {
       const x = Phaser.Math.Between(0, 800);
       const y = Phaser.Math.Between(0, 450);
 
-      const alvo = this.alvoGroup.create(x, y, "Alvo1");
+      const alvo = this.alvo2Group.create(x, y, "Alvo2");
       alvo.setBounce(1.01);
       alvo.setSize(48, 48);
       alvo.setCollideWorldBounds(true);
       alvo.setDrag(0);
-      alvo.play("alvo");
+      alvo.play("alvo2");
       alvo.setDepth(1000);
       alvo.setVelocity(
         Phaser.Math.Between(-200, 200),
@@ -403,11 +419,11 @@ export default class scene1 extends Phaser.Scene {
         duration: 2000,
         ease: "Linear",
         onComplete: () => {
-          alvo.play("alvo_dano");
+          alvo.play("alvo2_dano");
           alvo.damageTimer = this.time.addEvent({
             delay: 2100, //diminuir antes de lançar
             callback: () => {
-              if (alvo.active && alvo.anims.currentAnim?.key === "alvo_dano") {
+              if (alvo.active && alvo.anims.currentAnim?.key === "alvo2_dano") {
                 this.life2 -= 1;
                 this.textLife.setText(`Life: ${this.life2}`);
                 this.addDamageFrames();
