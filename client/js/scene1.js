@@ -278,6 +278,7 @@ export default class scene1 extends Phaser.Scene {
 
       this.morreu = state.player.morreu;
       if (this.morreu) {
+        clearInterval(this.intervalTime);
         this.scene.stop();
         this.scene.start("gameover");
       }
@@ -415,6 +416,7 @@ export default class scene1 extends Phaser.Scene {
                   this.scene.stop();
                   this.life2 = 5;
                   this.morreu2 = true;
+                  clearInterval(this.intervalTime);
                   this.scene.stop();
                   this.scene.start("gameover");
                 }

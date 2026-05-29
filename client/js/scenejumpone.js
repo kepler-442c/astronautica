@@ -62,7 +62,7 @@ class scenejumpone extends Phaser.Scene {
       fill: "#ffe81f",
     });
 
-    this.time.delayedCall(5000, () => {
+    this.time.delayedCall(8000, () => {
       if (this.text) this.text.destroy();
 
       console.log("animação");
@@ -90,7 +90,7 @@ class scenejumpone extends Phaser.Scene {
         });
       });
     }); //3,6 s de nimacao
-    this.time.delayedCall(8700, () => {
+    this.time.delayedCall(11700, () => {
       if (this.game.localPlayer === "piloto") {
         this.scene.start("scene2");
       } else {

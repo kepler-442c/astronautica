@@ -6,10 +6,10 @@ export default class scene3 extends Phaser.Scene {
     this.speed = 300;
     this.direction = undefined;
     this.fuel = 20;
-    this.life2 = 5;
+    this.life3 = 5;
     this.nitro = false;
     this.tempo = 60; //tempo para passar de fase
-    this.morreu2 = false;
+    this.morreu3 = false;
   }
 
   create() {
@@ -132,7 +132,7 @@ export default class scene3 extends Phaser.Scene {
     });
 
     this.textLife = this.add
-      .text(670, 100, `Life: ${this.life2}`, {
+      .text(670, 100, `Life: ${this.life3}`, {
         //600, 50
         fontFamily: "stepalange",
         fontSize: "36px",
@@ -288,13 +288,13 @@ export default class scene3 extends Phaser.Scene {
       .setDepth(2000);
 
     this.game.socket.on("scene2", (state) => {
-      this.life = state.player.life;
-      this.textPilotLife.setText(`Pilot Life: ${this.life}`);
+      this.life4 = state.player.life;
+      this.textPilotLife.setText(`Pilot Life: ${this.life4}`);
 
-      this.morreu = state.player.morreu;
-      if (this.morreu) {
-        this.scene.stop();
+      this.morreu4 = state.player.morreu4;
+      if (this.morreu4) {
         clearInterval(this.intervalTime);
+        this.scene.stop();
         this.scene.start("gameover");
       }
     });
@@ -313,8 +313,8 @@ export default class scene3 extends Phaser.Scene {
     this.game.socket.emit("scene3", this.game.room, {
       player: {
         id: this.game.socket.id,
-        life2: this.life2,
-        morreu2: this.morreu2,
+        life3: this.life3,
+        morreu3: this.morreu3,
       },
     });
   }
@@ -424,13 +424,14 @@ export default class scene3 extends Phaser.Scene {
             delay: 2100, //diminuir antes de lançar
             callback: () => {
               if (alvo.active && alvo.anims.currentAnim?.key === "alvo2_dano") {
-                this.life2 -= 1;
-                this.textLife.setText(`Life: ${this.life2}`);
+                this.life3 -= 1;
+                this.textLife.setText(`Life: ${this.life3}`);
                 this.addDamageFrames();
-                if (this.life2 === 0) {
+                if (this.life3 === 0) {
                   this.scene.stop();
-                  this.life2 = 5;
-                  this.morreu2 = true;
+                  this.life3 = 5;
+                  this.morreu3 = true;
+                  clearInterval(this.intervalTime)
                   this.scene.stop();
                   this.scene.start("gameover");
                 }

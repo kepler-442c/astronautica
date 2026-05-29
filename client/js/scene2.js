@@ -6,11 +6,11 @@ class scene2 extends Phaser.Scene {
     this.speed = 150;
     this.direction = undefined;
     this.fuel = 20;
-    this.life = 3;
+    this.life4 = 3;
     this.nitro = false;
     this.invincible = false;
     this.tempo = 60; //tempo para passar de fase
-    this.morreu = false;
+    this.morreu4 = false;
   } //ARRUMAR CAMADAS E LOCALIZAÇÃO DO SPAWN DO COMBUSTIVEL, CAMERA SEGUIR,
   //SEPARAR ANIMACAO ACID E ACIDEXP? MELHORAR ESCALAS, encontrar songf2
   //npm install - npm run dev
@@ -204,7 +204,7 @@ class scene2 extends Phaser.Scene {
     });
 
     this.textLife = this.add
-      .text(680, 100, `Life: ${this.life}`, {
+      .text(680, 100, `life: ${this.life4}`, {
         //600, 50
         fontFamily: "stepalange",
         fontSize: "36px",
@@ -234,10 +234,10 @@ class scene2 extends Phaser.Scene {
         clearInterval(this.intervalNitro);
         clearInterval(this.intervalTime);
         this.fuel = 20;
-        this.life = 3;
+        this.life4 = 3;
         this.tempo = 60;
         this.invincible = false;
-        this.morreu = true;
+        this.morreu4 = true;
         this.scene.start("gameover");
       }
     }, 1000);
@@ -254,10 +254,10 @@ class scene2 extends Phaser.Scene {
         clearInterval(this.intervalNitro);
         clearInterval(this.intervalTime);
         this.fuel = 20;
-        this.life = 3;
+        this.life4 = 3;
         this.tempo = 60;
         this.invincible = false;
-        this.morreu = true;
+        this.morreu4 = true;
         this.scene.start("gameover");
       }
     }, 500);
@@ -341,6 +341,30 @@ class scene2 extends Phaser.Scene {
       null,
       this,
     );
+   
+    this.textShooterLife = this.add
+      .text(570, 50, `Shooter life: ${this.life3}`, {
+        fontFamily: "stepalange",
+        fontSize: "36px",
+        fill: "#ffffff",
+      })
+      .setScrollFactor(0)
+      .setDepth(3000);
+
+    this.game.socket.on("scene3", (state) => {
+      this.life3 = state.player.life3;
+      this.textShooterLife.setText(`Shooter life: ${this.life3}`);
+
+      this.morreu3 = state.player.morreu3;
+      if (this.morreu3) {
+        this.scene.stop();
+        clearInterval(this.intervalFuel);
+        clearInterval(this.intervalNitro);
+        clearInterval(this.intervalTime);
+        this.scene.stop();
+        this.scene.start("gameover");
+      }
+    });
   } //CHAVE DO CREATE
 
   despawnCombustivel_azul() {
@@ -398,13 +422,13 @@ class scene2 extends Phaser.Scene {
   hitPurpleHeart(player, purpleHeartGroup) {
     this.sound.play("collect");
     (purpleHeartGroup.destroy(true, true),
-      (this.life += 1),
-      this.textLife.setText(`Life: ${this.life}`));
+      (this.life4 += 1),
+      this.textLife.setText(`life4: ${this.life4}`));
   }
 
   hitAcid(player, acidGroup) {
-    this.life -= 1;
-    this.textLife.setText(`Life: ${this.life}`);
+    this.life4 -= 1;
+    this.textLife.setText(`life4: ${this.life4}`);
 
     //animacao de hit
     this.add.tween({
@@ -432,16 +456,16 @@ class scene2 extends Phaser.Scene {
       this.exp.destroy();
     });
 
-    if (this.life === 0) {
+    if (this.life4 === 0) {
       this.scene.stop();
       clearInterval(this.intervalFuel);
       clearInterval(this.intervalNitro);
       clearInterval(this.intervalTime);
-      this.life = 3;
+      this.life4 = 3;
       this.fuel = 20;
       this.tempo = 60;
       this.invincible = false;
-      this.morreu = true;
+      this.morreu4 = true;
       this.scene.start("gameover");
     }
   }
@@ -450,7 +474,15 @@ class scene2 extends Phaser.Scene {
     return !this.invincible;
   }
 
-  update() {}
+  update() {
+    this.game.socket.emit("scene2", this.game.room, {
+      player: {
+        id: this.game.socket.id,
+        life4: this.life4,
+        morreu4: this.morreu4,
+      },
+    });
+  }
 
   spawnCombustivel_azul() {
     //REFINAR!!!!! NAO SPAWNAR UM EM CIMA DO OUTRO E NEM ONDE ESTA O PLAYER
