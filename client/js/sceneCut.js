@@ -62,8 +62,7 @@ class sceneCut extends Phaser.Scene {
         "Em meio ao conflito entre a Via Láctea e a galáxia",
         "de Andrômeda, uma nave tripulada por apenas um",
         "auxiliar de artilharia, Ernesto, e uma piloto, Marilda,",
-        "é enviada numa missão",
-        "de reconhecimento.",
+        "é enviada numa missão de reconhecimento.",
       ];
 
       this.text2 = this.add.text(160, 150, content, {

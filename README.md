@@ -1,6 +1,6 @@
 ## astronautica
 # Premissa:
-Em meio a guerra entre a Via Láctea e sua galáxia vizinha, Andrômeda, uma nave humana é surpreendida por tropas alienígenas. Sozinhos e sem reforços, o piloto da nave e seu auxiliar de artilharia se veem obrigados a fugir através de um campo de asteroides com naves inimigas em sua cola. Para conseguir fugir, eles devem unir suas habilidades e confiar em sua agilidade em meio a uma perseguição frenética espaço adentro.
+Em meio a guerra entre a Via Láctea e sua galáxia vizinha, Andrômeda, uma nave humana é surpreendida por tropas alienígenas. Sozinhos e sem reforços, Marilda, a piloto da nave e Ernesto, seu auxiliar de artilharia, se veem obrigados a fugir através de um campo de asteroides com naves inimigas em sua cola. Para conseguir fugir, eles devem unir suas habilidades e confiar em sua agilidade em meio a uma perseguição frenética espaço adentro.
 
 # Universo
 * Referências: Duck Hunt, Doom, God of war 2, asteroide, subnautica,  
