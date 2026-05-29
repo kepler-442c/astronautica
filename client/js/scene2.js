@@ -132,7 +132,7 @@ class scene2 extends Phaser.Scene {
       .setScrollFactor(0.8);
 
     this.player = this.star = this.physics.add
-      .image(830, 450, "star", 0)
+      .image(860, 450, "star", 0)
       .setSize(48, 22);
     this.star.setScale(0.8);
     this.player.setCollideWorldBounds(true);
