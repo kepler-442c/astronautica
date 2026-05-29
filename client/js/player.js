@@ -42,7 +42,7 @@ class player extends Phaser.Scene {
         this.scene.stop("player");
         this.scene.start("scene0");
       });
-    //this.piloto.play("piloto");
+    
 
     this.avatar_atirador = this.add
       .image(496, 319, "avatar_atirador")
@@ -59,7 +59,7 @@ class player extends Phaser.Scene {
         this.scene.start("scene1");
       });
 
-    //this.avatar_atirador.play("avatar_atirador");
+   
   }
 
   update(delta) {

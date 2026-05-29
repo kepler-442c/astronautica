@@ -11,79 +11,10 @@ class scene0 extends Phaser.Scene {
     this.invincible = false;
     this.tempo = 60; //tempo para passar de fase
     this.morreu = false;
-    //this.remotePlayers = [];
+   
   }
   //localhost:8080/?room=1234
-  // animacao estrela!!!!!, scene2? coisas basicas
-  /*preload() {
-    this.load.plugin(
-      "rexvirtualjoystickplugin",
-      "../rexvirtualjoystickplugin.min.js",
-      true,
-    );
-
-    this.load.setPath("assets/");
-
-    this.load.font("stepalange", "stepalange.otf");
-
-    this.load.image("mapf1", "mapf1.png");
-
-    this.load.image("star", "star.png");
-
-    this.load.image("telanave", "telanave.png");
-
-    this.load.spritesheet("bounds", "bounds.png", {
-      frameWidth: 1250,
-      frameHeight: 850,
-    });
-
-    /*this.load.spritesheet("campoast", "campoast.png", {
-      frameWidth: 1250,
-      frameHeight: 850,
-    });*/
-
-  /*this.load.spritesheet("fuellevel", "fuellevel.png", {
-      frameWidth: 800,
-      frameHeight: 450,
-    });*/
-
-  /*this.load.spritesheet("asteroideum", "asteroideum.png", {
-      frameWidth: 48,
-      frameHeight: 48,
-    });
-    this.load.image("asteroideum", "asteroideum.png");
-
-    this.load.audio("songf1", "songf1.mp3");
-
-    this.load.audio("explosion", "explosion.mp3");
-
-    this.load.audio("collect", "collect.mp3");
-
-    this.load.spritesheet("combustivel", "combustivel.png", {
-      frameWidth: 64,
-      frameHeight: 64,
-    });
-
-    this.load.spritesheet("estrelasvindo", "estrelas_vindo.png", {
-      frameWidth: 800,
-      frameHeight: 450,
-    });
-
-    /*this.load.spritesheet("uispritesheet", "uispritesheet.png", {
-      frameWidth: 800,
-      frameHeight: 450,
-    });
-
-    this.load.spritesheet("buttonnitro", "buttonnitro.png", {
-      frameWidth: 64,
-      frameHeight: 64,
-    });
-
-    this.load.spritesheet("asteroideumex", "asteroideumex.png", {
-      frameWidth: 96,
-      frameHeight: 96,
-    });
-  }*/
+  
 
   create() {
     this.add
@@ -166,9 +97,7 @@ class scene0 extends Phaser.Scene {
       repeat: -1,
     });
 
-    //this.add.sprite(1250, 850, "campoast").play("campoast_anim");
-
-    // this.add.image(400, 225, "telanave").setScrollFactor(0);
+    
 
     this.anims.create({
       key: "combustivel_anim",
@@ -191,52 +120,7 @@ class scene0 extends Phaser.Scene {
       repeat: 0,
     });
 
-    /*this.anims.create({
-     key: "estrelasvindo_anim",
-     frames: this.anims.generateFrameNumbers("estrelasvindo", {
-       start: 0,
-       end: 11,
-     }),
-     frameRate: 10,
-     repeat: -1,
-   });
-
-   this.estrelasvindo = this.add.sprite(400, 225, "estrelasvindo").play("estrelasvindo_anim")
-     .setAlpha(0.5)
-     .setScale(0.7)
-     .setScrollFactor(0);*/
-
-    /*this.anims.create({
-      key: "asteroideum_anim",
-      frames: this.anims.generateFrameNumbers("asteroideum", {
-        start: 0,
-        end: 0,
-      }),
-      frameRate: 5,
-      repeat: -1,
-    });*/
-
-    /*this.anims.create({
-      key: "fuellevel_anim",
-      frames: this.anims.generateFrameNumbers("fuellevel", {
-        start: 1,
-        end: 1,
-      }),
-      frameRate: 5,
-      repeat: -1,
-    });*/
-
-    //this.fuellevel = this.add.sprite(400, 225, "fuellevel").setScrollFactor(0);
-
-    /*if (this.fuel <= 10) {
-      this.fuellevel.setFrame(0);
-    } else if (this.fuel <= 25) {
-      this.fuellevel.setFrame(1);
-    } else {
-      this.fuellevel.setFrame(2);
-    }*/
-
-    //0-15 vermelho, 16-25 amarelo, 26+ verde
+    
 
     this.textLife = this.add
       .text(680, 100, `Life: ${this.life}`, {
@@ -258,12 +142,7 @@ class scene0 extends Phaser.Scene {
 
     this.intervalFuel = setInterval(() => {
       this.fuel -= 1;
-      //if(this.nitro) {
-      //  this.nitro === false;
-      // }
-      //else (this.nitro === true);{
-      //this.fuel -= 3;
-      //}
+      
       this.textFuel.setText(`Fuel: ${this.fuel}`);
 
       if (this.fuel <= 0) {
@@ -416,7 +295,7 @@ class scene0 extends Phaser.Scene {
       this.processAsteroidCollision,
       this,
     );
-    //this.physics.add.collider(this.asteroidGroup, this.asteroidGroup);
+    
 
     this.combustivelGroup = this.physics.add.group();
     this.physics.add.collider(
@@ -747,7 +626,7 @@ class scene0 extends Phaser.Scene {
   }
 
   spawnPinkHeart() {
-    //REFINAR!!!!! NAO SPAWNAR UM EM CIMA DO OUTRO E NEM ONDE ESTA O PLAYER
+  
     const maxPinkHearts = 1;
 
     if (this.pinkHeartGroup.getLength() < maxPinkHearts) {

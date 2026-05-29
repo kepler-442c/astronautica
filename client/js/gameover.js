@@ -1,32 +1,15 @@
 class gameover extends Phaser.Scene {
   constructor() {
     super("gameover");
-  } //o problema que aparece vem da cena0, que tenta ainda spwanar combustivel e asteroides. nao sei como resolver
-
-  preload() {
-    this.load.setPath("assets/");
-
-    this.load.font("news-gothic-bold", "news-gothic-bold.otf");
-    this.load.font("stepalange", "stepalange.otf");
+  } 
 
   
-  }
 
   create() {
-    /*this.add.image(400, 300, "gameoverimg");
-    this.on.pointerdown = () => { 
-      this.scene.start("sceneMenu");
-    };*/
+   
 
     this.rect = this.add.rectangle(400, 225, 800, 450, 0x000000);
-   /* this.button = this.add
-      .image(400, 225, "gameoverimg", 0)
-      .setScrollFactor(0)
-
-      .setInteractive()
-      .on("pointerdown", () => {
-        this.scene.start("sceneMenu");
-      });*/
+   
 
     this.textGame = this.add
       .text(270, 200, "Game", {
@@ -35,14 +18,7 @@ class gameover extends Phaser.Scene {
         fill: "#ae3cca",
       });
     
-    //codigo de rolamento de texto
-    /*this.tweens.add({
-      targets: this.textGame,
-      y: -100,
-      duration: 3000,
-      ease: "Power1",
-      loop: -1,
-    });*/
+    
     
     this.time.delayedCall(1000, () => {
       this.textOver = this.add.text(430, 200, "Over", {
@@ -72,10 +48,9 @@ class gameover extends Phaser.Scene {
       this.rect.setInteractive()
         .on("pointerdown", () => {
 
-          window.location.reload(); //nao é a melhor soluçao mas vai ter que 
+          window.location.reload(); 
         });
-      //this.scene.scene0.restart();
-      //this.scene.scene1.restart();
+
     });
   
   } //CHAVE DO CREATE

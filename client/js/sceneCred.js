@@ -3,12 +3,7 @@ class sceneCred extends Phaser.Scene {
     super("sceneCred");
   }
 
- /* preload() {
-    this.load.setPath("assets");
-
-    this.load.font("news-gothic-bold", "news-gothic-bold.otf");
-    this.load.font("stepalange", "stepalange.otf");
-   } */
+ 
   
   create() {
 

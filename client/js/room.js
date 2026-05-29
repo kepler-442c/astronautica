@@ -45,14 +45,7 @@ class room extends Phaser.Scene {
       this.qrcodeContainer.remove();
 
       this.scene.stop("room");
-      /*let artifacts = [];
-      for (let x = 0; x < 50; x++) {
-        artifacts.push({
-          x: Math.random(),
-          y: Math.random(),
-        });
-      }*/
-      //scene player?
+      
      
       });
 

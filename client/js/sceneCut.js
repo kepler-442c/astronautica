@@ -137,15 +137,7 @@ class sceneCut extends Phaser.Scene {
         this.explosionEvent.remove();
       }
 
-      /*this.underLayer = this.add.layer();
-        this.underLayer.add(this.explosionGroup);
-        this.underLayer.setDepth(1000);
-    
-    
-         this.topLayer = this.add.layer();
-         this.topLayer.add(this.rectangle);
-         this.topLayer.add(this.text4);
-         this.topLayer.setDepth(2000);*/
+ 
     });
     this.time.delayedCall(26000, () => {
       const content = [
@@ -165,9 +157,7 @@ class sceneCut extends Phaser.Scene {
       });
     });
 
-    //this.time.delayedCall(36000, () => {
-    //  this.scene.start("sceneMenu");
-    //});
+    
 
     this.time.delayedCall(36000, () => {
       this.textCred = this.add

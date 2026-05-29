@@ -11,59 +11,10 @@ class scene2 extends Phaser.Scene {
     this.invincible = false;
     this.tempo = 60; //tempo para passar de fase
     this.morreu4 = false;
-  } //ARRUMAR CAMADAS E LOCALIZAÇÃO DO SPAWN DO COMBUSTIVEL, CAMERA SEGUIR,
-  //SEPARAR ANIMACAO ACID E ACIDEXP? MELHORAR ESCALAS, encontrar songf2
+  } 
   //npm install - npm run dev
 
-  /* preload() {
-    this.load.plugin(
-      "rexvirtualjoystickplugin",
-      "../rexvirtualjoystickplugin.min.js",
-      true,
-    );
-
-    this.load.setPath("assets/");
-
-    this.load.font("stepalange", "stepalange.otf");
-
-    this.load.spritesheet("mapf2", "fase_2.png", {
-      frameWidth: 800,
-      frameHeight: 450,
-    });
-
-    this.load.image("player", "star.png");
-
-    this.load.spritesheet("combustivel_azul", "combustivel_azul.png", {
-      frameWidth: 64,
-      frameHeight: 64,
-    });
-
-    this.load.spritesheet("acid", "acid.png", {
-      frameWidth: 128,
-      frameHeight: 128,
-    });
-
-    this.load.spritesheet("acidex", "acidoexplosao.png", {
-      frameWidth: 128,
-      frameHeight: 128,
-    });
-
-    this.load.image("telanave", "telanave.png");
-
-    this.load.spritesheet("acid", "acid.png", {
-      frameWidth: 32,
-      frameHeight: 32,
-    });
-
-    this.load.spritesheet("buttonnitro", "buttonnitro.png", {
-      frameWidth: 64,
-      frameHeight: 64,
-    });
-
-    this.load.audio("explosion", "explosion.mp3");
-
-    this.load.audio("collect", "collect.mp3");
-  }*/
+  
 
   create() {
     this.anims.create({
@@ -485,7 +436,7 @@ class scene2 extends Phaser.Scene {
   }
 
   spawnCombustivel_azul() {
-    //REFINAR!!!!! NAO SPAWNAR UM EM CIMA DO OUTRO E NEM ONDE ESTA O PLAYER
+
     const maxCombustivel_azul = 3;
 
     if (this.combustivel_azulGroup.getLength() < maxCombustivel_azul) {
@@ -560,7 +511,7 @@ class scene2 extends Phaser.Scene {
   }
 
   spawnPurpleHeart() {
-    //REFINAR!!!!! NAO SPAWNAR UM EM CIMA DO OUTRO E NEM ONDE ESTA O PLAYER
+ 
     const maxPurpleHearts = 1;
 
     if (this.purpleHeartGroup.getLength() < maxPurpleHearts) {
