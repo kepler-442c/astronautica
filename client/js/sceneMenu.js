@@ -34,6 +34,8 @@ class sceneMenu extends Phaser.Scene {
         fontFamily: "stepalange",
         fontSize: "48px",
         fill: "#a123cf",
+        stroke: "#fffcfc", // Cor do contorno
+        strokeThickness: 4,
       })
       .setOrigin(0.5)
       .setInteractive()
@@ -43,10 +45,12 @@ class sceneMenu extends Phaser.Scene {
       });
 
     this.add
-      .text(410, 270, "Historia", {
+      .text(410, 300, "Historia", {
         fontFamily: "stepalange",
         fontSize: "48px",
         fill: "#a123cf",
+        stroke: "#fffcfc", // Cor do contorno
+        strokeThickness: 4,
       })
       .setOrigin(0.5)
       .setInteractive()
@@ -55,18 +59,6 @@ class sceneMenu extends Phaser.Scene {
         this.scene.start("sceneCut");
       });
 
-    this.add
-      .text(415, 340, "Creditos", {
-        fontFamily: "stepalange",
-        fontSize: "48px",
-        fill: "#a123cf",
-      })
-      .setOrigin(0.5)
-      .setInteractive()
-      .on("pointerdown", () => {
-        this.scene.stop("start");
-        this.scene.start("sceneCred");
-      });
   }
 
   update(delta) {

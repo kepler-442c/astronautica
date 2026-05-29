@@ -90,10 +90,29 @@ class sceneCred extends Phaser.Scene {
  
         
     });
-    
-    this.time.delayedCall(25000, () => {
-      this.scene.start("sceneMenu");
-    });
+
+
+
+      this.time.delayedCall(23000, () => {
+        this.textRecomecar = this.add
+          .text(155, 370, "Jogar outra vez", {
+            fontFamily: "stepalange",
+            fontSize: "36px",
+            fill: "#ffffff",
+          })
+          .setInteractive()
+          .on("pointerdown", () => {
+            window.location.reload();
+          });
+        this.tweens.add({
+          targets: this.textRecomecar,
+          y: 350,
+          duration: 1000,
+          yoyo: true,
+          ease: "Sine.easeIn", //ver outros ease depois
+          loop: -1,
+        });
+      });
     
    }
   

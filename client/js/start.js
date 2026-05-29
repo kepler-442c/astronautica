@@ -42,6 +42,8 @@ class start extends Phaser.Scene {
         fontFamily: "stepalange",
         fontSize: "48px",
         fill: "#a123cf",
+        stroke: "#fffcfc", // Cor do contorno
+        strokeThickness: 4,
       })
       .setOrigin(0.5);
 

@@ -1,6 +1,7 @@
 class scenefinal extends Phaser.Scene {
   constructor() {
     super("scenefinal");
+
   }
 
   create() {
@@ -10,31 +11,30 @@ class scenefinal extends Phaser.Scene {
         start: 0,
         end: 5,
       }),
-      frameRate: 5,
+      frameRate: 7,
       repeat: 0,
     });
-    
+
     this.anims.create({
       key: "final2_anim",
       frames: this.anims.generateFrameNumbers("final2", {
         start: 0,
         end: 5,
       }),
-      frameRate: 5,
+      frameRate: 7,
       repeat: 0,
     });
-    
+
     this.anims.create({
       key: "final3_anim",
       frames: this.anims.generateFrameNumbers("final3", {
         start: 0,
         end: 6,
       }),
-      frameRate: 5,
+      frameRate: 7,
       repeat: 0,
     });
-    
-    
+
     this.fuga1 = this.add.sprite(400, 225, "final1").play("final1_anim");
     this.fuga1.on("animationcomplete", () => {
       this.fuga2 = this.add.sprite(400, 225, "final2").play("final2_anim");
@@ -52,33 +52,37 @@ class scenefinal extends Phaser.Scene {
             "e de sua missão.",
             "",
           ];
-          
 
           this.text = this.add.text(160, 150, text, {
             fontFamily: "news-gothic-bold",
             fontSize: "20px",
             fill: "#ffe81f",
           });
-             
         });
       });
     });
 
-    this.time.delayedCall(6600, () => {
-      this.scene.stop();
-      this.scene.start("sceneCred");
-    });
-    this.tweens.add({
-      targets: this.textCred,
-      y: 350,
-      duration: 1000,
-      yoyo: true,
-      ease: "Sine.easeIn", //ver outros ease depois
-      loop: -1,
-    });
-  
-    this.time.delayedCall(8000, () => {
-    
+    this.time.delayedCall(6500, () => {
+      this.terminou = true;
+      this.textCred = this.add
+        .text(600, 370, "Créditos", {
+          fontFamily: "stepalange",
+          fontSize: "36px",
+          fill: "#ffffff",
+        })
+        .setInteractive()
+        .on("pointerdown", () => {
+          this.scene.stop();
+          this.scene.start("sceneCred");
+        });
+      this.tweens.add({
+        targets: this.textCred,
+        y: 350,
+        duration: 1000,
+        yoyo: true,
+        ease: "Sine.easeIn", //ver outros ease depois
+        loop: -1,
+      });
       this.textRecomecar = this.add
         .text(155, 370, "Jogar outra vez", {
           fontFamily: "stepalange",
@@ -97,12 +101,10 @@ class scenefinal extends Phaser.Scene {
         ease: "Sine.easeIn", //ver outros ease depois
         loop: -1,
       });
- 
     });
+  }//chave create
 
-  
 
-  }
 }
 
-export default scenefinal
+export default scenefinal;
