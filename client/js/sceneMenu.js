@@ -1,6 +1,6 @@
-class start extends Phaser.Scene {
+class sceneMenu extends Phaser.Scene {
   constructor() {
-    super("start");
+    super("sceneMenu");
   }
 
   init() {
@@ -25,30 +25,48 @@ class start extends Phaser.Scene {
     this.fundo2 = this.add.image(800, 0, "mapf1").setOrigin(0, 0);
     this.fundoSpeed = 1;
 
-    this.anims.create({
-      key: "capa_anim",
-      frames: this.anims.generateFrameNumbers("capa", {
-        start: 0,
-        end: 7,
-      }),
-      frameRate: 6,
-      repeat: -1,
-    });
+  
 
     this.add.sprite(400, 225, "capa_anim").play("capa_anim");
 
     this.add
-      .text(400, 200, "Clique para iniciar", {
+      .text(400, 200, "Iniciar", {
         fontFamily: "stepalange",
         fontSize: "48px",
         fill: "#a123cf",
       })
-      .setOrigin(0.5);
+      .setOrigin(0.5)
+      .setInteractive()
+      .on("pointerdown", () => {
+        this.scene.stop("start");
+        this.scene.start("preloader");
+      });
 
-      this.input.on("pointerdown", () => {
-      this.scene.stop("start");
-      this.scene.start("sceneMenu");
-    });
+    this.add
+      .text(410, 270, "Historia", {
+        fontFamily: "stepalange",
+        fontSize: "48px",
+        fill: "#a123cf",
+      })
+      .setOrigin(0.5)
+      .setInteractive()
+      .on("pointerdown", () => {
+        this.scene.stop("start");
+        this.scene.start("sceneCut");
+      });
+
+    this.add
+      .text(415, 340, "Creditos", {
+        fontFamily: "stepalange",
+        fontSize: "48px",
+        fill: "#a123cf",
+      })
+      .setOrigin(0.5)
+      .setInteractive()
+      .on("pointerdown", () => {
+        this.scene.stop("start");
+        this.scene.start("sceneCred");
+      });
   }
 
   update(delta) {
@@ -68,4 +86,4 @@ class start extends Phaser.Scene {
   }
 }
 
-export default start;
+export default sceneMenu;

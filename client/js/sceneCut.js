@@ -3,16 +3,25 @@ class sceneCut extends Phaser.Scene {
     super("sceneCut");
   }
 
-  /*preload() {
+  preload() {
     this.load.setPath("assets/");
+    this.load.font("news-gothc-bold", "news-gothic-bold.otf");
+    this.load.image("fundo", "fundo.png");
+    this.load.spritesheet("andromedano", "enemigo1.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
 
-    
+    this.load.spritesheet("explode", "Explosion.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+ 
     
     
     
 
-    this.load.font("stepalange", "stepalange.otf");
-  }*/
+  }
 
   create() {
     this.anims.create({
@@ -158,7 +167,7 @@ class sceneCut extends Phaser.Scene {
 
     
 
-    this.time.delayedCall(36000, () => {
+    /*this.time.delayedCall(36000, () => {
       this.textCred = this.add
         .text(600, 370, "Créditos", {
           fontFamily: "stepalange",
@@ -176,7 +185,7 @@ class sceneCut extends Phaser.Scene {
           ease: "Sine.easeIn", //ver outros ease depois
           loop: -1,
         });
-    });
+    });*/
 
     this.time.delayedCall(36000, () => {
       this.textMenu = this.add.text(155, 370, "Menu", {
@@ -185,7 +194,7 @@ class sceneCut extends Phaser.Scene {
         fill: "#ffffff",
       }).setInteractive().on('pointerdown', () => {
         this.scene.stop();
-        this.scene.start('player');
+        this.scene.start('sceneMenu');
       });
       this.tweens.add({
         targets: this.textMenu,

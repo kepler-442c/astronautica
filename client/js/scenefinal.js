@@ -4,15 +4,15 @@ class scenefinal extends Phaser.Scene {
   }
 
   create() {
-       this.anims.create({
-         key: "final1_anim",
-         frames: this.anims.generateFrameNumbers("final1", {
-           start: 0,
-           end: 5,
-         }),
-         frameRate: 5,
-         repeat: 0,
-       });
+    this.anims.create({
+      key: "final1_anim",
+      frames: this.anims.generateFrameNumbers("final1", {
+        start: 0,
+        end: 5,
+      }),
+      frameRate: 5,
+      repeat: 0,
+    });
     
     this.anims.create({
       key: "final2_anim",
@@ -62,28 +62,23 @@ class scenefinal extends Phaser.Scene {
              
         });
       });
-    }); 
+    });
 
-    this.time.delayedCall(6500, () => {
-      this.textCred = this.add
-        .text(600, 370, "Créditos", {
-          fontFamily: "stepalange",
-          fontSize: "36px",
-          fill: "#ffffff",
-        })
-        .setInteractive()
-        .on("pointerdown", () => {
-          this.scene.stop();
-          this.scene.start("sceneCred");
-        });
-      this.tweens.add({
-        targets: this.textCred,
-        y: 350,
-        duration: 1000,
-        yoyo: true,
-        ease: "Sine.easeIn", //ver outros ease depois
-        loop: -1,
-      });
+    this.time.delayedCall(6600, () => {
+      this.scene.stop();
+      this.scene.start("sceneCred");
+    });
+    this.tweens.add({
+      targets: this.textCred,
+      y: 350,
+      duration: 1000,
+      yoyo: true,
+      ease: "Sine.easeIn", //ver outros ease depois
+      loop: -1,
+    });
+  
+    this.time.delayedCall(8000, () => {
+    
       this.textRecomecar = this.add
         .text(155, 370, "Jogar outra vez", {
           fontFamily: "stepalange",
@@ -102,6 +97,7 @@ class scenefinal extends Phaser.Scene {
         ease: "Sine.easeIn", //ver outros ease depois
         loop: -1,
       });
+ 
     });
 
   

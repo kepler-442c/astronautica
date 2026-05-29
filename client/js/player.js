@@ -20,13 +20,7 @@ class player extends Phaser.Scene {
     
     this.piloto = this.add.image(335, 191, "piloto").setScale(3);
     this.atirador = this.add.image(464, 191, "atirador").setScale(3);
-    this.livro = this.add
-      .image(700, 50, "cutscene").setScale(1.6)
-      .setInteractive()
-      .on("pointerdown", () => {
-        this.scene.stop("player")
-        this.scene.start("sceneCut")
-      });//colocar na cena start?
+
 
     this.avatar_piloto = this.add
       .image(303, 319, "avatar_piloto")
