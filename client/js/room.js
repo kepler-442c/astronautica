@@ -7,7 +7,7 @@ class room extends Phaser.Scene {
   create() {
     this.add.rectangle(400, 225, 800, 450, 0xffffff, 0.8);
     this.game.room = (Math.random() * 10000).toString().split(".")[0];
-    this.add.text(50, 50, this.game.room, {
+    this.add.text(150, 50, this.game.room, {
       fontFamily: "stepalange",
       fontSize: "32px",
       fill: "#a123c7",

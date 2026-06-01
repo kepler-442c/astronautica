@@ -421,7 +421,7 @@ export default class scene3 extends Phaser.Scene {
         onComplete: () => {
           alvo.play("alvo2_dano");
           alvo.damageTimer = this.time.addEvent({
-            delay: 2100, //diminuir antes de lançar
+            delay: 3700, //diminuir antes de lançar
             callback: () => {
               if (alvo.active && alvo.anims.currentAnim?.key === "alvo2_dano") {
                 this.life3 -= 1;
