@@ -488,6 +488,16 @@ class scene0 extends Phaser.Scene {
     return !this.invincible;
   }
 
+  update() {
+    this.game.socket.emit("scene0", this.game.room, {
+      player: {
+        id: this.game.socket.id,
+        life: this.life,
+        morreu: this.morreu,
+      },
+    });
+  }
+
   addDamageFrames() {
     const frameNames = this.textures
       .get("dano_atirador")
