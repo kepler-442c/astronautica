@@ -574,8 +574,10 @@ class scene0 extends Phaser.Scene {
 
       const asteroid = this.asteroidGroup.create(x, y, "asteroideum");
       asteroid.setBounce(1);
-      asteroid.setSize(30, 30);
+      //asteroid.setSize(30, 30);
       asteroid.setCollideWorldBounds(true);
+      asteroid.body.setCircle(20, 35, 35); // Define o corpo de colisão como um círculo com raio de 20 pixels e deslocamento de -5 pixels em x e y
+      asteroid.body.setCircle(15);
       asteroid.setDepth(2000);
       asteroid.setVelocity(
         Phaser.Math.Between(-200, 200),
@@ -650,6 +652,7 @@ class scene0 extends Phaser.Scene {
       pinkHeart.setSize(50, 50);
       pinkHeart.setScale(0.3);
       pinkHeart.setDepth(1000);
+      pinkHeart.body.setCircle(20); // Define o corpo de colisão como um círculo com raio de 25 pixels
 
       this.tweens.add({
         targets: pinkHeart,

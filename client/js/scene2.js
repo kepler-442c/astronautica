@@ -492,7 +492,8 @@ class scene2 extends Phaser.Scene {
 
       const acid = this.acidGroup.create(x, y, "acid");
       acid.setBounce(1);
-      acid.setSize(30, 30);
+      acid.body.setCircle(50, 40, 40); // Define o corpo de colisão como um círculo com raio de 20 pixels e deslocamento de -5 pixels em x e y
+      acid.body.setCircle(25);
       acid.setScale(0.5);
       this.anims.play("acid_anim", acid);
       acid.setCollideWorldBounds(true);
@@ -535,6 +536,7 @@ class scene2 extends Phaser.Scene {
       purpleHeart.setSize(50, 50);
       purpleHeart.setScale(0.3);
       purpleHeart.setDepth(1000);
+      purpleHeart.body.setCircle(20);
 
       this.tweens.add({
         targets: purpleHeart,
