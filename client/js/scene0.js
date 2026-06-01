@@ -11,10 +11,8 @@ class scene0 extends Phaser.Scene {
     this.invincible = false;
     this.tempo = 60; //tempo para passar de fase
     this.morreu = false;
-   
   }
   //localhost:8080/?room=1234
-  
 
   create() {
     this.add
@@ -97,8 +95,6 @@ class scene0 extends Phaser.Scene {
       repeat: -1,
     });
 
-    
-
     this.anims.create({
       key: "combustivel_anim",
       frames: this.anims.generateFrameNumbers("combustivel", {
@@ -120,8 +116,6 @@ class scene0 extends Phaser.Scene {
       repeat: 0,
     });
 
-    
-
     this.textLife = this.add
       .text(680, 100, `Life: ${this.life}`, {
         //600, 50
@@ -142,11 +136,11 @@ class scene0 extends Phaser.Scene {
 
     this.intervalFuel = setInterval(() => {
       this.fuel -= 1;
-      
+
       this.textFuel.setText(`Fuel: ${this.fuel}`);
 
       if (this.fuel <= 0) {
-        this.scene.stop();
+        //this.scene.stop();
         clearInterval(this.intervalFuel);
         clearInterval(this.intervalNitro);
         clearInterval(this.intervalTime);
@@ -155,6 +149,13 @@ class scene0 extends Phaser.Scene {
         this.tempo = 60;
         this.invincible = false;
         this.morreu = true;
+        this.game.socket.emit("scene0", this.game.room, {
+          player: {
+            id: this.game.socket.id,
+            life: this.life,
+            morreu: this.morreu,
+          },
+        });
         this.scene.stop();
         this.scene.start("gameover");
       }
@@ -166,7 +167,7 @@ class scene0 extends Phaser.Scene {
       }
       this.textFuel.setText(`Fuel: ${this.fuel}`);
       if (this.fuel <= 0) {
-        this.scene.stop();
+        //this.scene.stop();
         this.nitro = false;
         clearInterval(this.intervalFuel);
         clearInterval(this.intervalNitro);
@@ -176,6 +177,13 @@ class scene0 extends Phaser.Scene {
         this.tempo = 60;
         this.invincible = false;
         this.morreu = true;
+        this.game.socket.emit("scene0", this.game.room, {
+          player: {
+            id: this.game.socket.id,
+            life: this.life,
+            morreu: this.morreu,
+          },
+        });
         this.scene.stop();
         this.scene.start("gameover");
       }
@@ -184,7 +192,7 @@ class scene0 extends Phaser.Scene {
     this.intervalTime = setInterval(() => {
       this.tempo -= 1;
       if (this.tempo <= 0) {
-        this.scene.stop();
+        //this.scene.stop();
         clearInterval(this.intervalFuel);
         clearInterval(this.intervalNitro);
         clearInterval(this.intervalTime);
@@ -295,7 +303,6 @@ class scene0 extends Phaser.Scene {
       this.processAsteroidCollision,
       this,
     );
-    
 
     this.combustivelGroup = this.physics.add.group();
     this.physics.add.collider(
@@ -347,10 +354,17 @@ class scene0 extends Phaser.Scene {
 
       this.morreu2 = state.player.morreu2;
       if (this.morreu2) {
-        this.scene.stop();
+        //this.scene.stop();
         clearInterval(this.intervalFuel);
         clearInterval(this.intervalNitro);
         clearInterval(this.intervalTime);
+        this.game.socket.emit("scene0", this.game.room, {
+          player: {
+            id: this.game.socket.id,
+            life: this.life,
+            morreu: this.morreu,
+          },
+        });
         this.scene.stop();
         this.scene.start("gameover");
       }
@@ -435,7 +449,7 @@ class scene0 extends Phaser.Scene {
     this.addDamageFrames();
 
     if (this.life === 0) {
-      this.scene.stop();
+      //this.scene.stop();
       clearInterval(this.intervalFuel);
       clearInterval(this.intervalNitro);
       clearInterval(this.intervalTime);
@@ -444,6 +458,13 @@ class scene0 extends Phaser.Scene {
       this.tempo = 60;
       this.invincible = false;
       this.morreu = true;
+      this.game.socket.emit("scene0", this.game.room, {
+        player: {
+          id: this.game.socket.id,
+          life: this.life,
+          morreu: this.morreu,
+        },
+      });
       this.scene.stop();
       this.scene.start("gameover");
     }
@@ -542,20 +563,15 @@ class scene0 extends Phaser.Scene {
     });
   }
 
-  update() {
-    try {
-      this.game.socket.emit("scene0", this.game.room, {
-        player: {
-          id: this.game.socket.id,
-          life: this.life,
-          morreu: this.morreu,
-        },
-      });
-    } catch (e) {
-      console.error("Error updating player:", e);
-    }
-  }
-
+  /*update() {
+    this.game.socket.emit("scene0", this.game.room, {
+      player: {
+        id: this.game.socket.id,
+        life: this.life,
+        morreu: this.morreu,
+      },
+    });
+  }*/
   spawnAsteroid() {
     const maxAsteroids = 10; // Limite de asteroides (maior quando for lancar o jogo)? ou dez ja ta dificil?
 
@@ -628,7 +644,6 @@ class scene0 extends Phaser.Scene {
   }
 
   spawnPinkHeart() {
-  
     const maxPinkHearts = 1;
 
     if (this.pinkHeartGroup.getLength() < maxPinkHearts) {

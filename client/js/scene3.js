@@ -288,7 +288,7 @@ export default class scene3 extends Phaser.Scene {
       .setDepth(2000);
 
     this.game.socket.on("scene2", (state) => {
-      this.life4 = state.player.life;
+      this.life4 = state.player.life4;
       this.textPilotLife.setText(`Pilot Life: ${this.life4}`);
 
       this.morreu4 = state.player.morreu4;
