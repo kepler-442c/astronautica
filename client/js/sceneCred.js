@@ -7,8 +7,9 @@ class sceneCred extends Phaser.Scene {
   
   create() {
 
-     const content = [
-       //escolher se mantém tudo em ingles ou portugues
+    const content = [
+      //escolher se mantém tudo em ingles ou portugues
+      "TIJOLINHOS NO FINAL",
        "Desenvolvedores de jogos:",
        "Elise",
        "Pablo",
@@ -91,8 +92,6 @@ class sceneCred extends Phaser.Scene {
         
     });
 
-
-
       this.time.delayedCall(23000, () => {
         this.textRecomecar = this.add
           .text(155, 370, "Jogar outra vez", {
@@ -113,6 +112,44 @@ class sceneCred extends Phaser.Scene {
           loop: -1,
         });
       });
+    
+    globalThis.google.accounts.id.initialize({
+      client_id:
+        "331191695151-ku8mdhd76pc2k36itas8lm722krn0u64.apps.googleusercontent.com",
+      callback: (res) => {
+        if (res.error) {
+          console.error(res.error);
+        } else {
+          axios
+            .post(
+              "https://feira-de-jogos.dev.br/api/v2/credit",
+              {
+                product: 59, // id do jogo cadastrado no banco de dados da Feira de Jogos
+                value: 300, // crédito em tijolinhos
+              },
+              {
+                headers: {
+                  Authorization: `Bearer ${res.credential}`,
+                },
+              },
+            )
+            .then(function (response) {
+              console.log(response);
+              alert("Crédito adicionado!");
+            })
+            .catch(function (error) {
+              console.error(error);
+              alert("Erro ao adicionar crédito :(");
+            });
+        }
+      },
+    });
+
+    globalThis.google.accounts.id.prompt((notification) => {
+      if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+        globalThis.google.accounts.id.prompt();
+      }
+    });
     
    }
   

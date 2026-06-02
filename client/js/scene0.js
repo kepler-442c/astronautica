@@ -13,7 +13,7 @@ class scene0 extends Phaser.Scene {
     this.morreu = false;
   }
   //localhost:8080/?room=1234
-
+  //id 59 feira
   create() {
     this.add
       .image(0, 0, "mapf1")

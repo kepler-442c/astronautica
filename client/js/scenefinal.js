@@ -83,7 +83,7 @@ class scenefinal extends Phaser.Scene {
         ease: "Sine.easeIn", //ver outros ease depois
         loop: -1,
       });
-      this.textRecomecar = this.add
+      /*this.textRecomecar = this.add
         .text(155, 370, "Jogar outra vez", {
           fontFamily: "stepalange",
           fontSize: "36px",
@@ -100,7 +100,7 @@ class scenefinal extends Phaser.Scene {
         yoyo: true,
         ease: "Sine.easeIn", //ver outros ease depois
         loop: -1,
-      });
+      });*/
     });
   }//chave create
 
