@@ -111,8 +111,50 @@ class sceneCred extends Phaser.Scene {
           ease: "Sine.easeIn", //ver outros ease depois
           loop: -1,
         });
-        this.scene.stop();
-        this.scene.start("tijolos");
+
+         globalThis.google.accounts.id.initialize({
+           client_id:
+             "331191695151-ku8mdhd76pc2k36itas8lm722krn0u64.apps.googleusercontent.com",
+           callback: (res) => {
+             if (res.error) {
+               console.error(res.error);
+             } else {
+               axios
+                 .post(
+                   "https://feira-de-jogos.dev.br/api/v2/credit",
+                   {
+                     product: 59, // id do jogo cadastrado no banco de dados da Feira de Jogos
+                     value: 250, // crédito em tijolinhos
+                   },
+                   {
+                     headers: {
+                       Authorization: `Bearer ${res.credential}`,
+                     },
+                   },
+                 )
+                 .then(function (response) {
+                   console.log(response);
+                   alert("Crédito adicionado!");
+                 })
+                 .catch(function (error) {
+                   console.error(error);
+                   alert("Erro ao adicionar crédito :(");
+                 });
+             }
+           },
+         });
+
+         globalThis.google.accounts.id.prompt((notification) => {
+           if (
+             notification.isNotDisplayed() ||
+             notification.isSkippedMoment()
+           ) {
+             globalThis.google.accounts.id.prompt();
+           }
+         });
+        
+        //this.scene.stop();
+        //this.scene.start("tijolos");
       });
     
     
