@@ -47,7 +47,8 @@ class start extends Phaser.Scene {
       })
       .setOrigin(0.5);
 
-      this.input.on("pointerdown", () => {
+    this.input.on("pointerdown", () => {
+      console.log("tijolos indo");
       this.scene.stop("start");
       this.scene.start("tijolos");
     });
