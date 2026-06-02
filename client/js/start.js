@@ -49,7 +49,7 @@ class start extends Phaser.Scene {
 
       this.input.on("pointerdown", () => {
       this.scene.stop("start");
-      this.scene.start("sceneMenu");
+      this.scene.start("tijolos");
     });
   }
 
