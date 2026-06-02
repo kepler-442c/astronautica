@@ -155,7 +155,7 @@ class scene2 extends Phaser.Scene {
     });
 
     this.textLife = this.add
-      .text(680, 100, `life: ${this.life4}`, {
+      .text(680, 100, `Life: ${this.life4}`, {
         //600, 50
         fontFamily: "stepalange",
         fontSize: "36px",
@@ -294,7 +294,7 @@ class scene2 extends Phaser.Scene {
       this.player,
       this.acidGroup,
       this.hitAcid,
-      null,
+      this.processAcidCollision,
       this,
     );
 
@@ -306,6 +306,8 @@ class scene2 extends Phaser.Scene {
       null,
       this,
     );
+
+    this.damageLayer = this.add.layer().setDepth(1499);
    
     this.textShooterLife = this.add
       .text(570, 50, `Shooter life: ${this.life3}`, {
@@ -421,6 +423,8 @@ class scene2 extends Phaser.Scene {
       this.exp.destroy();
     });
 
+    this.addDamageFrames();
+
     if (this.life4 === 0) {
       clearInterval(this.intervalFuel);
       clearInterval(this.intervalNitro);
@@ -444,6 +448,81 @@ class scene2 extends Phaser.Scene {
 
   processAcidCollision(player, acid) {
     return !this.invincible;
+  }
+
+  addDamageFrames() {
+    const frameNames = this.textures
+      .get("dano_atirador")
+      .getFrameNames()
+      .filter((name) => name !== "__BASE");
+
+    if (frameNames.length === 0) {
+      return;
+    }
+
+    const positions = [];
+    const minDistance = 100;
+    const maxAttempts = 50;
+
+    while (positions.length < 3) {
+      let attempt = 0;
+      let candidate;
+
+      do {
+        candidate = {
+          x: Phaser.Math.Between(0, 800),
+          y: Phaser.Math.Between(0, 450),
+        };
+        attempt += 1;
+      } while (
+        attempt < maxAttempts &&
+        positions.some(
+          (pos) =>
+            Phaser.Math.Distance.Between(
+              pos.x,
+              pos.y,
+              candidate.x,
+              candidate.y,
+            ) < minDistance,
+        )
+      );
+
+      if (
+        positions.every(
+          (pos) =>
+            Phaser.Math.Distance.Between(
+              pos.x,
+              pos.y,
+              candidate.x,
+              candidate.y,
+            ) >= minDistance,
+        )
+      ) {
+        positions.push(candidate);
+      } else {
+        positions.push(candidate);
+      }
+    }
+
+    positions.forEach((pos) => {
+      const frameName = Phaser.Math.RND.pick(frameNames);
+      const damageSprite = this.add
+        .sprite(pos.x, pos.y, "dano_atirador", frameName)
+        .setScrollFactor(0)
+        .setDepth(1499)
+        .setScale(1)
+        .setAlpha(1);
+
+      this.damageLayer.add(damageSprite);
+
+      this.tweens.add({
+        targets: damageSprite,
+        alpha: 0,
+        duration: 3000,
+        ease: "Linear",
+        onComplete: () => damageSprite.destroy(),
+      });
+    });
   }
 
   update() {
