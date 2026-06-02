@@ -9,7 +9,7 @@ class scene0 extends Phaser.Scene {
     this.life = 3;
     this.nitro = false;
     this.invincible = false;
-    this.tempo = 1; //tempo para passar de fase
+    this.tempo = 60; //tempo para passar de fase
     this.morreu = false;
   }
   //localhost:8080/?room=1234
