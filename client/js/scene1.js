@@ -6,7 +6,7 @@ export default class scene1 extends Phaser.Scene {
     this.speed = 300;
     this.direction = undefined;
     this.life2 = 5;
-    this.tempo = 1; //tempo para passar de fase
+    this.tempo = 60; //tempo para passar de fase
     this.morreu2 = false;
   }
 
