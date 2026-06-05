@@ -6,7 +6,7 @@ export default class scene1 extends Phaser.Scene {
     this.speed = 300;
     this.direction = undefined;
     this.life2 = 5;
-    this.tempo = 60; //tempo para passar de fase
+    this.tempo = 1; //tempo para passar de fase
     this.morreu2 = false;
   }
 
@@ -15,6 +15,22 @@ export default class scene1 extends Phaser.Scene {
     this.music.play();
 
     this.add.image(0, 0, "mapf1").setOrigin(0);
+
+    // Animação de estrelas em background
+    this.anims.create({
+      key: "estrelasindo_anim",
+      frames: this.anims.generateFrameNumbers("estrelasindo"),
+      frameRate: 16,
+      repeat: -1,
+    });
+
+    this.estrelaSprite = this.add
+      .sprite(400, 225, "estrelasindo", 0)
+      .setOrigin(0.5)
+      .setScale(1)
+      .setAlpha(0.5)
+      .setDepth(50)
+      .play("estrelasindo_anim");
 
     this.anims.create({
       key: "alvo",
@@ -281,7 +297,7 @@ export default class scene1 extends Phaser.Scene {
         this.scene.start("gameover");
         console.log("Player 1 morreu, indo para gameover");
       }
-    }); 
+    });
 
     this.intervalTime = setInterval(() => {
       this.tempo -= 1;

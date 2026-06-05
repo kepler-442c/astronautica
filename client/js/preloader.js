@@ -119,11 +119,21 @@ class preloader extends Phaser.Scene {
       frameHeight: 64,
     });
 
-    this.load.spritesheet("estrelasvindo", "estrelas_vindo.png", {
+    this.load.spritesheet("estrelasindo", "estrelas_indo.png", {
       frameWidth: 800,
       frameHeight: 450,
     });
 
+    this.load.spritesheet("estrelasvindo1", "estrelas_vindo_G1.png", {
+      frameWidth: 9600,
+      frameHeight: 900,
+    });
+    
+    this.load.spritesheet("estrelasvindo2", "estrelas_vindo_G2.png", {
+      frameWidth: 9600,
+      frameHeight: 900,
+    });
+    
     this.load.spritesheet("buttonnitro", "buttonnitro.png", {
       frameWidth: 64,
       frameHeight: 64,
