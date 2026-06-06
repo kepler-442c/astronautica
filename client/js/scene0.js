@@ -54,26 +54,6 @@ class scene0 extends Phaser.Scene {
     this.music = this.sound.add("songf1", { loop: true });
     this.music.play();
 
-    // Animação de estrelas no centro do mundo de jogo, dentro dos limites da câmera e do world bounds
-    this.anims.create({
-      key: "estrelasvindo_anim",
-      frames: this.anims.generateFrameNumbers("estrelasvindo"),
-      frameRate: 10,
-      repeat: 0,
-    });
-
-    this.centroEstrelas = this.add
-      .sprite(800, 450, "estrelasvindo", 0)
-      .setOrigin(0.5)
-      .setAlpha(0.5)
-      .setDepth(10)
-      .play("estrelasvindo_anim");
-
-    this.centroEstrelas.on("animationcomplete", (animation) => {
-      if (animation.key === "estrelasvindo_anim") {
-        this.centroEstrelas.play("estrelasvindo_anim");
-      }
-    });
 
     this.events.once("shutdown", () => {
       if (this.music && this.music.isPlaying) {
