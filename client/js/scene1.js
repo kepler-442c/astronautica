@@ -24,6 +24,21 @@ export default class scene1 extends Phaser.Scene {
       repeat: -1,
     });
 
+     this.telaCheia = this.add
+       .sprite(750, 350, "tela-cheia", 0)
+       .setInteractive()
+       .on("pointerdown", () => {
+         if (this.scale.isFullscreen) {
+           this.scale.stopFullscreen();
+           this.telaCheia.setFrame(0);
+         } else {
+           this.scale.startFullscreen();
+           this.telaCheia.setFrame(1);
+         }
+       })
+       .setScrollFactor(0);
+    this.telaCheia.setDepth(2000);
+
     this.estrelaSprite = this.add
       .sprite(400, 225, "estrelasindo", 0)
       .setOrigin(0.5)

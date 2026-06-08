@@ -44,6 +44,22 @@ class scene0 extends Phaser.Scene {
       .setFlipX(true)
       .setFlipY(true)
       .setScrollFactor(0.8);
+    
+     this.telaCheia = this.add
+       .sprite(750, 350, "tela-cheia", 0)
+       .setInteractive()
+       .on("pointerdown", () => {
+         if (this.scale.isFullscreen) {
+           this.scale.stopFullscreen();
+           this.telaCheia.setFrame(0);
+         } else {
+           this.scale.startFullscreen();
+           this.telaCheia.setFrame(1);
+         }
+       })
+       .setScrollFactor(0);
+
+    
 
     this.player = this.star = this.physics.add
       .image(800, 450, "star", 0)
@@ -338,6 +354,7 @@ class scene0 extends Phaser.Scene {
     this.uiTopLayer.add(this.button);
     this.uiTopLayer.add(this.joystick.base);
     this.uiTopLayer.add(this.joystick.thumb);
+    this.uiTopLayer.add(this.telaCheia);
     this.uiTopLayer.setDepth(4000);
 
     this.textShooterLife = this.add

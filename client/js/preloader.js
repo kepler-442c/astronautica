@@ -55,7 +55,10 @@ class preloader extends Phaser.Scene {
       frameHeight: 450,
     });
 
-
+    this.load.spritesheet("tela-cheia", "tela-cheia.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
     
 
 
