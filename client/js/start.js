@@ -18,12 +18,31 @@ class start extends Phaser.Scene {
       frameWidth: 800,
       frameHeight: 450,
     }); //trocar fundo depois
+
+    this.load.spritesheet("tela-cheia", "tela-cheia.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
   }
 
   create() {
     this.fundo1 = this.add.image(0, 0, "mapf1").setOrigin(0, 0);
     this.fundo2 = this.add.image(800, 0, "mapf1").setOrigin(0, 0);
     this.fundoSpeed = 1;
+
+     this.telaCheia = this.add
+      .sprite(750, 350, "tela-cheia", 0)
+      .setInteractive()
+      .on("pointerdown", () => {
+        if (this.scale.isFullscreen) {
+          this.scale.stopFullscreen();
+          this.telaCheia.setFrame(0);
+        } else {
+          this.scale.startFullscreen();
+          this.telaCheia.setFrame(1);
+        }
+      })
+      .setScrollFactor(0);
 
     this.anims.create({
       key: "capa_anim",

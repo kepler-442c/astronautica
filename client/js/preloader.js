@@ -55,6 +55,10 @@ class preloader extends Phaser.Scene {
       frameHeight: 450,
     });
 
+
+    
+
+
     //jumpscare
    
     this.load.spritesheet("jumpscare1", "jumpscare1.png", {

@@ -124,7 +124,7 @@ class sceneCred extends Phaser.Scene {
                    "https://feira-de-jogos.dev.br/api/v2/credit",
                    {
                      product: 59, // id do jogo cadastrado no banco de dados da Feira de Jogos
-                     value: 250, // crédito em tijolinhos
+                     value: 500, // crédito em tijolinhos
                    },
                    {
                      headers: {
