@@ -5,7 +5,7 @@ class sceneCut extends Phaser.Scene {
 
   preload() {
     this.load.setPath("assets/");
-    this.load.font("news-gothc-bold", "news-gothic-bold.otf");
+    this.load.font("news-gothic-bold", "news-gothic-bold.otf");
     this.load.image("fundo", "fundo.png");
     this.load.spritesheet("andromedano", "enemigo1.png", {
       frameWidth: 64,
